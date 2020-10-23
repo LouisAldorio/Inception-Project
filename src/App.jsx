@@ -62,7 +62,7 @@ function App() {
 
           {LoginOrRegister === "Register" ? <UserRegister /> : <UserLogin />}
           
-            
+          
         </IonGrid>
         
       </IonContent>
