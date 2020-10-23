@@ -23,18 +23,18 @@ function UserRegister(){
 
     // below is function that interact with register API
     function registerUser() {
-
+        console.log(values);
     }
 
     return (
         <IonRow>
             <IonCol>
-                <InputControls type="username" focus="true" display="Username" onChange={onChange} value={values.username}/>
-                <InputControls type="email" display="Email" onChange={onChange} value={values.email}/>
-                <InputControls type="password"  display="Password" onChange={onChange} value={values.password}/>
-                <InputControls type="password"  display="Confirm Password" onChange={onChange} value={values.confirmPassword}/>
-                <RoleInput role={role} onSelectValue={selectCalcUnitHandler} onChange={onChange} value={values.role}/>
-                <IonButton expand="block" color="dark" className="login-register-button" router-direction="forward" routerAnimation><IonIcon slot="start" icon={star}  onIonFocus={onSubmit} />Register</IonButton>
+                <InputControls type="username" focus="true" name="username" display="Username" onChange={onChange} value={values.username}/>
+                <InputControls type="email" display="Email" name="email" onChange={onChange} value={values.email}/>
+                <InputControls type="password"  display="Password" name="password" onChange={onChange} value={values.password}/>
+                <InputControls type="password"  display="Confirm Password" name="confirmPassword" onChange={onChange} value={values.confirmPassword}/>
+                <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role}/>
+                <IonButton expand="block" color="dark" className="login-register-button" router-direction="forward" routerAnimation  onIonFocus={onSubmit}><IonIcon slot="start" icon={star} />Register</IonButton>
             </IonCol>           
         </IonRow>
     )

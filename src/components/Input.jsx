@@ -6,12 +6,10 @@ function InputControls(props){
     return(
         <IonItem>
             <IonLabel position="floating">{props.display}</IonLabel>
-            <IonInput type={props.type} ref={props.ref} autofocus={props.focus} clearInput="true" onIonChange={props.onChange}></IonInput>
+            <IonInput type={props.type} ref={props.ref} name={props.name} autofocus={props.focus} clearInput="true" onIonChange={props.onChange}></IonInput>
         </IonItem>
     )
 }
-
-
 
 function RoleInput(props){
     const inputChangeHandler = (event) => {
@@ -21,7 +19,7 @@ function RoleInput(props){
     return(
         <IonItem className="ion-margin-top">
             <IonLabel>Role</IonLabel>
-            <IonSelect value={props.role} placeholder="Select One Role" onIonChange={inputChangeHandler} okText="Okay" cancelText="Dismiss">
+            <IonSelect value={props.role} name={props.name} placeholder="Select One Role" onIonChange={inputChangeHandler} okText="Okay" cancelText="Dismiss">
               <IonSelectOption value="Supplier">Supplier</IonSelectOption>
               <IonSelectOption value="Distributor">Distributor/Reseller</IonSelectOption>
             </IonSelect>

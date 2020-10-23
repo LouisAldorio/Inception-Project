@@ -14,15 +14,15 @@ function UserLogin(){
 
     // below is function that interact with login API
     function loginUser() {
-
+        console.log(values);
     }
 
 
     return (
         <IonRow>
             <IonCol>
-                <InputControls type="username" display="Username" focus="true" onChange={onChange} value={values.username}/>
-                <InputControls type="password" display="Password" onChange={onChange} value={values.password}/>
+                <InputControls type="username" display="Username" name="username" focus="true" onChange={onChange} value={values.username}/>
+                <InputControls type="password" display="Password" name="password" onChange={onChange} value={values.password}/>
                 <IonButton expand="block" color="dark" className="login-register-button" router-direction="forward" routerAnimation onIonFocus={onSubmit}><IonIcon slot="start" icon={star}/>Login</IonButton>
             </IonCol>           
         </IonRow>
