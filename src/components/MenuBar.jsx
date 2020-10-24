@@ -8,14 +8,14 @@ function MenuBar(props){
     }
 
     return (
-        <IonSegment value={props.selectedValue} onIonChange={inputChangeHandler} >
+        <IonSegment value={props.selectedValue} onIonChange={inputChangeHandler} color="dark">
 
             <IonSegmentButton value="Register">
-                <IonLabel>Register</IonLabel>
+                <IonLabel>REGISTER</IonLabel>
             </IonSegmentButton>
 
             <IonSegmentButton value="Login">
-                <IonLabel>Login</IonLabel>
+                <IonLabel>LOGIN</IonLabel>
             </IonSegmentButton>
             
         </IonSegment>

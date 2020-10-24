@@ -1,45 +1,22 @@
 import React from 'react'
 import {IonItem,IonLabel,IonInput,IonSelect,IonSelectOption} from '@ionic/react'
 
-function UsernameInput(props){
+
+function InputControls(props){
     return(
         <IonItem>
-            <IonLabel position="floating">Username </IonLabel>
-            <IonInput type="username" ref={props.usernameInputRef} autofocus="true" clearInput="true"></IonInput>
+            <IonLabel position="floating">{props.display}</IonLabel>
+            <IonInput type={props.type} ref={props.ref} autofocus={props.focus} clearInput="true" onIonChange={props.onChange}></IonInput>
         </IonItem>
     )
 }
 
-function PasswordInput(props){
-    return(
-        <IonItem>
-            <IonLabel position="floating">Password</IonLabel>
-            <IonInput type="password" ref={props.passwordInputRef} clearInput="true"></IonInput>
-        </IonItem>
-    )
-}
 
-function EmailInput(props){
-    return(
-        <IonItem>
-            <IonLabel position="floating">Email</IonLabel>
-            <IonInput type="email" ref={props.emailInputRef} clearInput="true"></IonInput>
-        </IonItem>
-    )
-}
-
-function ConfirmPasswordInput(props){
-    return(
-        <IonItem>
-            <IonLabel position="floating">Confirm Password</IonLabel>
-            <IonInput type="password" ref={props.confirmPasswordInputRef} clearInput="true"></IonInput>
-        </IonItem>
-    )
-}
 
 function RoleInput(props){
     const inputChangeHandler = (event) => {
         props.onSelectValue(event.detail.value)
+        props.onChange(event)
     }
     return(
         <IonItem className="ion-margin-top">
@@ -52,4 +29,4 @@ function RoleInput(props){
     )
 }
 
-export {UsernameInput,PasswordInput,EmailInput,ConfirmPasswordInput,RoleInput}
+export {InputControls,RoleInput}
