@@ -5,7 +5,7 @@ import { MenuBar } from '../components/MenuBar';
 import UserLogin from './Login'
 import UserRegister from './Register'
 
-function LoginOrRegister(){
+function LoginOrRegister(props){
 
     const slidesRef = useRef();
 
@@ -43,10 +43,10 @@ function LoginOrRegister(){
                 <IonCol>
                     <IonSlides options={slideOpts} onIonSlideDidChange={slideChanged} ref={slidesRef}>  
                         <IonSlide>
-                            <UserRegister />                          
+                            <UserRegister props={props}/>                          
                         </IonSlide>  
                         <IonSlide>
-                            <UserLogin />
+                            <UserLogin props={props}/>
                         </IonSlide>   
                     </IonSlides>                  
                 </IonCol>           

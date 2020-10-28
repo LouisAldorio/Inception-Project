@@ -5,8 +5,8 @@ import {IonItem,IonLabel,IonInput,IonSelect,IonSelectOption} from '@ionic/react'
 function InputControls(props){
     return(
         <IonItem>
-            <IonLabel position="floating" color="medium">{props.display}</IonLabel>
-            <IonInput type={props.type} ref={props.ref} name={props.name} autofocus={props.focus} clearInput="true" onIonChange={props.onChange}></IonInput>
+            <IonLabel position="floating" color="medium">{props.errorMessage === false ? props.display : props.errorMessage}</IonLabel>
+            <IonInput type={props.type} ref={props.ref} name={props.name} autofocus={props.focus} clearInput="true" onIonChange={props.onChange} ></IonInput>
         </IonItem>
     )
 }
