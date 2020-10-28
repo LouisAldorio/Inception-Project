@@ -4,7 +4,7 @@ import {IonPage} from '@ionic/react'
 function Home(){
     return (
         <IonPage>
-            Login
+            Ur In
         </IonPage>
     )
 }

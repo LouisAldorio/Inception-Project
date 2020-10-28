@@ -1,12 +1,15 @@
-import React,{useState} from 'react';
+import React from 'react';
 import {Route} from 'react-router-dom'
-import {IonReactRouter} from '@ionic/react-router'
-import { IonApp, IonCol, IonContent, IonGrid, IonRouterOutlet, IonRow} from '@ionic/react';
-import UserLogin from './pages/Login'
-import UserRegister from './pages/Register'
+import {BrowserRouter as Router} from 'react-router-dom'
+import { IonApp, IonContent, IonGrid} from '@ionic/react';
+import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client'
+
+
+
 import Header from './components/Header'
 import Home from './pages/Home'
-import { MenuBar } from './components/MenuBar';
+import LoginOrRegister from './pages/LoginOrRegister'
+
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -30,44 +33,35 @@ import '@ionic/react/css/display.css';
 // import { text } from 'ionicons/icons';
 import './App.css';
 
+const httpLink = createHttpLink({
+  uri: 'http://localhost:5000',
+})
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+})
+
 
 function App() {
-
-  const [LoginOrRegister, setLoginOrRegister] = useState("Register")
-
-  const setLoginOrRegisterHandler = (value) => {
-    setLoginOrRegister(value)
-  }
-
   return (
-    <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route path="/login" component={UserLogin}/>
-          <Route path="/Register" component={UserRegister}/>
-          <Route path="/" component={Home}/>
-        </IonRouterOutlet>
-      </IonReactRouter>
+    <ApolloProvider client={client}>
+      <Router>
+        <IonApp>
+        <Header />
+    
+        <IonContent className="ion-padding">
 
-      <Header />
-  
-      <IonContent className="ion-padding">
-
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <MenuBar selectedValue={LoginOrRegister} onSelectValue={setLoginOrRegisterHandler}/>
-            </IonCol>
-          </IonRow>
-
-          {LoginOrRegister === "Register" ? <UserRegister /> : <UserLogin />}
-          
-          
-        </IonGrid>
-        
-      </IonContent>
-      
-    </IonApp>
+          <IonGrid>
+            
+            
+            <Route exact path="/" component={LoginOrRegister}/>
+            <Route exact path="/home" component={Home}/>
+                      
+          </IonGrid>  
+        </IonContent>     
+      </IonApp>
+    </Router>
+  </ApolloProvider>
   );
 }
 
