@@ -1,0 +1,7 @@
+{
+  "name": "BMI-calculator",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
