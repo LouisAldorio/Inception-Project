@@ -1,0 +1,7 @@
+{
+    "name": "Enterpreneurs",
+    "integrations": {
+      "capacitor": {}
+    },
+    "type": "react"
+  }
