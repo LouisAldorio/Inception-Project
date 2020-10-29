@@ -3,7 +3,11 @@ import {IonButton, IonPage} from '@ionic/react'
 import {AuthContext} from '../context/Auth'
 
 function Home(props){
-    const {logout} = useContext(AuthContext)
+    const {user,logout} = useContext(AuthContext)
+
+    if(!user){
+        props.history.push('/')
+    }
 
     function logOut(){
         logout()
