@@ -1,10 +1,18 @@
-import React from 'react'
-import {IonPage} from '@ionic/react'
+import React,{useContext} from 'react'
+import {IonButton, IonPage} from '@ionic/react'
+import {AuthContext} from '../context/Auth'
 
-function Home(){
+function Home(props){
+    const {logout} = useContext(AuthContext)
+
+    function logOut(){
+        logout()
+        props.history.push('/')
+    }
+
     return (
         <IonPage>
-            Ur In
+            <IonButton onClick={logOut} to>log out</IonButton>
         </IonPage>
     )
 }

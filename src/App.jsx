@@ -2,9 +2,10 @@ import React from 'react';
 import {Route} from 'react-router-dom'
 import {BrowserRouter as Router} from 'react-router-dom'
 import { IonApp, IonContent, IonGrid} from '@ionic/react';
+import {setContext} from 'apollo-link-context'
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client'
 
-
+import {AuthProvider} from './context/Auth'
 
 import Header from './components/Header'
 import Home from './pages/Home'
@@ -36,8 +37,18 @@ import './App.css';
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000',
 })
+
+const authLink = setContext(() => {
+  const token = localStorage.getItem('jwtToken')
+  return {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : ''
+    }
+  }
+})
+
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 })
 
@@ -45,22 +56,24 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <IonApp>
-        <Header />
-    
-        <IonContent className="ion-padding">
+      <AuthProvider>
 
-          <IonGrid>
-            
-            
-            <Route exact path="/" component={LoginOrRegister}/>
-            <Route exact path="/home" component={Home}/>
-                      
-          </IonGrid>  
-        </IonContent>     
-      </IonApp>
-    </Router>
+        <Router>
+          <IonApp>
+          <Header />
+      
+          <IonContent className="ion-padding">
+            <IonGrid>
+                     
+              <Route exact path="/" component={LoginOrRegister}/>
+              <Route exact path="/home" component={Home}/>
+                        
+            </IonGrid>  
+          </IonContent>     
+        </IonApp>
+      </Router>
+
+    </AuthProvider>
   </ApolloProvider>
   );
 }
