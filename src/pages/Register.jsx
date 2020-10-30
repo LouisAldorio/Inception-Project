@@ -1,5 +1,5 @@
 import React, { useState,useContext } from 'react'
-import { IonRow, IonCol, IonButton, IonIcon} from '@ionic/react'
+import { IonRow, IonCol, IonButton, IonIcon,IonSpinner} from '@ionic/react'
 
 import { InputControls, RoleInput } from '../components/Input';
 import { gql, useMutation } from '@apollo/client'
@@ -23,7 +23,7 @@ function UserRegister(props) {
         email: '',
     })
 
-    const [addUser] = useMutation(REGISTER_USER, {
+    const [addUser,{loading}] = useMutation(REGISTER_USER, {
         update(_, result) {
             context.login(result.data.register)
 
@@ -48,56 +48,64 @@ function UserRegister(props) {
         setError({})
     }
 
-    return (
-        <React.Fragment >
-            <IonRow>
-                <IonCol>
-                    <InputControls 
-                    type="username" 
-                    focus="true" 
-                    name="username" 
-                    display="Username" 
-                    onChange={onChange} 
-                    value={values.username} 
-                    errorMessage={Object.keys(errors).length > 0 && errors.username}/>
+    let outCome;
 
-                    <InputControls 
-                    type="email" 
-                    display="Email" 
-                    name="email" 
-                    onChange={onChange} 
-                    value={values.email} 
-                    errorMessage={Object.keys(errors).length > 0 && errors.email}/>
+    if(loading) {
+        outCome = <IonSpinner name="circles" className="spinner" />
+    }else{
+        outCome = (
+            <React.Fragment >
+                <IonRow>
+                    <IonCol>
+                        <InputControls 
+                        type="username" 
+                        focus="true" 
+                        name="username" 
+                        display="Username" 
+                        onChange={onChange} 
+                        value={values.username} 
+                        errorMessage={Object.keys(errors).length > 0 && errors.username}/>
 
-                    <InputControls 
-                    type="password" 
-                    display="Password" 
-                    name="password" 
-                    onChange={onChange} 
-                    value={values.password} 
-                    errorMessage={Object.keys(errors).length > 0 && errors.password}/>
+                        <InputControls 
+                        type="email" 
+                        display="Email" 
+                        name="email" 
+                        onChange={onChange} 
+                        value={values.email} 
+                        errorMessage={Object.keys(errors).length > 0 && errors.email}/>
 
-                    <InputControls 
-                    type="password" 
-                    display="Confirm Password" 
-                    name="confirmPassword" 
-                    onChange={onChange} 
-                    value={values.confirmPassword} 
-                    errorMessage={Object.keys(errors).length > 0 && errors.confirmPassword}/>
+                        <InputControls 
+                        type="password" 
+                        display="Password" 
+                        name="password" 
+                        onChange={onChange} 
+                        value={values.password} 
+                        errorMessage={Object.keys(errors).length > 0 && errors.password}/>
 
-                    <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role} />
-                    
-                    <IonButton 
-                    expand="block" 
-                    color="dark" 
-                    className="login-register-button" 
-                    router-direction="forward" routerAnimation 
-                    onIonFocus={onSubmit}><IonIcon slot="start" icon={star} />Register</IonButton>
+                        <InputControls 
+                        type="password" 
+                        display="Confirm Password" 
+                        name="confirmPassword" 
+                        onChange={onChange} 
+                        value={values.confirmPassword} 
+                        errorMessage={Object.keys(errors).length > 0 && errors.confirmPassword}/>
 
-                </IonCol>
-            </IonRow>
-        </React.Fragment>
-    )
+                        <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role} />
+                        
+                        <IonButton 
+                        expand="block" 
+                        color="dark" 
+                        className="login-register-button" 
+                        router-direction="forward" routerAnimation 
+                        onIonFocus={onSubmit}><IonIcon slot="start" icon={star} />Register</IonButton>
+
+                    </IonCol>
+                </IonRow>
+            </React.Fragment>
+        )
+    }
+
+    return outCome
 }
 
 

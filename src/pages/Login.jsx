@@ -1,5 +1,5 @@
 import React, { useState,useContext } from 'react'
-import { IonRow, IonCol, IonButton, IonIcon } from '@ionic/react'
+import { IonRow, IonCol, IonButton, IonIcon,IonSpinner } from '@ionic/react'
 import { InputControls } from '../components/Input';
 import { gql, useMutation } from '@apollo/client'
 import { star } from 'ionicons/icons'
@@ -16,7 +16,7 @@ function UserLogin(props){
     })
 
     // below is function that interact with login API
-    const [LoginUser] = useMutation(LOGIN_USER, {
+    const [LoginUser,{loading}] = useMutation(LOGIN_USER, {
         update(_, result) {
             context.login(result.data.login)
 
@@ -38,35 +38,42 @@ function UserLogin(props){
         setError({})
     }
 
-    return (
-        <IonRow>
-            <IonCol>
-                <InputControls type="username" 
-                display="Username" 
-                name="username" 
-                focus="true" 
-                onChange={onChange} 
-                value={values.username} 
-                errorMessage={Object.keys(errors).length > 0 && errors.username}/>
+    let outCome;
+    if(loading){
+        outCome = <IonSpinner name="circles" className="spinner" />
+    }else{
+        outCome = (
+            <IonRow>
+                <IonCol>
+                    <InputControls type="username" 
+                    display="Username" 
+                    name="username" 
+                    focus="true" 
+                    onChange={onChange} 
+                    value={values.username} 
+                    errorMessage={Object.keys(errors).length > 0 && errors.username}/>
 
-                <InputControls 
-                type="password" 
-                display="Password" 
-                name="password" 
-                onChange={onChange} 
-                value={values.password} 
-                errorMessage={Object.keys(errors).length > 0 && errors.password}/>
+                    <InputControls 
+                    type="password" 
+                    display="Password" 
+                    name="password" 
+                    onChange={onChange} 
+                    value={values.password} 
+                    errorMessage={Object.keys(errors).length > 0 && errors.password}/>
 
-                <IonButton 
-                expand="block" 
-                color="dark" 
-                className="login-register-button" 
-                router-direction="forward" routerAnimation 
-                onIonFocus={onSubmit}><IonIcon slot="start" icon={star}/>Login</IonButton>
+                    <IonButton 
+                    expand="block" 
+                    color="dark" 
+                    className="login-register-button" 
+                    router-direction="forward" routerAnimation 
+                    onIonFocus={onSubmit}><IonIcon slot="start" icon={star}/>Login</IonButton>
 
-            </IonCol>           
-        </IonRow>
-    )
+                </IonCol>           
+            </IonRow>
+        )
+    }
+
+    return outCome
 }
 
 const LOGIN_USER = gql`
