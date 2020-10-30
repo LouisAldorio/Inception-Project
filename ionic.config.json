@@ -1,7 +1,7 @@
 {
-  "name": "Enterpreneurs",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}
+    "name": "Enterpreneurs",
+    "integrations": {
+      "capacitor": {}
+    },
+    "type": "react"
+  }
