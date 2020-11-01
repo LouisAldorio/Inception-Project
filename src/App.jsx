@@ -35,7 +35,7 @@ import '@ionic/react/css/display.css';
 import './App.css';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000',
+  uri: 'https://whispering-woodland-78320.herokuapp.com/',
 })
 
 const authLink = setContext(() => {
