@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {Route} from 'react-router-dom'
 import { IonApp, IonContent, IonGrid} from '@ionic/react';
 import {setContext} from 'apollo-link-context'
@@ -9,6 +9,8 @@ import { AuthProvider} from './context/Auth'
 import Header from './components/Header'
 import Home from './pages/Home'
 import LoginOrRegister from './pages/LoginOrRegister'
+import firebase from './Firebase'
+import 'firebase/messaging'
 
 
 
@@ -55,6 +57,24 @@ const client = new ApolloClient({
 
 
 function App() {
+
+  useEffect(() => {
+    const messaging = firebase.default.messaging()
+
+    Notification.requestPermission().then(()=>{
+      return messaging.getToken()
+    }).then(token=>{
+      console.log('Token : ',token)
+    }).catch((err)=>{
+      console.log(err);     
+    })
+    messaging.onMessage((payload)=>{
+      console.log(payload);     
+    })
+    
+  })
+
+
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
