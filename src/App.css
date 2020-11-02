@@ -4,6 +4,21 @@
     height: 50px;
 }
 
-.spinner {
+.spinner-login-register {
     margin-top: 50%;
+
+}
+
+.spinner-home{
+    margin-top: 50%;
+    margin-left: 50%;
+}
+
+.post-item {
+    padding: 0;
+    width: 100%;
+}
+
+.post-delete-icon {
+    font-size: 60px;
 }

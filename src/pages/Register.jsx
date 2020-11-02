@@ -28,7 +28,7 @@ function UserRegister(props) {
             context.login(result.data.register)
 
             //redirect to home page when success
-            props.props.history.push("/home")
+            props.props.history.push("/Posts")
         },
         onError(err){
             console.log(err.graphQLErrors[0].extensions.exception.errors);
@@ -51,7 +51,7 @@ function UserRegister(props) {
     let outCome;
 
     if(loading) {
-        outCome = <IonSpinner name="circles" className="spinner" />
+        outCome = <IonSpinner name="circles" className="spinner-login-register" />
     }else{
         outCome = (
             <React.Fragment >
@@ -64,7 +64,7 @@ function UserRegister(props) {
                         display="Username" 
                         onChange={onChange} 
                         value={values.username} 
-                        errorMessage={Object.keys(errors).length > 0 && errors.username}/>
+                        errorMessage={Object.keys(errors).length > 0 && errors.username ? errors.username : 'Username'}/>
 
                         <InputControls 
                         type="email" 
@@ -72,7 +72,7 @@ function UserRegister(props) {
                         name="email" 
                         onChange={onChange} 
                         value={values.email} 
-                        errorMessage={Object.keys(errors).length > 0 && errors.email}/>
+                        errorMessage={Object.keys(errors).length > 0 && errors.email ? errors.email : 'Email'}/>
 
                         <InputControls 
                         type="password" 
@@ -80,7 +80,7 @@ function UserRegister(props) {
                         name="password" 
                         onChange={onChange} 
                         value={values.password} 
-                        errorMessage={Object.keys(errors).length > 0 && errors.password}/>
+                        errorMessage={Object.keys(errors).length > 0 && errors.password ? errors.password : 'Password'}/>
 
                         <InputControls 
                         type="password" 
@@ -88,7 +88,7 @@ function UserRegister(props) {
                         name="confirmPassword" 
                         onChange={onChange} 
                         value={values.confirmPassword} 
-                        errorMessage={Object.keys(errors).length > 0 && errors.confirmPassword}/>
+                        errorMessage={Object.keys(errors).length > 0 && errors.confirmPassword ? errors.confirmPassword : 'Confirm Password'}/>
 
                         <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role} />
                         
