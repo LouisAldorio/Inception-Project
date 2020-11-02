@@ -1,6 +1,6 @@
 {
-    "appId": "io.ionic.Enterpreneurs",
-    "appName": "Enterpreneurs",
+    "appId": "io.ionic.test1",
+    "appName": "test1",
     "bundledWebRuntime": false,
     "npmClient": "npm",
     "webDir": "build",
