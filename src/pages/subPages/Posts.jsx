@@ -35,7 +35,9 @@ function Posts(props){
                                 
                                     {user && user.username === post.username && (
                                         <IonItemOptions side="end">
-                                            <IonItemOption color="danger" onClick={() => console.log('unread clicked')}><IonIcon icon={trashBin} className="post-delete-icon"></IonIcon></IonItemOption>
+                                            <IonItemOption color="danger" onClick={() => console.log('unread clicked')}>
+                                                <IonIcon icon={trashBin} className="post-delete-icon"></IonIcon>
+                                            </IonItemOption>
                                         </IonItemOptions>
                                     )}
                                     

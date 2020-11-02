@@ -29,7 +29,7 @@ function PostForm(){
     }
 
     return (
-        <>
+        <div>
             <Form onSubmit={onSubmit}>
                 <h2>Create a post:</h2>
                 <Form.Field>
@@ -44,7 +44,7 @@ function PostForm(){
                     </ul>
                 </div>
             )}
-        </>      
+        </div>      
     )
 }
 
