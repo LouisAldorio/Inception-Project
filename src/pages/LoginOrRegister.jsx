@@ -10,7 +10,7 @@ function LoginOrRegister(props){
     const {user} = useContext(AuthContext)
 
     if(user){
-        props.history.push("/home")
+        props.history.push("/Posts")
     }
 
     const slidesRef = useRef();

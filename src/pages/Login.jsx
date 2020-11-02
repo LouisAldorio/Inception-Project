@@ -21,7 +21,7 @@ function UserLogin(props){
             context.login(result.data.login)
 
             //redirect to home page when success
-            props.props.history.push('/home')
+            props.props.history.push('/Posts')
         },
         onError(err) {
             setError(err.graphQLErrors[0].extensions.exception.errors)
@@ -40,7 +40,7 @@ function UserLogin(props){
 
     let outCome;
     if(loading){
-        outCome = <IonSpinner name="circles" className="spinner" />
+        outCome = <IonSpinner name="circles" className="spinner-login-register" />
     }else{
         outCome = (
             <IonRow>
