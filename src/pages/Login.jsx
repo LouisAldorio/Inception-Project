@@ -2,7 +2,7 @@ import React, { useState,useContext } from 'react'
 import { IonRow, IonCol, IonButton, IonIcon,IonSpinner } from '@ionic/react'
 import { InputControls } from '../components/Input';
 import { gql, useMutation } from '@apollo/client'
-import { star } from 'ionicons/icons'
+import { logIn } from 'ionicons/icons'
 import { useForm } from '../utils/Hooks'
 import {AuthContext} from '../context/Auth'
 
@@ -63,10 +63,10 @@ function UserLogin(props){
 
                     <IonButton 
                     expand="block" 
-                    color="dark" 
+                    color="medium" 
                     className="login-register-button" 
                     router-direction="forward" routerAnimation 
-                    onIonFocus={onSubmit}><IonIcon slot="start" icon={star}/>Login</IonButton>
+                    onIonFocus={onSubmit}><IonIcon slot="start" icon={logIn}/>Login</IonButton>
 
                 </IonCol>           
             </IonRow>

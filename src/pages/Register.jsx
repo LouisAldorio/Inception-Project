@@ -1,11 +1,12 @@
 import React, { useState,useContext } from 'react'
-import { IonRow, IonCol, IonButton, IonIcon,IonSpinner} from '@ionic/react'
+import { IonRow, IonCol, IonButton, IonIcon,IonSpinner,IonAlert} from '@ionic/react'
 
 import { InputControls, RoleInput } from '../components/Input';
 import { gql, useMutation } from '@apollo/client'
-import { star } from 'ionicons/icons'
-import { useForm } from '../utils/Hooks'
+import { bagAdd } from 'ionicons/icons'
+import { mapForm, useForm } from '../utils/Hooks'
 import {AuthContext} from '../context/Auth'
+import '../App.css'
 
 function UserRegister(props) {
     const context = useContext(AuthContext)
@@ -19,10 +20,11 @@ function UserRegister(props) {
     const { onChange, onSubmit, values } = useForm(registerUser, {
         username: '',
         password: '',
-        confirmPassword: '',
+        confirm_password: '',
         email: '',
         role: ''
     })
+    
 
     const [addUser,{loading}] = useMutation(REGISTER_USER, {
         update(_, result) {
@@ -34,7 +36,8 @@ function UserRegister(props) {
             // props.props.history.push("/Posts")
         },
         onError(err){
-            console.log(err)      
+            console.log(err.graphQLErrors);
+            setError(err.graphQLErrors)
         },
         variables: values
     })
@@ -47,7 +50,17 @@ function UserRegister(props) {
     const clearError = () => {
         setError({})
     }
+    
+    //map error as object
+    const erro = mapForm(errors)
 
+    //role alert
+    const [roleAlert,setRoleAlert] = useState(false)
+    if(Object.keys(erro).length > 0  && erro.role){
+        setRoleAlert(true)
+        clearError()
+    }
+    
     let outCome;
 
     if(loading) {
@@ -55,6 +68,14 @@ function UserRegister(props) {
     }else{
         outCome = (
             <React.Fragment >
+                <IonAlert
+                    isOpen={roleAlert}
+                    onDidDismiss={() => setRoleAlert(false)}
+                    cssClass='my-custom-class'
+                    header={'Choose One Role'}
+                    message={'To Proceed , Please Choose one Role!'}
+                    buttons={['Okay']}
+                />
                 <IonRow>
                     <IonCol>
                         <InputControls 
@@ -64,7 +85,7 @@ function UserRegister(props) {
                         display="Username" 
                         onChange={onChange} 
                         value={values.username} 
-                        errorMessage={Object.keys(errors).length > 0 && errors.username ? errors.username : 'Username'}/>
+                        errorMessage={Object.keys(erro).length > 0 && erro.username }/>
 
                         <InputControls 
                         type="email" 
@@ -72,7 +93,7 @@ function UserRegister(props) {
                         name="email" 
                         onChange={onChange} 
                         value={values.email} 
-                        errorMessage={Object.keys(errors).length > 0 && errors.email ? errors.email : 'Email'}/>
+                        errorMessage={Object.keys(erro).length > 0 && erro.email }/>
 
                         <InputControls 
                         type="password" 
@@ -80,27 +101,30 @@ function UserRegister(props) {
                         name="password" 
                         onChange={onChange} 
                         value={values.password} 
-                        errorMessage={Object.keys(errors).length > 0 && errors.password ? errors.password : 'Password'}/>
+                        errorMessage={Object.keys(erro).length > 0 && erro.password }/>
 
                         <InputControls 
                         type="password" 
                         display="Confirm Password" 
-                        name="confirmPassword" 
+                        name="confirm_password" 
                         onChange={onChange} 
                         value={values.confirmPassword} 
-                        errorMessage={Object.keys(errors).length > 0 && errors.confirmPassword ? errors.confirmPassword : 'Confirm Password'}/>
+                        errorMessage={Object.keys(erro).length > 0 && erro.confirmPassword }/>
 
-                        <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role} />
+                        <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role} placeholder={Object.keys(erro).length > 0 && erro.role }/>
+
+                        
                         
                         <IonButton 
-                        expand="block" 
-                        color="dark" 
-                        className="login-register-button" 
+                      
+                        expand="block"                       
+                        className="login-register-button color" 
                         router-direction="forward" routerAnimation 
-                        onIonFocus={onSubmit}><IonIcon slot="start" icon={star} />Register</IonButton>
+                        onIonFocus={onSubmit}><IonIcon slot="start" icon={bagAdd} />Register</IonButton>
 
                     </IonCol>
                 </IonRow>
+                
             </React.Fragment>
         )
     }

@@ -18,3 +18,28 @@ export const useForm = (callback,initialState = {}) => {
         values
     }
 }
+
+export const mapForm = (errors) => {
+    const erro = {}
+    if(errors.length > 0) {
+        errors.map((err) => {
+            const temp = err.message.toString()
+            const arr1 = temp.split('input: ')
+            if(arr1[1]){
+                const arr2 = arr1[1].split(' ')
+                if( arr2[0] === 'Username'){
+                    erro.username = arr1[1]
+                }else if(arr2[0] === 'Email'){
+                    erro.email = arr1[1]
+                }else if(arr2[0] === 'Password'){
+                    erro.password = arr1[1]
+                }else if(arr2[0] === 'Confirm'){
+                    erro.confirmPassword = arr1[1]
+                }else if(arr2[0] === 'Choose'){
+                    erro.role = arr1[1]
+                }
+            }                          
+        })
+    }
+    return erro
+}

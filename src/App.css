@@ -2,6 +2,7 @@
     margin-top: 80px;
     width: 100%;
     height: 50px;
+    
 }
 
 .spinner-login-register {
@@ -26,4 +27,13 @@
 
 .post-delete-icon {
     font-size: 60px;
+}
+.color {
+    --background: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+}
+
+:root[mode=ios] .srisakdi,
+:root[mode=md] .srisakdi{
+  --ion-font-family:  'Srisakdi'!important;
+  font-family:  'Srisakdi' !important;
 }

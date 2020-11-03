@@ -4,8 +4,8 @@ function Header(props){
     
     return (
         <IonHeader>           
-            <IonToolbar color="dark">
-                <IonTitle>
+            <IonToolbar className="color">
+                <IonTitle className="srisakdi">
                     Wholesaler
                 </IonTitle>          
             </IonToolbar>

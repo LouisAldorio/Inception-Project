@@ -33,7 +33,7 @@ import './App.css';
 import { IonReactRouter } from '@ionic/react-router';
 
 const httpLink = createHttpLink({
-  uri: 'https://safe-forest-36324.herokuapp.com/',
+  uri: 'http://localhost:8085/graphql',
 })
 
 const authLink = setContext(() => {
