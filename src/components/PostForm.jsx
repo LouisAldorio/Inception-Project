@@ -1,11 +1,11 @@
 import React from 'react'
-import {Button, Form} from 'semantic-ui-react'
 import { gql, useMutation } from '@apollo/client'
 
-import {useForm} from '../utils/hooks'
+import {useForm} from '../utils/Hooks'
 import {FETCH_POSTS_QUERY} from '../utils/graphql'
+import { IonButton,IonInput, IonModal} from '@ionic/react'
 
-function PostForm(){
+function PostForm(props){
 
     const{onChange,onSubmit,values} = useForm(createPostCallBack,{
         body: ''
@@ -26,17 +26,21 @@ function PostForm(){
 
     function createPostCallBack(){
         createPost()
+        if(!error) {
+            props.setState(false)
+        }
+        
     }
 
     return (
-        <div>
-            <Form onSubmit={onSubmit}>
+        <IonModal isOpen={props.state}>
+            <form onSubmit={onSubmit}>
                 <h2>Create a post:</h2>
-                <Form.Field>
-                    <Form.Input placeholder="Hi World!" name="body" onChange={onChange} value={values.body} error={error ? true:false} />
-                    <Button type="submit" color="teal" >Submit</Button>
-                </Form.Field>
-            </Form>
+                
+                <IonInput placeholder="Hi World!" name="body" onIonChange={onChange} value={values.body} error={error ? true:false} />
+                <IonButton type="submit" color="dark" >Submit</IonButton>              
+            </form>
+
             {error && (
                 <div className="ui error message" style={{marginBottom: 20}}>
                     <ul className="list">
@@ -44,7 +48,7 @@ function PostForm(){
                     </ul>
                 </div>
             )}
-        </div>      
+        </IonModal>      
     )
 }
 

@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonContent,IonPage,IonSpinner,IonFab,IonFabButton,IonIcon,IonItemSliding,IonItemOption,IonItem,IonItemOptions} from '@ionic/react'
-import {add,trashBin} from 'ionicons/icons'
+import { IonContent,IonPage,IonSpinner,IonFab,IonFabButton,IonIcon,IonItemSliding,IonItemOption,IonItem,IonItemOptions,IonFabList} from '@ionic/react'
+import {arrowUpCircleOutline,add} from 'ionicons/icons'
 import {FETCH_POSTS_QUERY} from '../../utils/graphql'
 import PostCard from '../../components/PostCard'
 import '../../App.css'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
+import DeleteButton from '../../components/DeleteButton'
+import PostForm from '../../components/PostForm'
 
 function Posts(props){
 
     const {user} = useContext(AuthContext)
 
     const {loading,data} = useQuery(FETCH_POSTS_QUERY)
+
+    const [openForm,setOpenForm] = useState(false)
+
+    function callForm(){
+        setOpenForm(true)
+    }
+    console.log(openForm)
 
     return (
         <IonPage>
@@ -23,7 +32,7 @@ function Posts(props){
 
             {loading ? (<IonSpinner name="circles" className="spinner-home" />) : (
                             data.getPosts && data.getPosts.map(post =>(
-                                <IonItemSliding>
+                                <IonItemSliding key={post.id}>
                                     <IonItemOptions side="start">
                                         <IonItemOption onClick={() => console.log('favorite clicked')}>Favorite</IonItemOption>
                                         <IonItemOption color="danger" onClick={() => console.log('share clicked')}>Share</IonItemOption>
@@ -34,11 +43,7 @@ function Posts(props){
                                     </IonItem>
                                 
                                     {user && user.username === post.username && (
-                                        <IonItemOptions side="end">
-                                            <IonItemOption color="danger" onClick={() => console.log('unread clicked')}>
-                                                <IonIcon icon={trashBin} className="post-delete-icon"></IonIcon>
-                                            </IonItemOption>
-                                        </IonItemOptions>
+                                        <DeleteButton postId={post.id} />
                                     )}
                                     
                                 </IonItemSliding>
@@ -46,11 +51,15 @@ function Posts(props){
                             ))
                         )}
             <IonFab vertical="bottom" horizontal="end" slot="fixed">
-                <IonFabButton color="dark">
-                    <IonIcon icon={add}/>
+                <IonFabButton color="dark" >
+                    <IonIcon icon={arrowUpCircleOutline}/>                   
                 </IonFabButton>
+                <IonFabList side="top">              
+                    <IonFabButton onClick={callForm}><IonIcon icon={add} /></IonFabButton>
+                </IonFabList>
             </IonFab>
             </IonContent> 
+            <PostForm state={openForm} setState={setOpenForm}/>
         </IonPage>
          
     )
