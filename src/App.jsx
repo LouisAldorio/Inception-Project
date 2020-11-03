@@ -89,6 +89,7 @@ function App() {
               <IonGrid>
                       
                 <Route exact path="/" component={LoginOrRegister}/>
+                
                 <Home />
                           
               </IonGrid>  

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonContent,IonPage,IonSpinner,IonFab,IonFabButton,IonIcon,IonItemSliding,IonItemOption,IonItem,IonItemOptions,IonFabList} from '@ionic/react'
+import { IonContent,IonPage,IonSpinner,IonFab,IonFabButton,IonIcon,IonItemSliding,IonItemOption,IonItem,IonItemOptions,IonFabList, IonModal} from '@ionic/react'
 import {arrowUpCircleOutline,add} from 'ionicons/icons'
 import {FETCH_POSTS_QUERY} from '../../utils/graphql'
 import PostCard from '../../components/PostCard'
@@ -9,6 +9,7 @@ import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
 import DeleteButton from '../../components/DeleteButton'
 import PostForm from '../../components/PostForm'
+import SinglePost from '../singlePost'
 
 function Posts(props){
 
@@ -39,7 +40,7 @@ function Posts(props){
                                     </IonItemOptions>
                                 
                                     <IonItem slots="end" routerAnimation className="post-item" onClick={()=> console.log("clicked")}>
-                                        <PostCard post={post} key={post.id}/>
+                                        <PostCard post={post} key={post.id}/>                                     
                                     </IonItem>
                                 
                                     {user && user.username === post.username && (
@@ -60,6 +61,7 @@ function Posts(props){
             </IonFab>
             </IonContent> 
             <PostForm state={openForm} setState={setOpenForm}/>
+            
         </IonPage>
          
     )

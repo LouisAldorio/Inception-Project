@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/Auth';
 import Profile from './subPages/Profile';
 import Posts from './subPages/Posts'
+import SinglePost from './singlePost'
 
 
 function MyApp(props) {
@@ -20,8 +21,9 @@ function MyApp(props) {
                 <IonTabs>
                     <IonRouterOutlet>
                         <Redirect from='/home' to='/Posts' /> 
+                        <Route exact path='/posts/:postId' component={SinglePost} />
                         <Route path="/:tab(Posts)" component={Posts} exact />
-                        <Route path="/:tab(Profile)" component={Profile} exact />
+                        <Route path="/:tab(Profile)" component={Profile} exact />                       
                     </IonRouterOutlet>
                     
                     <IonTabBar slot="bottom" color='dark'>
