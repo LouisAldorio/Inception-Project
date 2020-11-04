@@ -7,7 +7,7 @@ import moment from 'moment'
 import LikeButton from '../components/LikePost';
 import {AuthContext} from '../context/Auth'
 import DeleteButton from '../components/DeleteButton';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonLabel, IonRow,IonSpinner,IonIcon, IonInput, IonContent } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonLabel, IonRow,IonSpinner,IonIcon, IonInput, IonContent,IonItem,IonItemSliding } from '@ionic/react';
 
 
 const FETCH_POST_QUERY = gql`
@@ -53,7 +53,6 @@ function SinglePost(props){
 
     // props.match.params.postId
     console.log(PostId);
-    console.log(user);
 
     const [comment,setComment] = useState('')
     const commentInputRef = useRef(null)
@@ -132,16 +131,29 @@ function SinglePost(props){
                                 </IonCard>}
 
                             {comments && comments.map((comment) => (
-                                <IonCard fluid key={comment.id} >
-                                    <IonCardContent>{console.log(user.username,comment.username)}
-                                        {user && user.username === comment.username && (
-                                            <DeleteButton postId={id} commentId={comment.id} />
-                                        )}
-                                        <IonCardHeader>{comment.username}</IonCardHeader>
-                                        <IonCardSubtitle>{moment(comment.createdAt).fromNow()}</IonCardSubtitle>
-                                        <IonCardContent>{comment.body}</IonCardContent>
-                                    </IonCardContent>
-                                </IonCard>
+                                <IonItemSliding key={comment.id}>                     
+                                    <IonItem slots="end" routerAnimation className="post-item" onClick={()=> console.log("clicked")}>
+                                        <IonCard fluid key={comment.id} >
+                                            <IonCardContent>
+                                                <IonCardHeader>
+                                                    
+                                                    <IonCardTitle>{comment.username}</IonCardTitle>
+                                                    <IonCardSubtitle>{moment(comment.createdAt).fromNow()}</IonCardSubtitle>
+                                                    
+                                                    
+                                                </IonCardHeader>
+                                                <IonCardContent>{comment.body}</IonCardContent>
+                                                
+                                            </IonCardContent>
+                                        </IonCard>                                    
+                                    </IonItem>
+
+                                    {user && user.username === comment.username && (
+                                        <DeleteButton postId={id} commentId={comment.id} />
+                                    )}
+                                
+                                </IonItemSliding>
+                                
                             ))}
                         </IonCol>
                     </IonRow>

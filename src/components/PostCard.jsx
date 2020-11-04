@@ -2,12 +2,11 @@ import React,{useContext} from 'react'
 import Moment from 'moment'
 import {IonCard,IonCardHeader,IonCardContent,IonCardSubtitle,IonCardTitle, IonButton, IonLabel,IonIcon,IonModal,IonHeader,IonToolbar,IonTitle,IonButtons} from '@ionic/react'
 import {chatbubbleOutline} from 'ionicons/icons'
-
-import LikePost from './LikePost'
 import {AuthContext} from '../context/Auth'
 import { useState } from 'react'
 
 import SinglePost from '../pages/singlePost'
+import LikeButton from './LikePost'
 
 function PostCard({ post: { id, body, createdAt, username, likesCount, commentsCount, likes } }){
     const {user} = useContext(AuthContext)
@@ -29,7 +28,7 @@ function PostCard({ post: { id, body, createdAt, username, likesCount, commentsC
                 </IonCardContent>
 
                 <IonCardContent>
-                    <LikePost user={user} post={{id,likes,likesCount}}/>
+                    <LikeButton user={user} post={{id,likes,likesCount}}/>
                     <IonButton onClick={() => setModalState(true)} button={true}>
                         <IonIcon slot="start" icon={chatbubbleOutline} />
                         <IonLabel basic color='blue' pointing='left'>
