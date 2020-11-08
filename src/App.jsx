@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import {Route} from 'react-router-dom'
 import { IonApp, IonContent, IonGrid} from '@ionic/react';
 import {setContext} from 'apollo-link-context'
@@ -9,11 +9,6 @@ import { AuthProvider} from './context/Auth'
 import Header from './components/Header'
 import Home from './pages/Home'
 import LoginOrRegister from './pages/LoginOrRegister'
-import firebase from './Firebase'
-import 'firebase/messaging'
-
-
-
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -38,14 +33,14 @@ import './App.css';
 import { IonReactRouter } from '@ionic/react-router';
 
 const httpLink = createHttpLink({
-  uri: 'https://whispering-woodland-78320.herokuapp.com/',
+  uri: 'https://safe-forest-36324.herokuapp.com/',
 })
 
 const authLink = setContext(() => {
   const token = localStorage.getItem('jwtToken')
   return {
     headers: {
-      Authorization: token ? `Bearer ${token}` : ''
+      Authorization: token ? `${token}` : ''
     }
   }
 })
@@ -57,23 +52,6 @@ const client = new ApolloClient({
 
 
 function App() {
-
-  useEffect(() => {
-    const messaging = firebase.default.messaging()
-
-    Notification.requestPermission().then(()=>{
-      return messaging.getToken()
-    }).then(token=>{
-      console.log('Token : ',token)
-    }).catch((err)=>{
-      console.log(err);     
-    })
-    messaging.onMessage((payload)=>{
-      console.log(payload);     
-    })
-    
-  })
-
 
   return (
     <ApolloProvider client={client}>

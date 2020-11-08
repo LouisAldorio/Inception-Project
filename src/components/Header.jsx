@@ -6,7 +6,7 @@ function Header(props){
         <IonHeader>           
             <IonToolbar color="dark">
                 <IonTitle>
-                    Louis' Social Media
+                    Wholesaler
                 </IonTitle>          
             </IonToolbar>
         </IonHeader>

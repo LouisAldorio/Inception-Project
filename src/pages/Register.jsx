@@ -21,20 +21,20 @@ function UserRegister(props) {
         password: '',
         confirmPassword: '',
         email: '',
+        role: ''
     })
 
     const [addUser,{loading}] = useMutation(REGISTER_USER, {
         update(_, result) {
-            context.login(result.data.register)
+            // context.login(result.data.register)
+            console.log(result);
+            console.log("aaa")
 
             //redirect to home page when success
-            props.props.history.push("/Posts")
+            // props.props.history.push("/Posts")
         },
         onError(err){
-            console.log(err.graphQLErrors[0].extensions.exception.errors);
-            if(err){
-                setError(err.graphQLErrors[0].extensions.exception.errors)
-            }        
+            console.log(err)      
         },
         variables: values
     })
@@ -115,21 +115,19 @@ const REGISTER_USER = gql`
         $username: String!
         $email: String!
         $password: String!
-        $confirmPassword: String!
+        $confirm_password: String!
+        $role: String!      
     ){
-        register(
-            registerInput:{
-                username: $username
-                email: $email
-                password: $password
-                confirmPassword: $confirmPassword
-            }
-        ) {
-            id
-            email
-            username
-            createdAt
-            token
+        user{
+            register(
+                input: {
+                    username: $username
+                    email: $email
+                    password: $password
+                    confirm_password: $confirm_password
+                    role: $role
+                }
+            )
         }
     }
 `
