@@ -60,6 +60,13 @@ function UserRegister(props) {
         setRoleAlert(true)
         clearError()
     }
+
+    //username taken alert
+    const [userRegistered,setUserRegistered] = useState(false)
+    if(Object.keys(erro).length > 0  && erro.registered){
+        setUserRegistered(true)
+        clearError()
+    }
     
     let outCome;
 
@@ -74,6 +81,14 @@ function UserRegister(props) {
                     cssClass='my-custom-class'
                     header={'Choose One Role'}
                     message={'To Proceed , Please Choose one Role!'}
+                    buttons={['Okay']}
+                />
+                <IonAlert
+                    isOpen={userRegistered}
+                    onDidDismiss={() => setUserRegistered(false)}
+                    cssClass='my-custom-class'
+                    header={'Username has been registered or taken!'}
+                    message={erro.registered}
                     buttons={['Okay']}
                 />
                 <IonRow>
@@ -111,12 +126,9 @@ function UserRegister(props) {
                         value={values.confirmPassword} 
                         errorMessage={Object.keys(erro).length > 0 && erro.confirmPassword }/>
 
-                        <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role} placeholder={Object.keys(erro).length > 0 && erro.role }/>
-
+                        <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role} placeholder={Object.keys(erro).length > 0 && erro.role }/>                  
                         
-                        
-                        <IonButton 
-                      
+                        <IonButton                    
                         expand="block"                       
                         className="login-register-button color" 
                         router-direction="forward" routerAnimation 

@@ -38,6 +38,8 @@ export const mapForm = (errors) => {
                 }else if(arr2[0] === 'Choose'){
                     erro.role = arr1[1]
                 }
+            }else{
+                erro.registered = temp
             }                          
         })
     }
