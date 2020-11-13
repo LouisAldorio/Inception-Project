@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2020-11-13T07:49:18.718Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36" etag="UKPJk4P3BiMN2fxGIYQ5" version="13.9.7" type="github">
+<mxfile host="app.diagrams.net" modified="2020-11-13T07:55:16.978Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36" etag="Hz3sMURMwtQiuDWZMC-S" version="13.9.7" type="github">
   <diagram id="J0mYzYNC8tFz3TOdU9fT" name="Page-1">
-    <mxGraphModel dx="2242" dy="1313" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1582" dy="927" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -373,6 +373,18 @@
         </mxCell>
         <mxCell id="pdH4SPGZsmNGEbp_F2IO-101" value="v" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.rect;fillColor2=none;strokeWidth=1;size=20;indent=5;rounded=1;shadow=0;sketch=0;fillStyle=solid;startSize=1;fillColor=#FFFFFF;fontFamily=Permanent Marker;" vertex="1" parent="1">
           <mxGeometry x="1250" y="1190" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pdH4SPGZsmNGEbp_F2IO-106" value="Sebagai user saya ingin register menggunakan email, sehingga saya bisa mendapatkan pemberitahuan terbaru melalui email" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=0;fillStyle=solid;startSize=1;fontFamily=Permanent Marker;" vertex="1" parent="1">
+          <mxGeometry x="175" y="1040" width="235" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pdH4SPGZsmNGEbp_F2IO-107" value="Membuat UI untuk register" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=0;fillStyle=solid;startSize=1;fontFamily=Permanent Marker;" vertex="1" parent="1">
+          <mxGeometry x="700" y="1040" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pdH4SPGZsmNGEbp_F2IO-108" value="Membuat api untuk register" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=0;fillStyle=solid;startSize=1;fontFamily=Permanent Marker;" vertex="1" parent="1">
+          <mxGeometry x="975" y="1040" width="245" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pdH4SPGZsmNGEbp_F2IO-109" value="Integrasi antara frontend dan backend" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;sketch=0;fillStyle=solid;startSize=1;fontFamily=Permanent Marker;" vertex="1" parent="1">
+          <mxGeometry x="1255" y="1040" width="245" height="90" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
