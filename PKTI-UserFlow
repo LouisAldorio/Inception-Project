@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-11-13T05:25:16.797Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36" etag="0sut2BKKHRC00plt2Dl6" version="13.9.7" type="github">
+<mxfile host="app.diagrams.net" modified="2020-11-13T05:36:51.496Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36" etag="WyZM8iyvFnjzYaUri9Ll" version="13.9.7" type="github">
   <diagram id="J0mYzYNC8tFz3TOdU9fT" name="Page-1">
     <mxGraphModel dx="1673" dy="896" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -144,7 +144,7 @@
             <Array as="points" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tV5fglzPCFAWbtzufBAr-42" value="Create New Commodity Post" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="tV5fglzPCFAWbtzufBAr-42" value="Create/ Update Commodity Post" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="870" y="330" width="100" height="80" as="geometry" />
         </mxCell>
         <mxCell id="tV5fglzPCFAWbtzufBAr-43" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;fontFamily=Comic Sans MS;" edge="1" parent="1" target="tV5fglzPCFAWbtzufBAr-42">
@@ -197,7 +197,7 @@
             <mxPoint x="740" y="610" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tV5fglzPCFAWbtzufBAr-55" value="Scheduler" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.display;whiteSpace=wrap;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+        <mxCell id="tV5fglzPCFAWbtzufBAr-55" value="Schedule List" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.display;whiteSpace=wrap;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="880" y="690" width="120" height="70" as="geometry" />
         </mxCell>
         <mxCell id="tV5fglzPCFAWbtzufBAr-57" value="" style="endArrow=classic;startArrow=classic;html=1;fontFamily=Comic Sans MS;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="tV5fglzPCFAWbtzufBAr-34" target="tV5fglzPCFAWbtzufBAr-55">
@@ -221,7 +221,7 @@
             <mxPoint x="740" y="360" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tV5fglzPCFAWbtzufBAr-62" value="Create Schedule" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="tV5fglzPCFAWbtzufBAr-62" value="Create / Update Schedule" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="1110" y="690" width="120" height="70" as="geometry" />
         </mxCell>
         <mxCell id="tV5fglzPCFAWbtzufBAr-63" value="" style="endArrow=classic;html=1;fontFamily=Comic Sans MS;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="tV5fglzPCFAWbtzufBAr-55" target="tV5fglzPCFAWbtzufBAr-62">
@@ -253,6 +253,84 @@
             <Array as="points">
               <mxPoint x="500" y="765" />
               <mxPoint x="500" y="810" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-69" value="Choose Friend&lt;br&gt;(Supplier/reseller)" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;spacing=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="690" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-70" value="Choose Comodity To deliver" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1305" y="815" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-71" value="Input Required Data" style="html=1;strokeWidth=2;shape=manualInput;whiteSpace=wrap;rounded=1;size=26;arcSize=11;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#ffe6cc;strokeColor=#d79b00;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="815" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-72" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;fontFamily=Comic Sans MS;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tV5fglzPCFAWbtzufBAr-62" target="tV5fglzPCFAWbtzufBAr-69">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1330" y="620" as="sourcePoint" />
+            <mxPoint x="1380" y="570" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1290" y="725" />
+              <mxPoint x="1290" y="725" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-73" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;fontFamily=Comic Sans MS;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="tV5fglzPCFAWbtzufBAr-69">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1320" y="780" as="sourcePoint" />
+            <mxPoint x="1360" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-74" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;fontFamily=Comic Sans MS;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="tV5fglzPCFAWbtzufBAr-71">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1300" y="850" as="sourcePoint" />
+            <mxPoint x="1280" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-75" value="Redirect" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;fontFamily=Comic Sans MS;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.617;entryY=1.007;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="tV5fglzPCFAWbtzufBAr-76" target="tV5fglzPCFAWbtzufBAr-55">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="950" y="800" as="sourcePoint" />
+            <mxPoint x="1050" y="530" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="954" y="825" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-76" value="Submit Schedule" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;spacing=210;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="900" y="825" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-77" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;fontFamily=Comic Sans MS;exitX=-0.024;exitY=0.633;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tV5fglzPCFAWbtzufBAr-71" target="tV5fglzPCFAWbtzufBAr-76">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1030.06" y="760" as="sourcePoint" />
+            <mxPoint x="1080.06" y="710" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1118" y="855" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-78" value="Remove Reseller From FriendList" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#dae8fc;strokeColor=#6c8ebf;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="420" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-79" value="Add Reseller As Friend" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;labelBackgroundColor=none;fontFamily=Comic Sans MS;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="560" width="100" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-80" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;fontFamily=Comic Sans MS;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="tV5fglzPCFAWbtzufBAr-60" target="tV5fglzPCFAWbtzufBAr-79">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1220" y="632.5" as="sourcePoint" />
+            <mxPoint x="1310" y="608" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1170" y="632" />
+              <mxPoint x="1320" y="632" />
+              <mxPoint x="1350" y="631" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tV5fglzPCFAWbtzufBAr-81" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;fontFamily=Comic Sans MS;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="tV5fglzPCFAWbtzufBAr-60" target="tV5fglzPCFAWbtzufBAr-78">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1225" y="495" as="sourcePoint" />
+            <mxPoint x="1310" y="480" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1170" y="470" />
             </Array>
           </mxGeometry>
         </mxCell>
