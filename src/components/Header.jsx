@@ -4,7 +4,7 @@ import {heart,paperPlane,mail} from 'ionicons/icons'
 
 
 import {Route} from 'react-router-dom'
-import Posts from '../pages/subPages/Posts'
+import Posts from '../pages/subPages/CommodityPost'
 import Profile from '../pages/subPages/Profile'
 import Schedule from '../pages/subPages/Schedule'
 import { AuthContext } from '../context/Auth'

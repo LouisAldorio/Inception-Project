@@ -18,12 +18,12 @@ function Posts(props){
     
 
     const items = [
-        {id:"1", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat1' },
-        {id:"2", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat2' },
+        {id:"1", src: ['https://secure-river-11996.herokuapp.com/lalalamove/user/profile/download (1) - 638557402.jpg','http://placekitten.com/g/300/500','http://placekitten.com/g/500/500'], text: 'a picture of a cat1' },
+        {id:"2", src: ['https://secure-river-11996.herokuapp.com/lalalamove/user/profile/download (1) - 680243943.jpg','http://placekitten.com/g/500/500'], text: 'a picture of a cat2' },
         {id:"3", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat3' },
         {id:"4", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat4' },
         {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
-        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
+        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },     
         {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
         {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
         {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
@@ -57,8 +57,11 @@ function Posts(props){
                             <IonCardContent>
                                 <IonCardHeader>                              
                                     <IonImg src={image.src[0]}/>                               
-                                    <IonLabel>{image.text}</IonLabel>
+                                    
                                 </IonCardHeader>
+                                <IonCardContent>
+                                    <IonLabel>{image.text}</IonLabel>
+                                </IonCardContent>
                             </IonCardContent>                              
                         </IonCard>
                     ))}  

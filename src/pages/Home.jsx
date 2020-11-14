@@ -6,7 +6,7 @@ import {  home,personCircle,calendar } from 'ionicons/icons';
 import { useContext } from 'react';
 import { AuthContext } from '../context/Auth';
 import Profile from './subPages/Profile';
-import Posts from './subPages/Posts';
+import CommodityPost from './subPages/CommodityPost';
 import Schedule from './subPages/Schedule';
 import Header from '../components/Header';
 
@@ -23,10 +23,10 @@ function Home(props) {
             <IonTabs>
                 <IonRouterOutlet>
                     <Redirect from='/home' to='/Posts' /> 
-                    <Route path="/:tab(Posts)" component={Posts} exact />
+                    <Route path="/:tab(Posts)" component={CommodityPost} exact />
                     <Route path="/:tab(Profile)" component={Profile} exact />  
                     <Route path="/:tab(Schedule)" component={Schedule} exact />  
-                    <Route path="/Supplier" component={Posts} exact />
+                    <Route path="/Supplier" component={CommodityPost} exact />
                     <Route path="/Distributor" component={Schedule} exact />  
                     <Route path="/Reseller" component={Profile} exact />  
                 </IonRouterOutlet>
