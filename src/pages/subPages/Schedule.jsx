@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonButton, IonContent,IonFab,IonFabButton,IonIcon,IonInfiniteScroll,IonInfiniteScrollContent,IonSpinner, IonCard,IonCardContent,IonCardHeader,IonLabel} from '@ionic/react'
+import { IonButton, IonContent,IonFab,IonFabButton,IonIcon,IonInfiniteScroll,IonInfiniteScrollContent,IonSpinner, IonCard,IonCardContent,IonCardHeader,IonLabel, IonItem} from '@ionic/react'
 import {add} from 'ionicons/icons'
 
 
@@ -8,6 +8,7 @@ import '../../App.css'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
 import Header from '../../components/Header'
+import Clock from '../../components/Clock'
 
 
 
@@ -27,14 +28,17 @@ function Schedule(props){
     return (
         <React.Fragment> 
             <Header />  
-             
+            
             <IonContent scrollEvents={true}
                 onIonScrollStart={() => {}}
                 onIonScroll={() => {}}
-                onIonScrollEnd={() => {}}>  
+                onIonScrollEnd={() => {}} className='ion-content-bottom'> 
+                <Clock />
 
+                
 
-                {items.map((image, i) => (
+                <div className="schedule-list">
+                    {items.map((image, i) => (
                         <IonCard key={i}  >
                             <IonCardContent>
                                 <IonCardHeader>                              
@@ -46,16 +50,18 @@ function Schedule(props){
                             </IonCardContent>                              
                         </IonCard>
                     ))}              
-                
-                <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" >
+                </div> 
+
+                <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
                     <IonFabButton color="warning">
                         <IonIcon icon={add} />
                     </IonFabButton>
                 </IonFab>
                 
-                <IonInfiniteScroll threshold="100px" id="infinite-scroll">                    
-                    <IonInfiniteScrollContent loadingSpinner="dots"><IonSpinner color="warning" className="pagination-spinner"></IonSpinner></IonInfiniteScrollContent>
-                </IonInfiniteScroll>                               
+                {/* {<IonInfiniteScroll threshold="100px" id="infinite-scroll">                    
+                    <IonInfiniteScrollContent loadingSpinner="dots"></IonInfiniteScrollContent>
+                </IonInfiniteScroll> }  */}
+                                            
             </IonContent> 
             
             

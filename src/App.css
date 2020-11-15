@@ -43,3 +43,23 @@
 #schedule-add {
     margin-bottom: 26%;
 }
+
+#clock-schedule {
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+    color: white;
+}
+
+.schedule-date{
+    font-size: 22px;
+}
+.schedule-time{
+    font-size: 60px;
+}
+
+.schedule-list {
+    margin-top: 140px;
+    margin-bottom: 70px;
+}
