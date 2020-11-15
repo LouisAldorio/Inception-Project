@@ -28,9 +28,7 @@
 .post-delete-icon {
     font-size: 60px;
 }
-.color {
-    --background: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
-}
+
 
 :root[mode=ios] .Montserrat,
 :root[mode=md] .Montserrat{
@@ -42,6 +40,6 @@
     margin-left: 46%;
 }
 
-.ion-avatar {
-    border-radius: 100%;
+#schedule-add {
+    margin-bottom: 26%;
 }

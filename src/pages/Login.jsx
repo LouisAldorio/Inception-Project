@@ -5,6 +5,7 @@ import { gql, useMutation } from '@apollo/client'
 import { logIn } from 'ionicons/icons'
 import { useForm } from '../utils/Hooks'
 import { AuthContext } from '../context/Auth'
+import {person,lockClosed} from 'ionicons/icons'
 
 function UserLogin(props) {
     const context = useContext(AuthContext)
@@ -50,7 +51,7 @@ function UserLogin(props) {
 
     let outCome;
     if (loading) {
-        outCome = <IonSpinner name="circles" className="spinner-login-register" />
+        outCome = <IonSpinner color="warning" className="spinner-login-register" />
     } else {
         outCome = (
             <IonRow>
@@ -62,7 +63,7 @@ function UserLogin(props) {
                         buttons={['Okay']}
                     />
                     <InputControls type="username"
-                        display="Username"
+                        display={ <div><IonIcon icon={person}/> Username</div>} 
                         name="username"
                         focus="true"
                         onChange={onChange}
@@ -71,7 +72,7 @@ function UserLogin(props) {
 
                     <InputControls
                         type="password"
-                        display="Password"
+                        display={ <div><IonIcon icon={lockClosed}/> Password</div>}
                         name="password"
                         onChange={onChange}
                         value={values.password}

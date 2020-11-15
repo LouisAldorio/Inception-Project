@@ -1,6 +1,6 @@
 import React from 'react'
-import {IonItem,IonLabel,IonInput,IonSelect,IonSelectOption} from '@ionic/react'
-import { useState } from 'react'
+import {IonItem,IonLabel,IonInput,IonSelect,IonSelectOption, IonIcon} from '@ionic/react'
+import {ticket} from 'ionicons/icons'
 
 
 function InputControls(props){
@@ -23,7 +23,7 @@ function RoleInput(props){
 
     return(
         <IonItem className="ion-margin-top">
-            <IonLabel>Role</IonLabel>
+            <IonLabel><IonIcon icon={ticket} /> Role</IonLabel>
             <IonSelect value={props.role} name={props.name} placeholder={props.placeholder ? props.placeholder : "Choose Role"} onIonChange={inputChangeHandler} okText="Okay" cancelText="Dismiss">
               <IonSelectOption value="Supplier">Supplier</IonSelectOption>
               <IonSelectOption value="Distributor">Distributor/Reseller</IonSelectOption>

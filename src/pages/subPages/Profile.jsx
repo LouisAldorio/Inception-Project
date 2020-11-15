@@ -50,7 +50,7 @@ function Profile(props){
                         ) : 
                         <IonCol size="3" offset=''>
                             <IonAvatar>
-                                 <ImageZoom src={'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'} />
+                                 <ImageZoom src={ 'https://cdn2.iconfinder.com/data/icons/user-people-4/48/6-512.png'} />
                             </IonAvatar>
                         </IonCol>  }
                     </IonRow>                 

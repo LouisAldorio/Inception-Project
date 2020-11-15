@@ -3,7 +3,7 @@ import { IonRow, IonCol, IonButton, IonIcon,IonSpinner,IonAlert} from '@ionic/re
 
 import { InputControls, RoleInput } from '../components/Input';
 import { gql, useMutation } from '@apollo/client'
-import { bagAdd } from 'ionicons/icons'
+import { bagAdd,logoWhatsapp,mail,person,lockClosed,lockOpen } from 'ionicons/icons'
 import { mapForm, useForm } from '../utils/Hooks'
 import {AuthContext} from '../context/Auth'
 import '../App.css'
@@ -22,7 +22,8 @@ function UserRegister(props) {
         password: '',
         confirm_password: '',
         email: '',
-        role: ''
+        role: '',
+        wa_number: ''
     })
     
 
@@ -72,7 +73,7 @@ function UserRegister(props) {
     let outCome;
 
     if(loading) {
-        outCome = <IonSpinner name="circles" className="spinner-login-register" />
+        outCome = <IonSpinner color="warning" className="spinner-login-register" />
     }else{
         outCome = (
             <React.Fragment >
@@ -98,22 +99,30 @@ function UserRegister(props) {
                         type="username" 
                         focus="true" 
                         name="username" 
-                        display="Username" 
+                        display={ <div><IonIcon icon={person}/> Username</div>} 
                         onChange={onChange} 
                         value={values.username} 
                         errorMessage={Object.keys(erro).length > 0 && erro.username }/>
 
                         <InputControls 
                         type="email" 
-                        display="Email" 
+                        display={ <div><IonIcon icon={mail}/> Email</div>}
                         name="email" 
                         onChange={onChange} 
                         value={values.email} 
                         errorMessage={Object.keys(erro).length > 0 && erro.email }/>
 
                         <InputControls 
+                        type="wa_number" 
+                        name="wa_number" 
+                        display={ <div><IonIcon icon={logoWhatsapp}/> Whatsapp Number</div>}
+                        onChange={onChange} 
+                        value={values.username} 
+                        errorMessage={Object.keys(erro).length > 0 && erro.username }/>
+
+                        <InputControls 
                         type="password" 
-                        display="Password" 
+                        display={ <div><IonIcon icon={lockClosed}/> Password</div>}
                         name="password" 
                         onChange={onChange} 
                         value={values.password} 
@@ -121,7 +130,7 @@ function UserRegister(props) {
 
                         <InputControls 
                         type="password" 
-                        display="Confirm Password" 
+                        display={ <div><IonIcon icon={lockOpen}/> Confirm Password</div>}
                         name="confirm_password" 
                         onChange={onChange} 
                         value={values.confirmPassword} 
