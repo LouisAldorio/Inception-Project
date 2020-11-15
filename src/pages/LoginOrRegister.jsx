@@ -41,7 +41,7 @@ function LoginOrRegister(props){
     }
     return (
         <div>
-            
+            <Header />
             <IonRow>
                 <IonCol>
                     <MenuBar selectedValue={LoginOrRegister} onSelectValue={setLoginOrRegisterHandler}/>

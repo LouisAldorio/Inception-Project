@@ -1,25 +1,25 @@
-import React,{useContext, useRef} from 'react'
-import { IonHeader, IonTitle, IonToolbar,IonMenu, IonContent, IonList, IonItem, IonIcon, IonLabel, IonButton, IonRouterOutlet, IonSplitPane, IonMenuButton,IonButtons, IonCard} from '@ionic/react'
-import {heart,paperPlane,mail} from 'ionicons/icons'
+import React,{useContext, useRef, useState} from 'react'
+import { IonHeader, IonTitle, IonToolbar,IonMenu, IonContent, IonList,IonPopover, IonItem, IonIcon, IonLabel, IonButton, IonRouterOutlet, IonSplitPane, IonMenuButton,IonButtons, IonCard, IonMenuToggle} from '@ionic/react'
+import {heart,paperPlane,mail,ellipsisVertical,server,cart,albums} from 'ionicons/icons'
 
-
-import {Route} from 'react-router-dom'
-import Posts from '../pages/subPages/CommodityPost'
-import Profile from '../pages/subPages/Profile'
-import Schedule from '../pages/subPages/Schedule'
 import { AuthContext } from '../context/Auth'
 
 
 function Header(props){
     
-    const {user} = useContext(AuthContext)
+    const {user,logout} = useContext(AuthContext)
+
+    function logOut(){
+        logout()    
+    }
+    const [showPopover, setShowPopover] = useState({
+        open: false,
+        event: undefined,
+      });
 
     let outcome 
-
     if(user){
-        // if(props.dontRender) {
-        //     return null
-        // }
+        
         outcome = (
             <React.Fragment>
                 <IonHeader>
@@ -28,6 +28,20 @@ function Header(props){
                             <IonMenuButton></IonMenuButton>
                         </IonButtons>
                         <IonTitle>WholeSaler</IonTitle>
+                        
+                        <IonPopover 
+                            isOpen={showPopover.open}
+                            event={showPopover.event}                           
+                            onDidDismiss={e => setShowPopover({open: false, event: undefined})}
+                        >
+                            {user && (<IonItem onClick={logOut} >log out</IonItem>)} 
+                        </IonPopover>
+                        <IonButtons slot="end">
+                            <IonButton onClick={e => setShowPopover({open: true, event: e.nativeEvent})}>
+                                <IonIcon slot="icon-only" icon={ellipsisVertical}></IonIcon>
+                            </IonButton>
+                        </IonButtons>
+                            
                     </IonToolbar>
                 </IonHeader>
                 <IonMenu  contentId="content">
@@ -38,15 +52,15 @@ function Header(props){
                     </IonHeader>
                     <IonContent id="content">                      
                         <IonItem href='/Posts' button={true} routerAnimation>
-                            <IonIcon icon={mail} slot="start"></IonIcon>
+                            <IonIcon icon={server} slot="start"></IonIcon>
                             <IonLabel>Supplier</IonLabel>
                         </IonItem>
-                        <IonItem  href='/Schedule' button={true}>
-                            <IonIcon icon={paperPlane} slot="start"></IonIcon>
-                            <IonLabel>Outbox</IonLabel>
+                        <IonItem href='/Schedule' button={true} routerAnimation>
+                            <IonIcon icon={albums} slot="start"></IonIcon>
+                            <IonLabel>Commodity</IonLabel>
                         </IonItem>
                         <IonItem  href='/Profile' button={true}>
-                            <IonIcon icon={heart} slot="start"></IonIcon>
+                            <IonIcon icon={cart} slot="start"></IonIcon>
                             <IonLabel>Distributor</IonLabel>
                         </IonItem>    
                                                                      

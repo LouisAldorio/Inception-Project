@@ -15,17 +15,11 @@ function Posts(props){
 
     const [modalState,setModalState] = useState(false)
 
-    
-
     const items = [
-        {id:"1", src: ['https://secure-river-11996.herokuapp.com/lalalamove/user/profile/download (1) - 638557402.jpg','http://placekitten.com/g/300/500','http://placekitten.com/g/500/500'], text: 'a picture of a cat1' },
-        {id:"2", src: ['https://secure-river-11996.herokuapp.com/lalalamove/user/profile/download (1) - 680243943.jpg','http://placekitten.com/g/500/500'], text: 'a picture of a cat2' },
+        {id:"1", src: ['http://placekitten.com/g/300/500','http://placekitten.com/g/500/500'], text: 'a picture of a cat1' },
+        {id:"2", src: ['http://placekitten.com/g/500/500','http://placekitten.com/g/500/500'], text: 'a picture of a cat2' },
         {id:"3", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat3' },
         {id:"4", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat4' },
-        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
-        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },     
-        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
-        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
         {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
     ];
 
@@ -41,8 +35,6 @@ function Posts(props){
         setModalData(null)
     }
 
-    console.log(modalData);
-
     return (
         <React.Fragment> 
             <Header />          
@@ -56,8 +48,7 @@ function Posts(props){
                         <IonCard key={i} onClick={() => ToggleModal(image)} >
                             <IonCardContent>
                                 <IonCardHeader>                              
-                                    <IonImg src={image.src[0]}/>                               
-                                    
+                                    <img src={image.src[0]} height="250px" width="500px"/>                                                                  
                                 </IonCardHeader>
                                 <IonCardContent>
                                     <IonLabel>{image.text}</IonLabel>
@@ -84,7 +75,7 @@ function Posts(props){
                 <IonContent>
                     <Carousel animation="slide" autoPlay={true} interval={4000}>
                         {modalData && modalData.src.map((img) => (
-                            <ImageZoom src={img} key={img}/>            
+                            <ImageZoom src={img} key={img} width="500px" height="300px"/>            
                         ))}
                     </Carousel>                   
                     <IonText>{modalData && modalData.text}</IonText>

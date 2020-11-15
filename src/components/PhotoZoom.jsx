@@ -8,8 +8,8 @@ function ImageZoom (props){
         <img
           alt="that wanaka tree"
           src={props.src}
-          width="500"
-          height="280"
+          width={props.width}
+          height={props.height}
         />
     </Zoom> )
 }
