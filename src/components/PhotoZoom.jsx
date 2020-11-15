@@ -6,9 +6,10 @@ function ImageZoom (props){
   return(
       <Zoom>
         <img
-        alt="that wanaka tree"
-        src={props.src}
-        width="500"
+          alt="that wanaka tree"
+          src={props.src}
+          width="500"
+          height="280"
         />
     </Zoom> )
 }

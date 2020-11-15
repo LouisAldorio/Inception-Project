@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonCard, IonCardContent,IonLabel, IonContent,IonImg,IonBackButton, IonCardHeader,IonModal,IonHeader,IonToolbar,IonTitle,IonButtons,IonButton, IonItem,IonText,IonSlide,IonSlides } from '@ionic/react'
+import { IonCard, IonCardContent,IonLabel, IonContent,IonImg,IonBackButton, IonCardHeader,IonModal,IonHeader,IonToolbar,IonTitle,IonButtons,IonButton, IonItem,IonText,IonSlide,IonSlides, IonInfiniteScroll, IonInfiniteScrollContent, IonSpinner } from '@ionic/react'
 import '../../App.css'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
 import ImageZoom from '../../components/PhotoZoom'
 
+import Carousel from 'react-material-ui-carousel'
 import Header from '../../components/Header'
 
 function Posts(props){
@@ -17,20 +18,18 @@ function Posts(props){
     
 
     const items = [
-        {id:"1", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat1' },
-        {id:"2", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat2' },
-        {id:"3", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat3' },
-        {id:"4", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat4' },
-        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat5' },
-        {id:"6", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat6' },
-        {id:"7", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat7' },
-        {id:"8", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat8' },
-        {id:"9", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat9' },
-        {id:"10", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat10' },
-        {id:"11", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat11' },
+        {id:"1", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat1' },
+        {id:"2", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat2' },
+        {id:"3", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat3' },
+        {id:"4", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat4' },
+        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
+        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
+        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
+        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
+        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
     ];
 
-    const [modalData,setModalData] = useState()
+    const [modalData,setModalData] = useState(null)
 
     function ToggleModal(image) {
         setModalData(image)
@@ -39,8 +38,10 @@ function Posts(props){
 
     function CleanData(){
         setModalState(false)
-        setModalData()
+        setModalData(null)
     }
+
+    console.log(modalData);
 
     return (
         <React.Fragment> 
@@ -48,7 +49,8 @@ function Posts(props){
             <IonContent scrollEvents={true}
                     onIonScrollStart={() => {}}
                     onIonScroll={() => {}}
-                    onIonScrollEnd={() => {}}>               
+                    onIonScrollEnd={() => {}}
+                    >               
                 
                     {items.map((image, i) => (
                         <IonCard key={i} onClick={() => ToggleModal(image)} >
@@ -59,7 +61,10 @@ function Posts(props){
                                 </IonCardHeader>
                             </IonCardContent>                              
                         </IonCard>
-                    ))}                                   
+                    ))}  
+                    <IonInfiniteScroll threshold="100px" id="infinite-scroll">                    
+                        <IonInfiniteScrollContent loadingSpinner="dots"><IonSpinner color="warning" className="pagination-spinner"></IonSpinner></IonInfiniteScrollContent>
+                    </IonInfiniteScroll>                               
             </IonContent>   
             
             <IonModal isOpen={modalState}>
@@ -73,16 +78,12 @@ function Posts(props){
                     </IonToolbar>
                 </IonHeader>
                            
-                <IonContent >
-                    <IonSlides >                   
-                          {modalData && modalData.src.map((img) => (
-                              <IonSlide key={img}>
-                                  <ImageZoom src={img} /> 
-                              </IonSlide>
-                          ))}
-                    </IonSlides> 
-                    
-                                
+                <IonContent>
+                    <Carousel animation="slide" autoPlay={true} interval={4000}>
+                        {modalData && modalData.src.map((img) => (
+                            <ImageZoom src={img} key={img}/>            
+                        ))}
+                    </Carousel>                   
                     <IonText>{modalData && modalData.text}</IonText>
                 </IonContent>
 

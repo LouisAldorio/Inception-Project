@@ -37,3 +37,7 @@
   --ion-font-family:  'Montserrat'!important;
   font-family:  'Montserrat' !important;
 }
+
+.pagination-spinner {
+    margin-left: 46%;
+}
