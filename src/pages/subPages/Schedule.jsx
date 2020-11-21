@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonButton, IonContent,IonFab,IonFabButton,IonIcon,IonInfiniteScroll,IonInfiniteScrollContent,IonSpinner, IonCard,IonCardContent,IonCardHeader,IonLabel, IonItem} from '@ionic/react'
+import { IonButton, IonContent,IonFab,IonFabButton,IonIcon,IonInfiniteScroll,IonInfiniteScrollContent,IonSpinner, IonCard,IonCardContent,IonCardHeader,IonLabel, IonItem, IonImg,IonItemSliding,IonItemOption,IonItemOptions} from '@ionic/react'
 import {add} from 'ionicons/icons'
 
 
@@ -38,19 +38,33 @@ function Schedule(props){
                 
 
                 <div className="schedule-list">
-                    {items.map((image, i) => (
-                        <IonCard key={i}  >
-                            <IonCardContent>
-                                <IonCardHeader>                              
-                                    <img src={image.src[0]} height="250px" width="500px"/>                                                                  
-                                </IonCardHeader>
-                                <IonCardContent>
-                                    <IonLabel>{image.text}</IonLabel>
-                                </IonCardContent>
-                            </IonCardContent>                              
-                        </IonCard>
-                    ))}              
+                    {items.length > 0 ? items.map((image, i) => (
+                        <IonItemSliding key={i}>                                                      
+                            <IonItem slots="start" routerAnimation className="post-item" onClick={()=> console.log("clicked")}>
+                                <IonCard key={i}  >
+                                    <IonCardContent>
+                                        <IonCardHeader>                              
+                                            <img src={image.src[0]} height="250px" width="500px"/>                                                                  
+                                        </IonCardHeader>
+                                        <IonCardContent>
+                                            <IonLabel>{image.text}</IonLabel>
+                                        </IonCardContent>
+                                    </IonCardContent>                              
+                                </IonCard>                            
+                            </IonItem>
+                        
+                            {user && (
+                                <IonItemOptions side="end">
+                                    <IonItemOption color="danger" onClick={() => console.log('share clicked')}>Delete</IonItemOption>
+                                </IonItemOptions>
+                            )}
+                            
+                        </IonItemSliding>
+                       
+                    )) :  <img id="photo-fullscreen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Tl87UxYtH39b-RUyxSB2SrtNkPZB_55dtw&usqp=CAU"/>    
+                  }              
                 </div> 
+                
 
                 <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
                     <IonFabButton color="warning">
@@ -71,3 +85,6 @@ function Schedule(props){
 }
 
 export default Schedule
+
+
+                                

@@ -18,20 +18,17 @@ function Clock(){
     const date = new Date().toLocaleDateString()
     const formattedDate = moment(date).format('D MMMM YYYY')
 
-    return (      
-       
-            <IonGrid id="clock-schedule" slot='fixed'>
-                <IonRow>
-                    <IonCol size='12' className='schedule-date'>{formattedDate}</IonCol>
-                </IonRow>
-                <IonRow>
-                    <IonCol size='12' className='schedule-time'>                       
-                        {time}
-                    </IonCol>
-                </IonRow>
-            </IonGrid>               
-        
-
+    return (           
+        <IonGrid id="clock-schedule" slot='fixed'>
+            <IonRow>
+                <IonCol size='12' className='schedule-date'>{formattedDate}</IonCol>
+            </IonRow>
+            <IonRow>
+                <IonCol size='12' className='schedule-time'>                       
+                    {time}
+                </IonCol>
+            </IonRow>
+        </IonGrid>               
     )
 }
 
