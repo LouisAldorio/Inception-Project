@@ -47,7 +47,8 @@ export function usePhotoGallery() {
         // set(storage, JSON.stringify(newPhotos));
         const newPhotos = {
             filepath: fileName,
-            webviewPath: cameraPhoto.webPath
+            webviewPath: cameraPhoto.webPath,
+            file: cameraPhoto.dataUrl
           };
 
         setPhotos(newPhotos)
