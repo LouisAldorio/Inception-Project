@@ -16,7 +16,9 @@ function Posts(props){
     const [modalState,setModalState] = useState(false)
 
     const items = [
-        
+        {src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN"],text:"img1"},
+        {src:["https://drive.google.com/uc?export=view&id=1Bg1c5HJcIB2CKT17uJ53CWZpNhkYynlV"],text:"img1"},
+        {src:["https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K","https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN"],text:"img1"}
     ];
 
     const [modalData,setModalData] = useState(null)
