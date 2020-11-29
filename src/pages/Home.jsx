@@ -8,7 +8,7 @@ import { AuthContext } from '../context/Auth';
 import Profile from './subPages/Profile';
 import CommodityPost from './subPages/CommodityPost';
 import Schedule from './subPages/Schedule';
-import Header from '../components/Header';
+import DistributorList from './subPages/DistributorList';
 
 
 
@@ -17,18 +17,20 @@ function Home(props) {
 
     const {user} = useContext(AuthContext)
 
+    console.log(user)
+
     let result;
     if(user) {
         result = (                                                           
             <IonTabs>
                 <IonRouterOutlet>
                     <Redirect from='/home' to='/Posts' /> 
-                    <Route path="/:tab(Posts)" component={CommodityPost} exact />
+                    <Route path="/:tab(Posts)" component={user.Role === 'Distributor' ? CommodityPost : DistributorList} exact />
                     <Route path="/:tab(Profile)" component={Profile} exact />  
                     <Route path="/:tab(Schedule)" component={Schedule} exact />  
-                    <Route path="/Supplier" component={CommodityPost} exact />
-                    <Route path="/Distributor" component={Schedule} exact />  
-                    <Route path="/Reseller" component={Profile} exact />  
+                    <Route path="/Commodity" component={CommodityPost} exact />
+                    <Route path="/Distributor" component={DistributorList} exact />  
+                    <Route path="/Supplier" component={Profile} exact />  
                 </IonRouterOutlet>
                 
                 <IonTabBar slot="bottom" color='warning'>

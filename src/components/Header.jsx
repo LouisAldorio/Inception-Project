@@ -51,15 +51,15 @@ function Header(props){
                         </IonToolbar>
                     </IonHeader>
                     <IonContent id="content">                      
-                        <IonItem href='/Posts' button={true} routerAnimation>
+                        <IonItem href='/Supplier' button={true} routerAnimation>
                             <IonIcon icon={server} slot="start"></IonIcon>
                             <IonLabel>Supplier</IonLabel>
                         </IonItem>
-                        <IonItem href='/Schedule' button={true} routerAnimation>
+                        <IonItem href='/Commodity' button={true} routerAnimation>
                             <IonIcon icon={albums} slot="start"></IonIcon>
                             <IonLabel>Commodity</IonLabel>
                         </IonItem>
-                        <IonItem  href='/Profile' button={true}>
+                        <IonItem  href='/Distributor' button={true}>
                             <IonIcon icon={cart} slot="start"></IonIcon>
                             <IonLabel>Distributor</IonLabel>
                         </IonItem>    

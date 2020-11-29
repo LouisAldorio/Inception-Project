@@ -27,7 +27,12 @@ function UserLogin(props) {
 
 
             //redirect to home page when success
-            props.props.history.push('/Posts')
+            if(result.data.user.login.user.role === 'Supplier'){
+                props.props.history.push('/Distributor')
+
+            }else{
+                props.props.history.push('/Commodity')
+            }
         },
         onError(err) {
             setError(err.graphQLErrors)

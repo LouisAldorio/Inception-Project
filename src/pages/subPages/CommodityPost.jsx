@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonCard, IonCardContent,IonLabel, IonContent,IonFabButton,IonIcon,IonBackButton, IonCardHeader,IonModal,IonHeader,IonToolbar,IonTitle,IonButtons,IonFab,IonText,IonSlide,IonSlides, IonInfiniteScroll, IonInfiniteScrollContent, IonSpinner, IonItem, IonAvatar, IonRow, IonCol, IonCardTitle } from '@ionic/react'
+import { IonCard, IonCardContent,IonLabel,IonToast, IonContent,IonFabButton,IonIcon,IonBackButton, IonCardHeader,IonModal,IonHeader,IonToolbar,IonTitle,IonButtons,IonFab,IonText,IonSlide,IonSlides, IonInfiniteScroll, IonInfiniteScrollContent, IonSpinner, IonItem, IonAvatar, IonRow, IonCol, IonCardTitle, IonChip } from '@ionic/react'
 import '../../App.css'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
 import ImageZoom from '../../components/PhotoZoom'
-import {add,pricetag,cart,mail,call} from 'ionicons/icons'
+import {add,pricetag,cart,mail,call,personAdd} from 'ionicons/icons'
 
 import Carousel from 'react-material-ui-carousel'
 import Header from '../../components/Header'
@@ -18,6 +18,7 @@ function Posts(props){
 
     const [modalState,setModalState] = useState(false)
     const [searchedItem,setSearchItem] = useState('')
+    const [friendAdded,setFriendAdded] = useState(false)
 
     const items = [
         {
@@ -62,6 +63,10 @@ function Posts(props){
     }
     const TypeSearchWord = (value) => {
         setSearchItem(value)
+    }
+
+    function AddFriend(){
+        setFriendAdded(true)
     }
     
     return (
@@ -124,8 +129,7 @@ function Posts(props){
             
             <IonModal isOpen={modalState} className="Montserrat">
                 <IonHeader translucent>
-                    <IonToolbar color='warning'>
-                        
+                    <IonToolbar color='warning'>                      
                         <IonButtons slot="start">                           
                             <IonBackButton defaultHref="/Posts" onClick={()=> CleanData()} />                           
                         </IonButtons>
@@ -167,7 +171,8 @@ function Posts(props){
                                 <IonAvatar slot="start">
                                     <img src={modalData && modalData.user.userImg} />
                                 </IonAvatar>                               
-                                <h1>{modalData && modalData.user.username}</h1>                               
+                                <h1>{modalData && modalData.user.username}</h1>    
+                                <IonChip slot="end" color="warning" onClick={AddFriend}><IonIcon icon={personAdd}  color="dark"></IonIcon></IonChip>                           
                             </IonItem>
                             <IonItem lines={"none"} >                             
                                 <IonIcon slot="start" icon={mail}></IonIcon>{modalData && modalData.user.email}                           
@@ -184,6 +189,13 @@ function Posts(props){
                 </IonContent>
 
             </IonModal>
+            <IonToast
+                isOpen={friendAdded}
+                onDidDismiss={() => setFriendAdded(false)}
+                message="User Added to Friend List"
+                position="top"
+                duration={800}
+            />
         </React.Fragment>
          
     )
