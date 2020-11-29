@@ -9,6 +9,7 @@ import Profile from './subPages/Profile';
 import CommodityPost from './subPages/CommodityPost';
 import Schedule from './subPages/Schedule';
 import DistributorList from './subPages/DistributorList';
+import SupplierList from './subPages/SupplierList';
 
 
 
@@ -30,7 +31,7 @@ function Home(props) {
                     <Route path="/:tab(Schedule)" component={Schedule} exact />  
                     <Route path="/Commodity" component={CommodityPost} exact />
                     <Route path="/Distributor" component={DistributorList} exact />  
-                    <Route path="/Supplier" component={Profile} exact />  
+                    <Route path="/Supplier" component={SupplierList} exact />  
                 </IonRouterOutlet>
                 
                 <IonTabBar slot="bottom" color='warning'>

@@ -1,15 +1,21 @@
-import { IonAvatar, IonChip, IonContent, IonItem, IonLabel, IonList } from '@ionic/react';
-import React,{useState} from 'react'
-import {IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle} from '@ionic/react'
+import { IonAvatar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
+import React,{useContext, useState} from 'react'
+import {IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle,IonToast} from '@ionic/react'
 
 import '../../App.css'
 import Header from '../../components/Header';
+import ImageZoom from '../../components/PhotoZoom'
+import { personAdd,mail,call,checkmarkCircle } from 'ionicons/icons';
+import { AuthContext } from '../../context/Auth';
 
 function DistributorList(props) {
+
+    const {user} = useContext(AuthContext)
 
     const color = ["tertiary","success","warning","secondary","danger","primary"]
 
     const [modalState,setModalState] = useState(false)
+    const [toast,setToast] = useState(false)
 
     const items = [
         {
@@ -17,21 +23,24 @@ function DistributorList(props) {
             email: "lusiana@gmail.com",
             userImg: "https://images.unsplash.com/photo-1503104834685-7205e8607eb9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8OXx8Z2lybHN8ZW58MHx8MHw%3D&auto=format&fit=crop&w=500&q=60",
             whatsapp_number: "085594947643",
-            looking_for: ["biji besi","beras miskin","Soju","beras merah","susu kedelai","kentang","wortel"]
+            looking_for: ["biji besi","beras miskin","Soju","beras merah","susu kedelai","kentang","wortel"],
+            friend_list: ["louisaldorio"],
         },
         {
             username: "Britney Charvia",
             email: "britneyCharv@gmail.com",
             userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWWLgIQj7fc_3tK3Fa8pd3gnVZ8ySEdCDMFQ&usqp=CAU",
             whatsapp_number: "085594947643",
-            looking_for: ["biji besi","beras miskin"]
+            looking_for: ["biji besi","beras miskin"],
+            friend_list: ["louisaldorio"],
         },
         {
             username: "Carine Wibawa",
             email: "CarineWibawa@gmail.com",
             userImg: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8Z2lybHN8ZW58MHx8MHw%3D&auto=format&fit=crop&w=500&q=60",
             whatsapp_number: "085594947643",
-            looking_for: ["biji besi","beras miskin"]
+            looking_for: ["biji besi","beras miskin"],
+            friend_list: [],
         },
         
     ];
@@ -48,6 +57,10 @@ function DistributorList(props) {
         setModalData(null)
     }
 
+    function AddOrRemoveFriend(){
+        setToast(true)
+    }
+
     return (
         <React.Fragment>
             <Header />
@@ -56,7 +69,9 @@ function DistributorList(props) {
                     onIonScroll={() => {}}
                     onIonScrollEnd={() => {}}
                     className="ion-content-bottom">
-
+                <IonListHeader  lines="inset"> 
+                    <h1>Distributors </h1> 
+                </IonListHeader>
                 <IonList>
                     {items.length > 0 ? items.map((item,i) => (
                         <IonItem key={i} onClick={() => ToggleModal(item)}>
@@ -67,7 +82,7 @@ function DistributorList(props) {
                                 <h2>{item.username}</h2>
                                 <p>
                                     {item.looking_for.length > 0 && item.looking_for.map((lookedItem,i) => (
-                                        <IonChip outline key={i} color={color[i % 6]}>
+                                        <IonChip outline key={i} color={color[i + Math.floor((Math.random() * 600) + 1) % 6]}>
                                             <IonLabel>{lookedItem}</IonLabel>
                                         </IonChip>
                                     ))}
@@ -78,7 +93,7 @@ function DistributorList(props) {
                 </IonList>
 
             </IonContent>
-            <IonModal isOpen={modalState} className="Montserrat">
+            <IonModal isOpen={modalState}>
                 <IonHeader translucent>
                     <IonToolbar color='warning'>                      
                         <IonButtons slot="start">                           
@@ -88,9 +103,49 @@ function DistributorList(props) {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent scrollEvents={true}>
-                    
+                    <IonCard>
+                        {modalData && (
+                            <ImageZoom src={modalData.userImg} width="500px" height="300px"/> 
+                        )}
+                        <IonCardHeader>
+                            <IonCardTitle>
+                                <IonItem>
+                                    {modalData && modalData.username}
+                                    <IonChip onClick={AddOrRemoveFriend} slot="end" color="warning"><IonIcon icon={modalData && (modalData.friend_list.includes(user.Username) ? checkmarkCircle : personAdd)} color="dark"></IonIcon></IonChip>
+                                </IonItem>                               
+                                <IonItem lines={"none"} >                             
+                                    <IonIcon slot="start" icon={mail}></IonIcon>{modalData && modalData.email}                           
+                                </IonItem>
+                                <IonItem lines={"none"}>       
+                                    <IonIcon slot="start" icon={call}></IonIcon>                                                                                       
+                                    {modalData && modalData.whatsapp_number}                        
+                                </IonItem>
+                                <IonItem lines={"none"}>
+                                    <whatsapp-button phone={modalData && modalData.whatsapp_number} dialcode="62" text="hey there lets chat!" label="Chat"></whatsapp-button> 
+                                </IonItem>
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                                <p>
+                                    {modalData && modalData.looking_for.length > 0 && modalData.looking_for.map((lookedItem,i) => (
+                                        <IonChip outline key={i} color={color[i + Math.floor((Math.random() * 600) + 1) % 6]}>
+                                            <IonLabel>{lookedItem}</IonLabel>
+                                        </IonChip>
+                                    ))}
+                                </p>
+                        </IonCardContent>
+                        
+                    </IonCard>
                 </IonContent>              
             </IonModal>
+            <IonToast
+                isOpen={toast}
+                onDidDismiss={() => setToast(false)}
+                message={modalData && (modalData.friend_list.includes(user.Username) ? "User Remove from Friend List" : "User Added to Friend List")}
+                position="top"
+                duration={800}
+            />
         </React.Fragment>
     )
 }

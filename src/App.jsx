@@ -61,7 +61,7 @@ function App() {
       <AuthProvider>
 
       
-        <IonApp>          
+        <IonApp className="Ubuntu">          
           <Header />          
           <IonReactRouter> 
             

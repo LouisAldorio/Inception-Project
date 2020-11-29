@@ -5,7 +5,7 @@ import '../../App.css'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
 import ImageZoom from '../../components/PhotoZoom'
-import {add,pricetag,cart,mail,call,personAdd} from 'ionicons/icons'
+import {add,pricetag,cart,mail,call,personAdd,checkmarkCircle} from 'ionicons/icons'
 
 import Carousel from 'react-material-ui-carousel'
 import Header from '../../components/Header'
@@ -18,7 +18,7 @@ function Posts(props){
 
     const [modalState,setModalState] = useState(false)
     const [searchedItem,setSearchItem] = useState('')
-    const [friendAdded,setFriendAdded] = useState(false)
+    const [toast,setToast] = useState(false)
 
     const items = [
         {
@@ -31,7 +31,8 @@ function Posts(props){
                 userImg: "https://drive.google.com/uc?export=view&id=1Bg1c5HJcIB2CKT17uJ53CWZpNhkYynlV",
                 username: "Louis Aldorio",
                 email:"louisaldorio@gmail.com",
-                WANumber:"082161723455",
+                whatsapp_number:"082161723455",
+                friend_list: ["louisaldorio"],
             }
         },
         {
@@ -44,7 +45,8 @@ function Posts(props){
                 userImg: "https://drive.google.com/uc?export=view&id=1Bg1c5HJcIB2CKT17uJ53CWZpNhkYynlV",
                 username: "Louis Aldorio",
                 email:"louisaldorio@gmail.com",
-                WANumber:"082161723455",
+                whatsapp_number:"082161723455",
+                friend_list: [],
             }
         },
         
@@ -65,8 +67,8 @@ function Posts(props){
         setSearchItem(value)
     }
 
-    function AddFriend(){
-        setFriendAdded(true)
+    function AddOrRemoveFriend(){
+        setToast(true)
     }
     
     return (
@@ -81,7 +83,7 @@ function Posts(props){
                 
                     <div className="commodity-list">
                         {items.length > 0 ? items.map((image, i) => (
-                            <IonCard className="Montserrat" key={i} onClick={() => ToggleModal(image)} >
+                            <IonCard className="Ubuntu" key={i} onClick={() => ToggleModal(image)} >
                                 
                                 <IonItem lines={"none"}>                             
                                     <IonAvatar slot="start">
@@ -119,7 +121,7 @@ function Posts(props){
                         </IonInfiniteScroll>  
                     )}
                 
-                {user.Role == 'Supplier' && <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
+                {user.Role === 'Supplier' && <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
                     <IonFabButton color="warning">
                         <IonIcon icon={add} />
                     </IonFabButton>
@@ -127,13 +129,13 @@ function Posts(props){
                                                  
             </IonContent>   
             
-            <IonModal isOpen={modalState} className="Montserrat">
+            <IonModal isOpen={modalState}>
                 <IonHeader translucent>
                     <IonToolbar color='warning'>                      
                         <IonButtons slot="start">                           
                             <IonBackButton defaultHref="/Posts" onClick={()=> CleanData()} />                           
                         </IonButtons>
-                        <IonTitle>Detail</IonTitle>
+                        <IonTitle>Commodity's Detail</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                            
@@ -172,17 +174,17 @@ function Posts(props){
                                     <img src={modalData && modalData.user.userImg} />
                                 </IonAvatar>                               
                                 <h1>{modalData && modalData.user.username}</h1>    
-                                <IonChip slot="end" color="warning" onClick={AddFriend}><IonIcon icon={personAdd}  color="dark"></IonIcon></IonChip>                           
+                                <IonChip slot="end" color="warning" onClick={AddOrRemoveFriend}><IonIcon icon={modalData && (modalData.user.friend_list.includes(user.Username) ? checkmarkCircle : personAdd)}  color="dark"></IonIcon></IonChip>                           
                             </IonItem>
                             <IonItem lines={"none"} >                             
                                 <IonIcon slot="start" icon={mail}></IonIcon>{modalData && modalData.user.email}                           
                             </IonItem>
                             <IonItem lines={"none"}>       
                                 <IonIcon slot="start" icon={call}></IonIcon>                                                                                       
-                                {modalData && modalData.user.WANumber}                        
+                                {modalData && modalData.user.whatsapp_number}                        
                             </IonItem>
                             <IonItem lines={"none"}>
-                                <whatsapp-button phone={modalData && modalData.user.WANumber} dialcode="62" text="hey there lets chat!" label="Chat"></whatsapp-button> 
+                                <whatsapp-button phone={modalData && modalData.user.whatsapp_number} dialcode="62" text="hey there lets chat!" label="Chat"></whatsapp-button> 
                             </IonItem>
                         </IonCardContent>                     
                     </IonCard>
@@ -190,9 +192,9 @@ function Posts(props){
 
             </IonModal>
             <IonToast
-                isOpen={friendAdded}
-                onDidDismiss={() => setFriendAdded(false)}
-                message="User Added to Friend List"
+                isOpen={toast}
+                onDidDismiss={() => setToast(false)}
+                message={modalData && (modalData.user.friend_list.includes(user.Username) ? "User Remove from Friend List" : "User Added to Friend List")}
                 position="top"
                 duration={800}
             />

@@ -1,6 +1,6 @@
 import { IonContent, IonSpinner,IonGrid,IonRow,IonCol, IonAvatar,IonIcon,IonFabButton,IonFab } from '@ionic/react';
 import {camera,images}  from 'ionicons/icons'
-import React,{useContext, useState} from 'react'
+import React,{useContext, useEffect, useState} from 'react'
 import Header from '../../components/Header';
 import ImageZoom from '../../components/PhotoZoom';
 import { AuthContext } from '../../context/Auth';
@@ -11,16 +11,24 @@ function Profile(props){
 
     const [profilePicture, setProfilePicture] = useState()
     const [UploadProgress,setUploadProgress] = useState(false)
-
     const [selectedImage,setSelectedImage] = useState(null)
+
+    const userFromDatabase = {
+        profilePicture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWWLgIQj7fc_3tK3Fa8pd3gnVZ8ySEdCDMFQ&usqp=CAU"
+    }
+
+    useEffect(() => {
+        if(userFromDatabase) {
+            setProfilePicture(userFromDatabase.profilePicture)
+        }
+    }) 
+
     function fileSelecterHandler(event) {
         setSelectedImage(event.target.files[0])
     }
-
     if(selectedImage) {      
         updateProfilePic(selectedImage)
     }
- 
     function updateProfilePic(selectedImage){
         setUploadProgress(true)
 
@@ -36,7 +44,9 @@ function Profile(props){
 
             var imageData = response.json()
             imageData.then(data => {
-                setProfilePicture(data.ImageURL)              
+                setProfilePicture(data.ImageURL)   
+                //lakukan hit mutaion ke update profile user
+
             })
             setUploadProgress(false)
 
@@ -55,21 +65,21 @@ function Profile(props){
             <IonContent> 
                 <IonGrid>
                     <IonRow>
-                        {profilePicture ? (
-                            <IonCol size="3" offset=''>
+                        {userFromDatabase ? (
+                            <IonCol size="3">
                                 
                                 <IonAvatar className="ion-avatar">
                                     <ImageZoom src={profilePicture} height="70px" width="70px"/> 
-                                    <IonIcon icon={camera} slot="end"></IonIcon> 
                                 </IonAvatar> 
                                                                             
                             </IonCol>                         
                         ) : 
-                        <IonCol size="3" offset=''>
+                        <IonCol size="3">
                             <IonAvatar>
                                  <ImageZoom src={ 'https://cdn2.iconfinder.com/data/icons/user-people-4/48/6-512.png'} />
                             </IonAvatar>
                         </IonCol>  }
+
                     </IonRow>                 
                 </IonGrid> 
                    

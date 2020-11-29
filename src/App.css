@@ -30,10 +30,10 @@
 }
 
 
-:root[mode=ios] .Montserrat,
-:root[mode=md] .Montserrat{
-  --ion-font-family:  'Montserrat'!important;
-  font-family:  'Montserrat' !important;
+:root[mode=ios] .Ubuntu,
+:root[mode=md] .Ubuntu{
+  --ion-font-family:  'Oxygen'!important;
+  font-family:  'Oxygen' !important;
 }
 
 .pagination-spinner {

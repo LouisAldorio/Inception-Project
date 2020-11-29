@@ -95,7 +95,7 @@ function Schedule(props){
                     {items.length > 0 ? items.map((image, i) => (
                         <IonItemSliding key={i}>                                                      
                             <IonItem slots="start" routerAnimation className="post-item" onClick={() => ToggleModal(image)} lines={"none"}>
-                                <IonCard key={i}  className="Montserrat">
+                                <IonCard key={i}  className="Ubuntu">
                                     <IonItem>
                                         <h4>{image.schedule_name}</h4>
                                         <IonAvatar slot="end">
@@ -153,7 +153,7 @@ function Schedule(props){
                 </IonFab>
                                             
             </IonContent> 
-            <IonModal isOpen={modalState} className="Montserrat">
+            <IonModal isOpen={modalState}>
                 <IonHeader translucent>
                     <IonToolbar color='warning'>                      
                         <IonButtons slot="start">                           
