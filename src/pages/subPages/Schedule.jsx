@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonButton, IonContent,IonFab,IonFabButton,IonIcon,IonInfiniteScroll,IonInfiniteScrollContent,IonSpinner, IonCard,IonCardContent,IonCardHeader,IonLabel, IonItem, IonImg,IonItemSliding,IonItemOption,IonItemOptions} from '@ionic/react'
+import { IonAvatar, IonContent,IonFab,IonFabButton,IonIcon,IonInfiniteScroll,IonInfiniteScrollContent,IonSpinner, IonCard,IonCardContent,IonCardHeader,IonLabel, IonItem, IonImg,IonItemSliding,IonItemOption,IonItemOptions} from '@ionic/react'
 import {add} from 'ionicons/icons'
 
 
@@ -17,11 +17,29 @@ function Schedule(props){
     const {user} = useContext(AuthContext)
 
     const items = [
-        {id:"1", src: ['http://placekitten.com/g/300/500','http://placekitten.com/g/500/500'], text: 'a picture of a cat1' },
-        {id:"2", src: ['http://placekitten.com/g/500/500','http://placekitten.com/g/500/500'], text: 'a picture of a cat2' },
-        {id:"3", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat3' },
-        {id:"4", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat4' },
-        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/500'], text: 'a picture of a cat5' },
+        {
+            schedule_name: "Transport beras merah",
+            commodity_name: "Beras Raskin",
+            dealed_unit: "100 kg",
+            start_date: "2020-11-20",
+            end_date: "",
+            day: ["monday","wednesday","friday"],
+            start_time: "08:00",
+            end_time: "10:00",
+            invloved_users: [
+                {
+                    userImg: "https://drive.google.com/uc?export=view&id=1Bg1c5HJcIB2CKT17uJ53CWZpNhkYynlV",
+                    username: "Louis Aldorio",
+                    email:"louisaldorio@gmail.com",
+                    WANumber:"082161723455",
+                },{
+                    userImg: "https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN",
+                    username: "Louis Aldorio",
+                    email:"louisaldorio@gmail.com",
+                    WANumber:"082161723455",
+                }
+            ], 
+        },
     ];
 
 
@@ -35,20 +53,22 @@ function Schedule(props){
                 onIonScrollEnd={() => {}} className='ion-content-bottom'> 
                 <Clock />
 
-                
-
                 <div className="schedule-list">
                     {items.length > 0 ? items.map((image, i) => (
                         <IonItemSliding key={i}>                                                      
-                            <IonItem slots="start" routerAnimation className="post-item" onClick={()=> console.log("clicked")}>
-                                <IonCard key={i}  >
+                            <IonItem slots="start" routerAnimation className="post-item" onClick={()=> console.log("clicked")} lines={"none"}>
+                                <IonCard key={i}  className="Montserrat">
+                                    <IonItem>
+                                        <h4>{image.schedule_name}</h4>
+                                        <IonAvatar slot="end">
+                                            <img src={image.invloved_users[0].userImg} />
+                                        </IonAvatar>
+                                        <IonAvatar slot="end">
+                                            <img src={image.invloved_users[1].userImg} />
+                                        </IonAvatar>
+                                    </IonItem>
                                     <IonCardContent>
-                                        <IonCardHeader>                              
-                                            <img src={image.src[0]} height="250px" width="500px"/>                                                                  
-                                        </IonCardHeader>
-                                        <IonCardContent>
-                                            <IonLabel>{image.text}</IonLabel>
-                                        </IonCardContent>
+                                        
                                     </IonCardContent>                              
                                 </IonCard>                            
                             </IonItem>
@@ -71,10 +91,6 @@ function Schedule(props){
                         <IonIcon icon={add} />
                     </IonFabButton>
                 </IonFab>
-                
-                {/* {<IonInfiniteScroll threshold="100px" id="infinite-scroll">                    
-                    <IonInfiniteScrollContent loadingSpinner="dots"></IonInfiniteScrollContent>
-                </IonInfiniteScroll> }  */}
                                             
             </IonContent> 
             

@@ -1,12 +1,9 @@
-import { IonContent, IonSpinner,IonGrid,IonRow,IonCol, IonAvatar,IonIcon,IonFabButton,IonFab ,IonInfiniteScrollContent,IonInfiniteScroll, IonItem, IonThumbnail} from '@ionic/react';
+import { IonContent, IonSpinner,IonGrid,IonRow,IonCol, IonAvatar,IonIcon,IonFabButton,IonFab } from '@ionic/react';
 import {camera,images}  from 'ionicons/icons'
 import React,{useContext, useState} from 'react'
 import Header from '../../components/Header';
 import ImageZoom from '../../components/PhotoZoom';
 import { AuthContext } from '../../context/Auth';
-
-
-
 
 function Profile(props){
     //in this component run get user detail by username after getting the detail set profile picture menjadi link dari database jika ada
