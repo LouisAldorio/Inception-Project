@@ -11,12 +11,14 @@ import Carousel from 'react-material-ui-carousel'
 import Header from '../../components/Header'
 import SearchBar from '../../components/SearchBar'
 import '@open-wa/whatsapp-button/whatsapp-button.js';
+import CommodityCreate from '../../components/CreateCommodity'
 
 function Posts(props){
 
     const {user} = useContext(AuthContext)
 
     const [modalState,setModalState] = useState(false)
+    const [openCreateForm,setOpenCreateForm] = useState(false)
     const [searchedItem,setSearchItem] = useState('')
     const [toast,setToast] = useState(false)
 
@@ -122,13 +124,15 @@ function Posts(props){
                     )}
                 
                 {user.Role === 'Supplier' && <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
-                    <IonFabButton color="warning">
+                    <IonFabButton color="warning" onClick={() => setOpenCreateForm(true)}>
                         <IonIcon icon={add} />
                     </IonFabButton>
                 </IonFab>}
                                                  
             </IonContent>   
-            
+
+            <CommodityCreate isOpen={openCreateForm} stateHandler={setOpenCreateForm}/>
+
             <IonModal isOpen={modalState}>
                 <IonHeader translucent>
                     <IonToolbar color='warning'>                      

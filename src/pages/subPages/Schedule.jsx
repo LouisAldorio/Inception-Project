@@ -121,10 +121,10 @@ function Schedule(props){
                                                                            
                                         <IonGrid>
                                             <IonRow>
-                                                <IonCol size="8">
+                                                <IonCol size="7">
                                                     Amount: {image.dealed_unit}
                                                 </IonCol>
-                                                <IonCol size="4">
+                                                <IonCol size="5">
                                                     <IonCardSubtitle>{`${image.start_time} - ${image.end_time}`}</IonCardSubtitle>
                                                 </IonCol>
                                             </IonRow>

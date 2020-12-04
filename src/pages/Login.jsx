@@ -24,8 +24,6 @@ function UserLogin(props) {
             console.log(result.data.user.login);
             context.login(result.data.user.login)
 
-
-
             //redirect to home page when success
             if(result.data.user.login.user.role === 'Supplier'){
                 props.props.history.push('/Distributor')
