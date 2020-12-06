@@ -98,3 +98,23 @@ input[type="file"] {
 .gallery {
     position: absolute;
 }
+
+.attachment-group {
+    margin: 5%;
+    border: 1px solid grey;
+    padding: 5px;
+    height: 30%;
+}
+.attachment {
+    display: inline !important;
+    margin: 1%;
+    
+}
+
+.create-post-button{
+    position: absolute;
+    bottom: 2%;
+    left: 2%;
+    width: 75%;
+}
+
