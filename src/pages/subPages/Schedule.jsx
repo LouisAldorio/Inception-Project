@@ -164,8 +164,7 @@ function Schedule(props){
                 </IonHeader>
                 <IonContent scrollEvents={true}>
                     
-                </IonContent>
-                
+                </IonContent>              
             </IonModal>
             
         </React.Fragment>
