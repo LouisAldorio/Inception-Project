@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonAvatar, IonContent,IonFab,IonFabButton,IonIcon, IonCard,IonCardContent,IonLabel, IonItem,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton} from '@ionic/react'
+import { IonAvatar, IonContent,IonFab,IonFabButton,IonIcon,IonCardHeader, IonCard,IonCardContent,IonLabel, IonItem,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton} from '@ionic/react'
 import {add,infiniteOutline} from 'ionicons/icons'
 
 
@@ -10,6 +10,7 @@ import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
 import Header from '../../components/Header'
 import Clock from '../../components/Clock'
+import ImageZoom from '../../components/PhotoZoom'
 
 
 
@@ -71,8 +72,8 @@ function Schedule(props){
 
     const [modalData,setModalData] = useState(null)
 
-    function ToggleModal(image) {
-        setModalData(image)
+    function ToggleModal(data) {
+        setModalData(data)
         setModalState(true)
     }
 
@@ -163,7 +164,56 @@ function Schedule(props){
                     </IonToolbar>
                 </IonHeader>
                 <IonContent scrollEvents={true}>
-                    
+                    <IonCard>
+                        {modalData && (                         
+                            <IonItem lines="full">
+                                <IonAvatar >
+                                    <img src={modalData.invloved_users[0].userImg} />
+                                </IonAvatar>
+                                
+                                <IonLabel>
+                                    <img src={"https://i.pinimg.com/originals/69/94/87/699487bb246152a16ccedd1a18814b4e.gif"} />
+                                </IonLabel>
+                                
+                                <IonAvatar >
+                                    <img src={modalData.invloved_users[1].userImg} />
+                                </IonAvatar>
+                            </IonItem>              
+                        )}
+                        
+                        <IonCardHeader>
+                            <IonCardTitle>{modalData && modalData.schedule_name}</IonCardTitle>
+                            <IonCardSubtitle>{modalData && modalData.commodity_name}</IonCardSubtitle>
+                        </IonCardHeader>
+                        <IonCardContent>
+                            <IonCard>
+                                <IonCardContent>
+                                    <IonGrid>
+                                        <IonRow>
+                                            <IonCol size="7">
+                                                Amount: {modalData && modalData.dealed_unit}
+                                            </IonCol>
+                                            <IonCol size="5">
+                                                <IonCardSubtitle>{`${modalData && modalData.start_time} - ${modalData && modalData.end_time}`}</IonCardSubtitle>
+                                            </IonCol>
+                                        </IonRow>
+                                        <IonRow>
+                                            {modalData && modalData.day.length > 0 && modalData.day.map((day,i) => 
+                                                (
+                                                    <IonChip key={i} color="warning">
+                                                        <IonLabel>{day.charAt(0).toUpperCase() + day.slice(1)}</IonLabel>
+                                                    </IonChip>
+                                            ))}
+                                        </IonRow>
+                                        <IonRow>
+                                        <h2>Start Date : {modalData && modalData.start_date}</h2>
+                                        <h2>End Date  &nbsp;: { modalData && (modalData.end_date === '' ? <>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IonIcon icon={infiniteOutline} slot="end"></IonIcon></> : modalData.end_date)}</h2>
+                                        </IonRow>
+                                    </IonGrid>  
+                                </IonCardContent>
+                            </IonCard>
+                        </IonCardContent>
+                    </IonCard>
                 </IonContent>              
             </IonModal>
             
