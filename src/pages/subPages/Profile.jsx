@@ -1,9 +1,11 @@
-import { IonContent, IonSpinner,IonGrid,IonRow,IonCol, IonAvatar,IonIcon,IonFabButton,IonFab } from '@ionic/react';
-import {camera,images}  from 'ionicons/icons'
+import { IonContent, IonSpinner,IonGrid,IonRow,IonCol, IonAvatar,IonIcon,IonFabButton,IonFab, IonItem } from '@ionic/react';
+import {camera,images,lockOpen,mail,pencil}  from 'ionicons/icons'
 import React,{useContext, useEffect, useState} from 'react'
 import Header from '../../components/Header';
 import ImageZoom from '../../components/PhotoZoom';
 import { AuthContext } from '../../context/Auth';
+import {InputControls} from '../../components/Input'
+import { Mail } from '@material-ui/icons';
 
 function Profile(props){
     //in this component run get user detail by username after getting the detail set profile picture menjadi link dari database jika ada
@@ -13,15 +15,7 @@ function Profile(props){
     const [UploadProgress,setUploadProgress] = useState(false)
     const [selectedImage,setSelectedImage] = useState(null)
 
-    const userFromDatabase = {
-        profilePicture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWWLgIQj7fc_3tK3Fa8pd3gnVZ8ySEdCDMFQ&usqp=CAU"
-    }
 
-    useEffect(() => {
-        if(userFromDatabase) {
-            setProfilePicture(userFromDatabase.profilePicture)
-        }
-    }) 
 
     function fileSelecterHandler(event) {
         setSelectedImage(event.target.files[0])
@@ -63,27 +57,65 @@ function Profile(props){
         <React.Fragment>
             <Header/>
             <IonContent> 
+                <IonItem>
+                    <h1>Profile</h1>
+                </IonItem>
                 <IonGrid>
                     <IonRow>
-                        {userFromDatabase ? (
-                            <IonCol size="3">
-                                
-                                <IonAvatar className="ion-avatar">
-                                    <ImageZoom src={profilePicture} height="70px" width="70px"/> 
-                                </IonAvatar> 
-                                                                            
+                        {profilePicture ? (
+                            <IonCol size="7" offset="3">
+                                <ImageZoom src={profilePicture} height="140" width="160"/>                                        
                             </IonCol>                         
                         ) : 
-                        <IonCol size="3">
-                            <IonAvatar>
-                                 <ImageZoom src={ 'https://cdn2.iconfinder.com/data/icons/user-people-4/48/6-512.png'} />
-                            </IonAvatar>
+                        <IonCol size="7" offset="3">    
+                            <ImageZoom src={ 'https://kertayasa-banjarnegara.desa.id/desa/themes/odc/assets/img/no_person.png'} height="140" width="160" />             
                         </IonCol>  }
 
-                    </IonRow>                 
+                    </IonRow>  
+                    <IonRow>
+                        <IonCol size="9">
+                            <InputControls 
+                                type="email" 
+                                display={ <div><IonIcon icon={mail}> </IonIcon> User's Email</div>}
+                                name="email"  />
+                        </IonCol>
+                        <IonCol size="3">
+                            <IonItem lines={"none"} button>
+                                <IonIcon icon={pencil} slot="end" color="warning"></IonIcon>
+                            </IonItem>                        
+                        </IonCol>
+                    </IonRow>                     
+                    <IonRow>
+                        <IonCol size="9">
+                            <InputControls 
+                                type="number" 
+                                display={ <div><IonIcon icon={mail}> </IonIcon> User's Whatsapp</div>}
+                                name="email"  />
+                        </IonCol>
+                        <IonCol size="3">
+                            <IonItem lines={"none"} button>
+                                <IonIcon icon={pencil} slot="end" color="warning"></IonIcon>
+                            </IonItem>
+                            
+                        </IonCol>
+                    </IonRow> 
+                    <IonRow>
+                        <IonCol size="9">
+                            <InputControls 
+                                type="password" 
+                                display={ <div><IonIcon icon={mail}> </IonIcon> User's Password</div>}
+                                name="email"  />
+                        </IonCol>
+                        <IonCol size="3">
+                            <IonItem lines={"none"} button>
+                                <IonIcon icon={pencil} slot="end" color="warning"></IonIcon>
+                            </IonItem>
+                            
+                        </IonCol>
+                    </IonRow>            
                 </IonGrid> 
                    
-                <IonFab vertical="top" horizontal="end" slot="fixed">
+                <IonFab vertical="bottom" horizontal="end" slot="fixed" edge id="schedule-add" >
                     <IonFabButton  color="warning">{!UploadProgress ? <IonIcon icon={images} className="gallery"></IonIcon> : <IonSpinner className="gallery" color="dark"/>}<input type="file" onChange={fileSelecterHandler} /></IonFabButton>
                 </IonFab> 
                     

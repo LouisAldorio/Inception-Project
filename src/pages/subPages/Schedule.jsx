@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonAvatar, IonContent,IonFab,IonFabButton,IonIcon,IonCardHeader, IonCard,IonCardContent,IonLabel, IonItem,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton} from '@ionic/react'
-import {add,infiniteOutline} from 'ionicons/icons'
+import { IonAvatar,IonPopover, IonContent,IonFab,IonFabButton,IonIcon,IonCardHeader, IonCard,IonCardContent,IonLabel, IonItem,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton, IonList, IonListHeader} from '@ionic/react'
+import {add,infiniteOutline,logoWhatsapp,mail} from 'ionicons/icons'
 
 
 
@@ -19,7 +19,13 @@ function Schedule(props){
     const {user} = useContext(AuthContext)
 
     const [modalState,setModalState] = useState(false)
-    const [value, onChange] = useState(new Date());
+    // const [value, onChange] = useState(new Date());
+
+    const [showPopover, setShowPopover] = useState({
+        open: false,
+        event: undefined,
+        data: undefined,
+      });
 
     const items = [
         {
@@ -39,7 +45,7 @@ function Schedule(props){
                     WANumber:"082161723455",
                 },{
                     userImg: "https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN",
-                    username: "Louis Aldorio",
+                    username: "Felix Yangsen",
                     email:"louisaldorio@gmail.com",
                     WANumber:"082161723455",
                 }
@@ -62,7 +68,7 @@ function Schedule(props){
                     WANumber:"082161723455",
                 },{
                     userImg: "https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN",
-                    username: "Louis Aldorio",
+                    username: "Susi Purnama Syahrir",
                     email:"louisaldorio@gmail.com",
                     WANumber:"082161723455",
                 }
@@ -206,14 +212,47 @@ function Schedule(props){
                                             ))}
                                         </IonRow>
                                         <IonRow>
-                                        <h2>Start Date : {modalData && modalData.start_date}</h2>
-                                        <h2>End Date  &nbsp;: { modalData && (modalData.end_date === '' ? <>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IonIcon icon={infiniteOutline} slot="end"></IonIcon></> : modalData.end_date)}</h2>
+                                            <h2>Start Date : {modalData && modalData.start_date}</h2>
+                                            <h2>End Date  &nbsp;: { modalData && (modalData.end_date === '' ? <>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IonIcon icon={infiniteOutline} slot="end"></IonIcon></> : modalData.end_date)}</h2>
                                         </IonRow>
                                     </IonGrid>  
                                 </IonCardContent>
                             </IonCard>
+                            <IonCardHeader> 
+                                <IonPopover 
+                                isOpen={showPopover.open}
+                                event={showPopover.event}                           
+                                onDidDismiss={e => setShowPopover({open: false, event: undefined})}>
+                                <IonList>
+                                    <IonListHeader>User's Profile</IonListHeader>
+                                    <IonItem>
+                                        <IonAvatar slot="start">
+                                            <img src={showPopover.data && showPopover.data.userImg} alt=""/>
+                                        </IonAvatar>
+                                        <IonLabel> {showPopover.data && showPopover.data.username}</IonLabel>
+                                    </IonItem>
+                                    <IonItem button><IonIcon icon={mail} slot="end"></IonIcon>{showPopover.data && showPopover.data.email}</IonItem>
+                                    <IonItem button href={`//api.whatsapp.com/send?phone=62${showPopover.data && showPopover.data.WANumber}&text=Hello`}><IonIcon icon={logoWhatsapp} slot="start"></IonIcon>{showPopover.data && showPopover.data.WANumber}</IonItem>
+                                </IonList>
+                            </IonPopover>
+                                <IonChip onClick={e => setShowPopover({open: true, event: e.nativeEvent,data: modalData.invloved_users[0]})}>
+                                    <IonAvatar>
+                                        <img src={modalData && modalData.invloved_users[0].userImg} alt=""/>
+                                    </IonAvatar>
+                                    <IonLabel>{modalData && modalData.invloved_users[0].username}</IonLabel>
+                                </IonChip>
+                                <IonChip onClick={e => setShowPopover({open: true, event: e.nativeEvent,data:modalData.invloved_users[1]})}>
+                                    <IonAvatar>
+                                        <img src={modalData && modalData.invloved_users[1].userImg} alt=""/>                   
+                                    </IonAvatar>
+                                    <IonLabel>{modalData && modalData.invloved_users[1].username}</IonLabel>
+                                </IonChip>                       
+                            </IonCardHeader>
                         </IonCardContent>
+                       
+                        
                     </IonCard>
+                    
                 </IonContent>              
             </IonModal>
             
