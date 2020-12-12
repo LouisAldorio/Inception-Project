@@ -11,6 +11,7 @@ import { AuthContext } from '../../context/Auth'
 import Header from '../../components/Header'
 import Clock from '../../components/Clock'
 import ImageZoom from '../../components/PhotoZoom'
+import SchedulePost from '../../components/CreateSchedule'
 
 
 
@@ -19,7 +20,7 @@ function Schedule(props){
     const {user} = useContext(AuthContext)
 
     const [modalState,setModalState] = useState(false)
-    // const [value, onChange] = useState(new Date());
+    const [openCreateForm, setOpenCreateForm] = useState(false)
 
     const [showPopover, setShowPopover] = useState({
         open: false,
@@ -154,7 +155,7 @@ function Schedule(props){
                 
 
                 <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
-                    <IonFabButton color="warning">
+                    <IonFabButton color="warning" onClick={() => setOpenCreateForm(true)}>
                         <IonIcon icon={add} />
                     </IonFabButton>
                 </IonFab>
@@ -249,13 +250,12 @@ function Schedule(props){
                                 </IonChip>                       
                             </IonCardHeader>
                         </IonCardContent>
-                       
-                        
-                    </IonCard>
-                    
+                    </IonCard>          
                 </IonContent>              
             </IonModal>
-            
+
+            {/* below is modal for creating schedule */}
+            <SchedulePost isOpen={openCreateForm} stateHandler={setOpenCreateForm}/>
         </React.Fragment>
          
     )

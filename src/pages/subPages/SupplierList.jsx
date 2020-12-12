@@ -30,15 +30,15 @@ function SupplierList(props) {
                 {
                     src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
                     commodityName:"Beras Raskin",
-                    minPurchase: "100 kg",
+                    minPurchase: "50 kg",
                     unitPrice: "100.000", 
                     ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." , 
                 },
                 {
                     src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                    commodityName:"Beras Merah",
+                    commodityName:"Gula Merah",
                     minPurchase: "100 kg",
-                    unitPrice: "100.000", 
+                    unitPrice: "150.000", 
                     ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
                 },
             ],
