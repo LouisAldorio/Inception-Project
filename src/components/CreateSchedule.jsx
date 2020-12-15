@@ -62,7 +62,15 @@ function SchedulePost(props){
                 userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWWLgIQj7fc_3tK3Fa8pd3gnVZ8ySEdCDMFQ&usqp=CAU",
                 whatsapp_number: "085594947643",
                 friend_list: ["louisaldorio"],
-                products: [],
+                products: [
+                    {
+                        src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
+                        commodityName:"Susu Kedele",
+                        minPurchase: "20 kg",
+                        unitPrice: "350.000", 
+                        ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
+                    },
+                ],
             },
         ],
     }
