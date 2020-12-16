@@ -1,7 +1,7 @@
 import React, { useRef, useState,useEffect } from 'react'
 import {useQuery} from '@apollo/client'
 import { IonAvatar,IonPopover, IonContent,IonFab,IonFabButton,IonIcon,IonCardHeader, IonCard,IonCardContent,IonLabel, IonItem,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton, IonList, IonListHeader} from '@ionic/react'
-import {add,infiniteOutline,logoWhatsapp,mail,arrowBack,chevronBack,trashBin} from 'ionicons/icons'
+import {add,infiniteOutline,logoWhatsapp,mail,arrowBack,chevronBack,trashBin,closeCircleOutline} from 'ionicons/icons'
 
 
 
@@ -174,8 +174,8 @@ function Schedule(props){
                         
                             {user && (
                                 <IonItemOptions side="end" > 
-                                    <IonItemOption  color="danger" onClick={() => openDeleteButton(i)}><IonIcon className="delete-button" icon={trashBin}></IonIcon></IonItemOption>
-                                    <IonItemOption  color="dark" onClick={() => openDeleteButton(i)}>Close</IonItemOption>
+                                    <IonItemOption  color="danger" onClick={() => openDeleteButton(i)}>DELETE</IonItemOption>
+                                    <IonItemOption  color="medium" onClick={() => openDeleteButton(i)}>CANCEL</IonItemOption>
                                 </IonItemOptions>
                             )}
                             
