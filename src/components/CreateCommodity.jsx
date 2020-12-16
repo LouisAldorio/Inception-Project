@@ -22,18 +22,18 @@ function CommodityCreate(props) {
         unit_price: 0,
         min_purchase: '',
         unit_type: '',
-        description: ''
+        description: '',
     })
 
     function loginUser() {
         clearError()
+        console.log('submitted')
         // LoginUser()
     }
 
     const clearError = () => {
         setError({})
     }
-
 
     //clean inputed data when user click back
     function EmptyImageContainer(){
@@ -68,7 +68,7 @@ function CommodityCreate(props) {
 
                 setUploadedImages([...uploadedImages,data.ImageURL])
                 //lakukan hit mutation ke update profile user
-
+                
             })
             setUploadProgress(false)
 
@@ -78,9 +78,8 @@ function CommodityCreate(props) {
 
         //set photos jadi kosong lg untuk menghindari re-render yang cukup banyak
         setSelectedImage(null)
-
+        
     }
-
 
     return (
         <React.Fragment>
@@ -119,6 +118,7 @@ function CommodityCreate(props) {
                             value={values.description}
                     />
                     <UnitTypeInput unit_type={unit_type} onSelectValue={selectCalcUnitHandler} name="unit_type" onChange={onChange} value={values.unit_type}/> 
+
                     <IonItemGroup className="attachment-group">                 
                         {uploadedImages.length > 0 && uploadedImages.map((image, i) => (                        
                                 <IonAvatar className="attachment ion-avatar" key={i}>
@@ -126,12 +126,17 @@ function CommodityCreate(props) {
                                 </IonAvatar>                         
                         ))}                              
                     </IonItemGroup>
+
                     <IonButton                    
                         expand="block"  
                         color="warning"                     
                         className="create-post-button" 
                         router-direction="forward" routerAnimation 
-                        onIonFocus={onSubmit}><IonIcon slot="start" icon={bagAdd} />Create Post</IonButton>
+                        onClick={(e) => {
+                            onSubmit(e,uploadedImages)
+                        }}><IonIcon slot="start" icon={bagAdd} />Create Post
+                    </IonButton>
+
                     <IonFab vertical="bottom" horizontal="end" slot="fixed">
                             <IonFabButton color="warning" disabled={uploadedImages.length === 8 ? true : false}>{!UploadProgress ? <IonIcon icon={images} className="gallery"></IonIcon> : <IonSpinner className="gallery" color="dark" />}<input type="file" onChange={fileSelecterHandler} /></IonFabButton>
                         </IonFab>

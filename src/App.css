@@ -118,3 +118,7 @@ input[type="file"] {
     width: 75%;
 }
 
+.delete-button {
+    font-size: large;
+}
+

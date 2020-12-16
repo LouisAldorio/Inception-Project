@@ -54,6 +54,13 @@ function SchedulePost(props){
                         unitPrice: "150.000", 
                         ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
                     },
+                    {
+                        src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
+                        commodityName:"Semen tiga roda",
+                        minPurchase: "100 kg",
+                        unitPrice: "150.000", 
+                        ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
+                    },
                 ],
             },
             {
@@ -65,7 +72,14 @@ function SchedulePost(props){
                 products: [
                     {
                         src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                        commodityName:"Susu Kedele",
+                        commodityName:"Keju Prancis",
+                        minPurchase: "20 kg",
+                        unitPrice: "350.000", 
+                        ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
+                    },
+                    {
+                        src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
+                        commodityName:"Soda Api",
                         minPurchase: "20 kg",
                         unitPrice: "350.000", 
                         ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,

@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {IonButton,IonPicker} from '@ionic/react'
+import {IonButton,IonItem,IonLabel,IonPicker} from '@ionic/react'
 
 function DistributorScheduleView(props){
 
@@ -49,50 +49,57 @@ function DistributorScheduleView(props){
 
     return (
         <React.Fragment>
-            <IonButton color="warning" onClick={() => {setFriendPicker(true)}}>{!chosenFriend ? 'Pick Friend' : (chosenFriend && chosenFriend.pickedFriend.value) }</IonButton>
-            <IonPicker
-                isOpen={friendPicker}
-                columns={[friends()]}
-                buttons={[
-                    {
-                        text: "Cancel",
-                        handler: () => {
-                            setFriendPicker(false)
+            <IonItem>
+                <IonLabel color="medium">Choose Friend To Trade</IonLabel>
+                <IonButton color="warning" onClick={() => {setFriendPicker(true)}}>{!chosenFriend ? 'Pick Friend' : (chosenFriend && chosenFriend.pickedFriend.value) }</IonButton>
+                <IonPicker
+                    isOpen={friendPicker}
+                    columns={[friends()]}
+                    buttons={[
+                        {
+                            text: "Cancel",
+                            handler: () => {
+                                setFriendPicker(false)
+                            }
+                        },
+                        {
+                            text: "Confirm",
+                            handler: user => {
+                                setChosenFriend(user)
+                                setFriendPicker(false)
+                                setChosenCommodity()
+                            }
                         }
-                    },
-                    {
-                        text: "Confirm",
-                        handler: user => {
-                            setChosenFriend(user)
-                            setFriendPicker(false)
-                            setChosenCommodity()
+                    ]}
+                ></IonPicker>
+            </IonItem>
+           
+            <IonItem>
+                <IonLabel color="medium">Choose Commodity </IonLabel>
+                <IonButton color="warning" onClick={() => {setCommodityPicker(true)}}>{!chosenCommodity || !chosenFriend ? 'Pick Commodity' : ( chosenFriend && chosenCommodity && chosenCommodity.pickedCommodity.value)}</IonButton>
+                <IonPicker
+                    isOpen={commodityPicker}
+                    columns={[products()]}
+                    buttons={[
+                        {
+                            text: "Cancel",
+                            handler: () => {
+                                setCommodityPicker(false)
+                            }
+                        },
+                        {
+                            text: "Confirm",
+                            handler: commodity => {
+                                if(commodity){
+                                    setChosenCommodity(commodity)
+                                }                         
+                                setCommodityPicker(false)
+                            }
                         }
-                    }
-                ]}
-            ></IonPicker>
-
-            <IonButton color="warning" onClick={() => {setCommodityPicker(true)}}>{!chosenCommodity || !chosenFriend ? 'Pick Commodity' : ( chosenFriend && chosenCommodity && chosenCommodity.pickedCommodity.value)}</IonButton>
-            <IonPicker
-                isOpen={commodityPicker}
-                columns={[products()]}
-                buttons={[
-                    {
-                        text: "Cancel",
-                        handler: () => {
-                            setCommodityPicker(false)
-                        }
-                    },
-                    {
-                        text: "Confirm",
-                        handler: commodity => {
-                            if(commodity){
-                                setChosenCommodity(commodity)
-                            }                         
-                            setCommodityPicker(false)
-                        }
-                    }
-                ]}
-            ></IonPicker>
+                    ]}
+                ></IonPicker>
+            </IonItem>
+           
            
         </React.Fragment>
     )
