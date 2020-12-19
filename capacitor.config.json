@@ -1,6 +1,6 @@
 {
-    "appId": "io.ionic.test1",
-    "appName": "test1",
+    "appId": "io.ionic.WholeSalerBeta",
+    "appName": "WholeSalerBeta",
     "bundledWebRuntime": false,
     "npmClient": "npm",
     "webDir": "build",
