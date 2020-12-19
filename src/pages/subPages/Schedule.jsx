@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState,useEffect } from 'react'
 import {useQuery} from '@apollo/client'
 import { IonAvatar,IonPopover, IonContent,IonFab,IonFabButton,IonIcon,IonCardHeader, IonCard,IonCardContent,IonLabel, IonItem,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton, IonList, IonListHeader} from '@ionic/react'
-import {add,infiniteOutline,logoWhatsapp,mail} from 'ionicons/icons'
+import {add,infiniteOutline,logoWhatsapp,mail,arrowBack,chevronBack,trashBin,closeCircleOutline} from 'ionicons/icons'
 
 
 
@@ -21,7 +21,11 @@ function Schedule(props){
 
     const [modalState,setModalState] = useState(false)
     const [openCreateForm, setOpenCreateForm] = useState(false)
+    const deleteButtonRef = useRef([])
 
+    // Data is empty before fetching
+    const [data, setData] = useState([]);
+    
     const [showPopover, setShowPopover] = useState({
         open: false,
         event: undefined,
@@ -76,6 +80,20 @@ function Schedule(props){
             ], 
         },
     ];
+    useEffect( () => {
+    
+        // We will fetch data and receive an array
+        // let data = fetchData();
+        // To simplify, let's suppose that the array is:
+        let data = items
+        
+        // We define the size of array after receiving the data
+        deleteButtonRef.current = new Array(data.length);
+        
+        // We set state
+        setData(data);
+    
+    }, [])
 
     const [modalData,setModalData] = useState(null)
 
@@ -89,6 +107,17 @@ function Schedule(props){
         setModalData(null)
     }
 
+    //delete button
+    function openDeleteButton(i){
+        deleteButtonRef.current[i].getSlidingRatio().then(number => {
+            console.log(number)
+            if(number > 0){
+                deleteButtonRef.current[i].close()
+            }else{
+                deleteButtonRef.current[i].open()
+            }         
+        })  
+    }
 
     return (
         <React.Fragment> 
@@ -101,10 +130,12 @@ function Schedule(props){
 
                 <div className="schedule-list">
                     {items.length > 0 ? items.map((image, i) => (
-                        <IonItemSliding key={i}>                                                      
-                            <IonItem slots="start" routerAnimation className="post-item" onClick={() => ToggleModal(image)} lines={"none"}>
-                                <IonCard key={i}  className="Ubuntu">
-                                    <IonItem>
+                        <IonItemSliding key={i} ref={el => deleteButtonRef.current[i] = el}> 
+                                                                                 
+                            <IonItem slots="start" routerAnimation className="post-item"  lines={"none"} >
+                                <IonIcon icon={chevronBack} slot="end" color="medium" onClick={() => openDeleteButton(i)}></IonIcon>
+                                <IonCard key={i}  className="Ubuntu" onClick={() => ToggleModal(image)}>
+                                    <IonItem >
                                         <h4>{image.schedule_name}</h4>
                                         <IonAvatar slot="end">
                                             <img src={image.invloved_users[0].userImg} />
@@ -142,8 +173,9 @@ function Schedule(props){
                             </IonItem>
                         
                             {user && (
-                                <IonItemOptions side="end">
-                                    <IonItemOption color="danger" onClick={() => console.log('share clicked')}>Delete</IonItemOption>
+                                <IonItemOptions side="end" > 
+                                    <IonItemOption  color="danger" onClick={() => openDeleteButton(i)}>DELETE</IonItemOption>
+                                    <IonItemOption  color="medium" onClick={() => openDeleteButton(i)}>CANCEL</IonItemOption>
                                 </IonItemOptions>
                             )}
                             
