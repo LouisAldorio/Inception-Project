@@ -24,6 +24,7 @@ function DistributorScheduleView(props){
 
     const [commodityPicker,setCommodityPicker] = useState(false)
     const [chosenCommodity,setChosenCommodity] = useState()
+    
 
     const products = () => {
         let Options = []
