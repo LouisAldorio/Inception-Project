@@ -122,3 +122,7 @@ input[type="file"] {
     font-size: 60px;
 }
 
+.schedule-content {
+    height: 50%;
+}
+

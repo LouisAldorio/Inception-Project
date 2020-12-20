@@ -1,12 +1,35 @@
 import React,{useState} from 'react'
-import {IonButton,IonItem,IonLabel,IonPicker} from '@ionic/react'
+import {IonButton,IonItem,IonLabel,IonPicker,IonDatetime, IonContent, IonChip, IonCard, IonIcon} from '@ionic/react'
+import moment from 'moment'
+import {InputTextArea} from '../components/Input'
+import {home} from 'ionicons/icons'
+
 
 function DistributorScheduleView(props){
 
     const user = props.data
 
+    const date = new Date()
+    const formattedDate = moment(date).format('D MMMM YYYY')
+
+    const MaxAllowedStartDate = (date.getTime() + (1000*24*60*60*1000))
+    const formattedMaxAllowedStartDate = moment(MaxAllowedStartDate).format('YYYY-MM-DD')
+
+    const MaxAllowedEndDate = (date.getTime() + (1001*24*60*60*1000))
+    const formattedMaxAllowedEndDate = moment(MaxAllowedEndDate).format('YYYY-MM-DD') 
+
+    const DayOfWeek =["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
     const [friendPicker,setFriendPicker] = useState(false)
     const [chosenFriend,setChosenFriend] = useState()
+    const [selectedStartDate,setSelectedStartDate] = useState(formattedDate)
+    const [selectedEndDate,setSelectedEndDate] = useState(moment(date.getTime() + (1*24*60*60*1000)).format('D MMMM YYYY'))
+    const [chosenDays,setChosenDays] = useState([])
+    const [deliveryTime,setDeliveryTime] = useState({
+        start: "00:00:00",
+        end: "00:00:00"
+    })
+    
 
     const friends = () => {
         let Options = []
@@ -50,10 +73,11 @@ function DistributorScheduleView(props){
 
     return (
         <React.Fragment>
-            <IonItem>
+            <IonItem >
                 <IonLabel color="medium">Choose Friend To Trade</IonLabel>
                 <IonButton color="warning" onClick={() => {setFriendPicker(true)}}>{!chosenFriend ? 'Pick Friend' : (chosenFriend && chosenFriend.pickedFriend.value) }</IonButton>
                 <IonPicker
+                    name="friend"
                     isOpen={friendPicker}
                     columns={[friends()]}
                     buttons={[
@@ -66,7 +90,7 @@ function DistributorScheduleView(props){
                         {
                             text: "Confirm",
                             handler: user => {
-                                setChosenFriend(user)
+                                setChosenFriend(user)                              
                                 setFriendPicker(false)
                                 setChosenCommodity()
                             }
@@ -80,6 +104,7 @@ function DistributorScheduleView(props){
                 <IonButton color="warning" onClick={() => {setCommodityPicker(true)}}>{!chosenCommodity || !chosenFriend ? 'Pick Commodity' : ( chosenFriend && chosenCommodity && chosenCommodity.pickedCommodity.value)}</IonButton>
                 <IonPicker
                     isOpen={commodityPicker}
+                    name="commodity"
                     columns={[products()]}
                     buttons={[
                         {
@@ -100,8 +125,78 @@ function DistributorScheduleView(props){
                     ]}
                 ></IonPicker>
             </IonItem>
+                
+            <IonItem >
+                <IonLabel color="medium">Start Date </IonLabel>
+                <IonDatetime 
+                    name="start_date"
+                    min={moment(date).format('YYYY-MM-DD')}
+                    max={formattedMaxAllowedStartDate} 
+                    displayFormat="DDDD, MMMM DD, YYYY" 
+                    placeholder="Select Date" value={selectedStartDate} 
+                    onIonChange={e => setSelectedStartDate(e.detail.value)}></IonDatetime>
+            </IonItem>
+
+            <IonItem>
+                <IonLabel color="medium">End Date </IonLabel>
+                <IonDatetime 
+                    name="end_date"
+                    min={moment(date.getTime() + (1*24*60*60*1000)).format('YYYY-MM-DD')}
+                    max={formattedMaxAllowedEndDate} 
+                    displayFormat="DDDD, MMMM DD, YYYY" 
+                    placeholder="Select Date" value={selectedEndDate} 
+                    onIonChange={e => setSelectedEndDate(e.detail.value)}></IonDatetime>
+            </IonItem>
+
            
-           
+            <IonContent className="ion-padding schedule-content"> 
+                <IonLabel color="medium">Select Days Of Week </IonLabel>
+                <IonCard className="ion-padding">
+                    {
+                        DayOfWeek.map((day,index) => (
+                            <IonChip color={chosenDays.includes(day) ? "primary" : "warning"} key={index} onClick={() => {
+                                    if(chosenDays.includes(day) === false){
+                                        setChosenDays([...chosenDays,day])
+                                    }else{
+                                        let filtered = chosenDays.filter(function(item) {
+                                            return item !== day
+                                        })
+                                        setChosenDays(filtered)
+                                    }                              
+                                }}>
+                                <IonLabel>{day}</IonLabel>
+                            </IonChip>
+                        ))
+                    }
+                </IonCard>
+                <IonItem>
+                    <IonLabel color="medium" >Delivery Start Time </IonLabel>
+                    <IonDatetime
+                        displayFormat="HH:mm:ss"
+                        value={deliveryTime.start}
+                        onIonChange={e => setDeliveryTime(prevState => ({
+                            ...prevState,
+                            start: e.detail.value
+                        }))}
+                    ></IonDatetime>
+                </IonItem>
+                <IonItem>
+                    <IonLabel color="medium">Delivery End Time </IonLabel>
+                    <IonDatetime
+                        displayFormat="HH:mm:ss"
+                        value={deliveryTime.end}
+                        onIonChange={e => setDeliveryTime(prevState => ({
+                            ...prevState,
+                            end: e.detail.value
+                        }))}
+                    ></IonDatetime>
+                </IonItem>
+            </IonContent>
+            <IonButton
+                className="ion-margin"
+                expand="block"
+                color="warning"
+            >Create Schedule</IonButton>
         </React.Fragment>
     )
 }

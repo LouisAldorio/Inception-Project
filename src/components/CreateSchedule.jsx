@@ -120,7 +120,7 @@ function SchedulePost(props){
                     </IonToolbar>
                 </IonHeader>
 
-                <IonContent scrollEvents={true}>
+                <IonContent>
                     {OutCome}
                 </IonContent>
             </IonModal>
