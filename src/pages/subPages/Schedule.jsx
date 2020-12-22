@@ -108,9 +108,9 @@ function Schedule(props){
     }
 
     //delete button
-    function openDeleteButton(i){
+    function toggleDeleteButton(i){
         deleteButtonRef.current[i].getSlidingRatio().then(number => {
-            console.log(number)
+            
             if(number > 0){
                 deleteButtonRef.current[i].close()
             }else{
@@ -133,7 +133,7 @@ function Schedule(props){
                         <IonItemSliding key={i} ref={el => deleteButtonRef.current[i] = el}> 
                                                                                  
                             <IonItem slots="start" routerAnimation className="post-item"  lines={"none"} >
-                                <IonIcon icon={chevronBack} slot="end" color="medium" onClick={() => openDeleteButton(i)}></IonIcon>
+                                <IonIcon icon={chevronBack} slot="end" color="medium" onClick={() => toggleDeleteButton(i)}></IonIcon>
                                 <IonCard key={i}  className="Ubuntu" onClick={() => ToggleModal(image)}>
                                     <IonItem >
                                         <h4>{image.schedule_name}</h4>
@@ -174,8 +174,9 @@ function Schedule(props){
                         
                             {user && (
                                 <IonItemOptions side="end" > 
-                                    <IonItemOption  color="danger" onClick={() => openDeleteButton(i)}>DELETE</IonItemOption>
-                                    <IonItemOption  color="medium" onClick={() => openDeleteButton(i)}>CANCEL</IonItemOption>
+                                    <IonItemOption  color="warning" onClick={() => toggleDeleteButton(i)}>UPDATE</IonItemOption>
+                                    <IonItemOption  color="danger" onClick={() => toggleDeleteButton(i)}>DELETE</IonItemOption>
+                                    <IonItemOption  color="medium" onClick={() => toggleDeleteButton(i)}>CANCEL</IonItemOption>
                                 </IonItemOptions>
                             )}
                             

@@ -68,7 +68,7 @@ function Profile(props){
                             </IonCol>                         
                         ) : 
                         <IonCol size="7" offset="3">    
-                            <ImageZoom src={ 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg3tr9uzXD_2mogufMQ_kJ0zvMWdpa9V-ZmQ&usqp=CAU'} height="140" width="160" />             
+                            <ImageZoom src={ 'https://www.baytekent.com/wp-content/uploads/2016/12/facebook-default-no-profile-pic1.jpg'} height="140" width="160" />             
                         </IonCol>  }
 
                     </IonRow>  
