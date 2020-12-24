@@ -29,12 +29,19 @@ function UserRegister(props) {
 
     const [addUser,{loading}] = useMutation(REGISTER_USER, {
         update(_, result) {
-            // context.login(result.data.register)
-            console.log(result.data.user.register);
+            console.log(result)
+            context.login(result.data.user.register)
+            
             console.log("aaa")
 
+
             //redirect to home page when success
-            // props.props.history.push("/Posts")
+            if(values.role === 'Supplier'){
+                props.props.history.push('/Distributor')
+
+            }else{
+                props.props.history.push('/Commodity')
+            }
         },
         onError(err){
             console.log(err.graphQLErrors);
@@ -163,7 +170,8 @@ const REGISTER_USER = gql`
         $email: String!
         $password: String!
         $confirm_password: String!
-        $role: String!      
+        $role: String!  
+        $wa_number: String!    
     ){
         user{
             register(
@@ -173,8 +181,18 @@ const REGISTER_USER = gql`
                     password: $password
                     confirm_password: $confirm_password
                     role: $role
+                    whatsapp_number: $wa_number
                 }
-            )
+            ){
+                access_token
+                user{
+                    username
+                    email
+                    role
+                    whatsapp_number
+                    hashed_password
+                }
+            }
         }
     }
 `

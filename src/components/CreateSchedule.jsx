@@ -1,12 +1,12 @@
 import { IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle, IonContent, IonPicker,IonButton } from '@ionic/react'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../context/Auth'
 import DistributorScheduleView from './DistributorSchedule'
+import SupplierScheduleView from './SupplierSchedule'
 
 
 function SchedulePost(props){
-    const user = {
-        role: "Distributor"
-    }
+    const {user} = useContext(AuthContext)
     const userSupllier = {
         username: "Lusiana",
         email: "lusiana@gmail.com",
@@ -96,15 +96,14 @@ function SchedulePost(props){
     // Determine what is the user role, (conditional rendering)
     
     let OutCome;
-    if(user.role === 'Distributor'){
+    console.log(user)
+    if(user.Role === 'Distributor'){
         OutCome = (
             <DistributorScheduleView data={userDistributor}/>
         )
-    }else if(user.role === 'Supplier'){
+    }else if(user.Role === 'Supplier'){
         OutCome = (
-            <IonPicker>
-
-            </IonPicker>
+            <SupplierScheduleView data={userSupllier} />
         )
     }
 

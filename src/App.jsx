@@ -32,8 +32,9 @@ import '@ionic/react/css/display.css';
 import './App.css';
 import { IonReactRouter } from '@ionic/react-router';
 
+//https://safe-forest-36324.herokuapp.com/graphql
 const httpLink = createHttpLink({
-  uri: 'https://safe-forest-36324.herokuapp.com/graphql',
+  uri: 'http://localhost:8085/graphql',
 })
 
 const authLink = setContext(() => {

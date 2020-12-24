@@ -75,7 +75,7 @@ function DistributorScheduleView(props){
         <React.Fragment>
             <IonItem >
                 <IonLabel color="medium">Choose Friend To Trade</IonLabel>
-                <IonButton color="warning" onClick={() => {setFriendPicker(true)}}>{!chosenFriend ? 'Pick Friend' : (chosenFriend && chosenFriend.pickedFriend.value) }</IonButton>
+                <IonButton color="warning" onClick={() => {setFriendPicker(true)}}>{!chosenFriend ? 'Pick' : (chosenFriend && chosenFriend.pickedFriend.value) }</IonButton>
                 <IonPicker
                     name="friend"
                     isOpen={friendPicker}
@@ -101,7 +101,7 @@ function DistributorScheduleView(props){
            
             <IonItem>
                 <IonLabel color="medium">Choose Commodity </IonLabel>
-                <IonButton color="warning" onClick={() => {setCommodityPicker(true)}}>{!chosenCommodity || !chosenFriend ? 'Pick Commodity' : ( chosenFriend && chosenCommodity && chosenCommodity.pickedCommodity.value)}</IonButton>
+                <IonButton color="warning" onClick={() => {setCommodityPicker(true)}}>{!chosenCommodity || !chosenFriend ? 'Pick' : ( chosenFriend && chosenCommodity && chosenCommodity.pickedCommodity.value)}</IonButton>
                 <IonPicker
                     isOpen={commodityPicker}
                     name="commodity"

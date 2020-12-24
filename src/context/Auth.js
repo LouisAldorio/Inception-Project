@@ -24,11 +24,13 @@ const AuthContext = createContext({
 })
 
 function authReducer(state,action) {
+    console.log(action.payload)
     switch(action.type){
         case 'LOGIN':
+            const decodedToken = jwtDecode(action.payload.access_token)
             return {
                 ...state,
-                user: action.payload
+                user: decodedToken
             }
         case 'LOGOUT':
             return {
