@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { IonCard, IonCardContent, IonLabel, IonToast, IonContent, IonFabButton, IonIcon, IonBackButton, IonCardHeader, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonFab, IonText, IonSlide, IonSlides, IonInfiniteScroll, IonInfiniteScrollContent, IonSpinner, IonItem, IonAvatar, IonRow, IonCol, IonCardTitle, IonChip } from '@ionic/react'
 import '../../App.css'
@@ -24,13 +24,18 @@ function Posts(props) {
     const [toast, setToast] = useState(false)
 
     //query to API
-    let items;
-    const {loading,data} = useQuery(FETCH_COMMODITY_QUERY)
-    console.log(data)
-    if(data){
-
-        items = data.comodities.nodes
-    }
+    
+    const [items,setItems] = useState([])
+    const {loading,data,fetchMore} = useQuery(FETCH_COMMODITY_QUERY,{
+        onCompleted: () => {
+            setItems([...items,...data.comodities.nodes])
+        },
+        variables: {
+          page: 1,
+          limit: 3
+        }
+    })
+    
 
     const [modalData, setModalData] = useState(null)
 
@@ -51,6 +56,7 @@ function Posts(props) {
     function AddOrRemoveFriend() {
         setToast(true)
     }
+    console.log(items)
 
     return (
         <React.Fragment>
@@ -58,7 +64,18 @@ function Posts(props) {
             <IonContent scrollEvents={true}
                 onIonScrollStart={() => { }}
                 onIonScroll={() => { }}
-                onIonScrollEnd={() => { }}
+                onIonScrollEnd={() => { 
+                    if(data.comodities.total_item > items.length){
+                        fetchMore({
+                            variables: {
+                                page: (items.length/3)+1,
+                                limit: 3
+                              }
+                        }).then(result => {
+                            setItems([...items,...result.data.comodities.nodes])                                               
+                        })
+                    }    
+                }}
                 className="ion-content-bottom">
 
                 {loading ? (<IonSpinner color="warning"></IonSpinner>) : (
@@ -98,7 +115,7 @@ function Posts(props) {
                             )) : <img id="photo-fullscreen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Tl87UxYtH39b-RUyxSB2SrtNkPZB_55dtw&usqp=CAU" />}
                         </div>
 
-                        {items.length > 0 && (
+                        {items.length < data.comodities.total_item && (
                             <IonInfiniteScroll threshold="100px" id="infinite-scroll">
                                 <IonInfiniteScrollContent loadingSpinner="dots"><IonSpinner color="warning" className="pagination-spinner"></IonSpinner></IonInfiniteScrollContent>
                             </IonInfiniteScroll>
@@ -113,7 +130,7 @@ function Posts(props) {
                 )}
             </IonContent>
 
-            <CommodityCreate isOpen={openCreateForm} stateHandler={setOpenCreateForm} />
+            <CommodityCreate isOpen={openCreateForm} stateHandler={setOpenCreateForm}  items={items} setItems={setItems}/>
 
             <IonModal isOpen={modalState}>
                 <IonHeader translucent>

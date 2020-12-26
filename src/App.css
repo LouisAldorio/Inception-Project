@@ -40,6 +40,14 @@
     margin-left: 46%;
 }
 
+.complete-loaded-data {
+    display: none;
+}
+
+.hidden-spinner {
+    display: none;
+}
+
 #schedule-add {
     margin-bottom: 26%;
 }
@@ -83,6 +91,7 @@
 }
 .commodity-list {
     margin-top: 80px;
+    margin-bottom: 20%;
 }
 
 

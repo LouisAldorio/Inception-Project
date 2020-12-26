@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { IonModal, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonItemGroup, IonFabButton, IonFab, IonSpinner, IonIcon, IonItem, IonAvatar,IonButton } from '@ionic/react'
+import { IonModal,IonToast, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonItemGroup, IonFabButton, IonFab, IonSpinner, IonIcon, IonItem, IonAvatar,IonButton } from '@ionic/react'
 import ImageZoom from './PhotoZoom'
 import { images } from 'ionicons/icons'
 import { useForm } from '../utils/Hooks'
@@ -9,6 +9,7 @@ import {gql,useMutation} from '@apollo/client'
 import {FETCH_COMMODITY_QUERY} from '../utils/graphql'
 
 function CommodityCreate(props) {
+    const [formFieldEmpty,setformFieldEmpty] = useState(false)
     const [UploadProgress, setUploadProgress] = useState(false)
     const [selectedImage, setSelectedImage] = useState(null)
     const [uploadedImages, setUploadedImages] = useState([])
@@ -38,9 +39,11 @@ function CommodityCreate(props) {
             EmptyImageContainer()
 
             //read from cache and write to cache the incoming result
-            const data = proxy.readQuery({query: FETCH_COMMODITY_QUERY})
-            proxy.writeQuery({query:FETCH_COMMODITY_QUERY,data:{comodities:{nodes: [result.data.commodity.create,...data.comodities.nodes]}}})
-
+            // const data = proxy.readQuery({query: FETCH_COMMODITY_QUERY})
+            // proxy.writeQuery({query:FETCH_COMMODITY_QUERY,data:{comodities:{nodes: [result.data.commodity.create,...data.comodities.nodes]}}})
+            let newList = [result.data.commodity.create,...props.items]
+            newList.pop()
+            props.setItems(newList)
         },
         onError(error){
             console.log(error)
@@ -152,6 +155,10 @@ function CommodityCreate(props) {
                             className="create-post-button" 
                             router-direction="forward" routerAnimation 
                             onClick={(e) => {
+                                if(values.name.trim() === '' || values.unit_price.trim() === '' || values.min_purchase.trim() === '' || values.description.trim() === '' || values.unit_type.trim() === ''){
+                                    setformFieldEmpty(true)
+                                    return
+                                }
                                 onSubmit(e,uploadedImages)
                             }}><IonIcon slot="start" icon={bagAdd} />Create Post
                         </IonButton>
@@ -163,6 +170,13 @@ function CommodityCreate(props) {
                 )}
                
             </IonModal>
+            <IonToast
+                isOpen={formFieldEmpty}
+                onDidDismiss={() => setformFieldEmpty(false)}
+                message={"All field is required!"}
+                position="bottom"
+                duration={800}
+            />
         </React.Fragment>
     )
 }
