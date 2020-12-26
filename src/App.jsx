@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {Route} from 'react-router-dom'
 import { IonApp, IonContent, IonGrid} from '@ionic/react';
 import {setContext} from 'apollo-link-context'
@@ -53,27 +53,31 @@ const client = new ApolloClient({
 
 function App() {
 
+
+  
+
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
 
-        
-          <IonApp>
-          <IonReactRouter>
-            <Header />
-        
-            <IonContent className="ion-padding">
-            
-              <IonGrid>
-                      
-                <Route exact path="/" component={LoginOrRegister}/>
+        <Header />
+        <IonApp>          
+          <Header />
+          <IonReactRouter id="main">
+              
+              <IonContent >
                 
-                <Home />
-                          
-              </IonGrid>  
-            </IonContent>  
+                <IonGrid>
+                    
+                  <Route exact path="/" component={LoginOrRegister}/>
+                  
+                  <Home />
+                            
+                </IonGrid>  
+              </IonContent>  
 
-          </IonReactRouter>
+            </IonReactRouter>
+          
         </IonApp>
       
 

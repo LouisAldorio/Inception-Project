@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route,Redirect} from 'react-router-dom'
-import {IonPage,IonTabs,IonTabBar,IonTabButton,IonLabel,IonIcon,IonRouterOutlet} from '@ionic/react'
+import {IonPage,IonTabs,IonTabBar,IonTabButton,IonLabel,IonIcon,IonRouterOutlet, IonSplitPane} from '@ionic/react'
 import {  home,personCircle,calendar } from 'ionicons/icons';
 
 import { useContext } from 'react';
@@ -8,24 +8,30 @@ import { AuthContext } from '../context/Auth';
 import Profile from './subPages/Profile';
 import Posts from './subPages/Posts';
 import Schedule from './subPages/Schedule';
+import Header from '../components/Header';
 
 
 
-function MyApp(props) {
+function Home(props) {
 
     const {user} = useContext(AuthContext)
 
     let result;
     if(user) {
         result = (
-            <IonPage>
+            
+            
+            <IonPage>                                     
                 <IonTabs>
                     <IonRouterOutlet>
                         <Redirect from='/home' to='/Posts' /> 
                         <Route exact path='/posts/:postId' component={Profile} />
                         <Route path="/:tab(Posts)" component={Posts} exact />
                         <Route path="/:tab(Profile)" component={Profile} exact />  
-                        <Route path="/:tab(Schedule)" component={Schedule} exact />                   
+                        <Route path="/:tab(Schedule)" component={Schedule} exact />  
+                        <Route path="/supplier" component={Posts} exact />
+                        <Route path="/distributor" component={Schedule} exact />  
+                        <Route path="/reseller" component={Profile} exact />  
                     </IonRouterOutlet>
                     
                     <IonTabBar slot="bottom" color='warning'>
@@ -45,7 +51,9 @@ function MyApp(props) {
                         </IonTabButton>                       
                     </IonTabBar>    
                 </IonTabs>
+               
             </IonPage>  
+            
         )
     }else{
         result = <Redirect to='/' />
@@ -54,4 +62,4 @@ function MyApp(props) {
     return result
 }
 
-export default MyApp;
+export default Home;

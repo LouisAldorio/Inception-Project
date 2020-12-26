@@ -1,10 +1,12 @@
 import React,{useState,useRef,useContext} from 'react'
-import {IonRow, IonCol, IonSlide,IonSlides} from '@ionic/react'
+import {IonRow, IonCol, IonSlide,IonSlides,IonHeader,IonToolbar,IonTitle} from '@ionic/react'
 import { MenuBar } from '../components/MenuBar';
 
 import UserLogin from './Login'
 import UserRegister from './Register'
 import {AuthContext} from '../context/Auth'
+
+import Header from '../components/Header'
 
 function LoginOrRegister(props){
     const {user} = useContext(AuthContext)
@@ -39,6 +41,7 @@ function LoginOrRegister(props){
     }
     return (
         <div>
+            
             <IonRow>
                 <IonCol>
                     <MenuBar selectedValue={LoginOrRegister} onSelectValue={setLoginOrRegisterHandler}/>

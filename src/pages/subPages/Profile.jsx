@@ -13,6 +13,13 @@ function Profile(props){
         <IonPage>
             <IonContent>
                 Profile
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
                 {user && (<IonButton onClick={logOut} >log out</IonButton>)}
             </IonContent>
         </IonPage>

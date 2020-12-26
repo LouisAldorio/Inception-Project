@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonContent,IonPage} from '@ionic/react'
+import { IonButton, IonContent,IonPage} from '@ionic/react'
 
 import '../../App.css'
 import { useContext } from 'react'
@@ -18,7 +18,14 @@ function Schedule(props){
             onIonScroll={() => {}}
             onIonScrollEnd={() => {}}>
                 Schedule
-            
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+                <IonButton>tes</IonButton>
+
             </IonContent> 
             
             
