@@ -32,8 +32,8 @@
     --background: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
 }
 
-:root[mode=ios] .srisakdi,
-:root[mode=md] .srisakdi{
-  --ion-font-family:  'Srisakdi'!important;
-  font-family:  'Srisakdi' !important;
+:root[mode=ios] .Montserrat,
+:root[mode=md] .Montserrat{
+  --ion-font-family:  'Montserrat'!important;
+  font-family:  'Montserrat' !important;
 }

@@ -26,7 +26,7 @@ function LoginOrRegister(props){
     }
 
     var slideOpts = {
-        speed: 400
+        speed: 400,
     };
 
     const slideChanged = async () => {
@@ -46,7 +46,7 @@ function LoginOrRegister(props){
             </IonRow>
             <IonRow>
                 <IonCol>
-                    <IonSlides options={slideOpts} onIonSlideDidChange={slideChanged} ref={slidesRef}>  
+                    <IonSlides options={slideOpts} onIonSlideDidChange={slideChanged} ref={slidesRef} color="warning">  
                         <IonSlide>
                             <UserRegister props={props}/>                          
                         </IonSlide>  

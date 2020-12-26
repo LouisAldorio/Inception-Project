@@ -29,7 +29,7 @@ function UserRegister(props) {
     const [addUser,{loading}] = useMutation(REGISTER_USER, {
         update(_, result) {
             // context.login(result.data.register)
-            console.log(result);
+            console.log(result.data.user.register);
             console.log("aaa")
 
             //redirect to home page when success
@@ -59,6 +59,7 @@ function UserRegister(props) {
     if(Object.keys(erro).length > 0  && erro.role){
         setRoleAlert(true)
         clearError()
+
     }
 
     //username taken alert
@@ -129,8 +130,9 @@ function UserRegister(props) {
                         <RoleInput role={role} onSelectValue={selectCalcUnitHandler} name="role" onChange={onChange} value={values.role} placeholder={Object.keys(erro).length > 0 && erro.role }/>                  
                         
                         <IonButton                    
-                        expand="block"                       
-                        className="login-register-button color" 
+                        expand="block"  
+                        color="warning"                     
+                        className="login-register-button" 
                         router-direction="forward" routerAnimation 
                         onIonFocus={onSubmit}><IonIcon slot="start" icon={bagAdd} />Register</IonButton>
 
