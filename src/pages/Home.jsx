@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route,Redirect} from 'react-router-dom'
-import {IonPage,IonTabs,IonTabBar,IonTabButton,IonLabel,IonIcon,IonRouterOutlet, IonSplitPane} from '@ionic/react'
+import {IonPage,IonTabs,IonTabBar,IonTabButton,IonLabel,IonIcon,IonRouterOutlet} from '@ionic/react'
 import {  home,personCircle,calendar } from 'ionicons/icons';
 
 import { useContext } from 'react';
@@ -12,48 +12,42 @@ import Header from '../components/Header';
 
 
 
+
 function Home(props) {
 
     const {user} = useContext(AuthContext)
 
     let result;
     if(user) {
-        result = (
-            
-            
-            <IonPage>                                     
-                <IonTabs>
-                    <IonRouterOutlet>
-                        <Redirect from='/home' to='/Posts' /> 
-                        <Route exact path='/posts/:postId' component={Profile} />
-                        <Route path="/:tab(Posts)" component={Posts} exact />
-                        <Route path="/:tab(Profile)" component={Profile} exact />  
-                        <Route path="/:tab(Schedule)" component={Schedule} exact />  
-                        <Route path="/supplier" component={Posts} exact />
-                        <Route path="/distributor" component={Schedule} exact />  
-                        <Route path="/reseller" component={Profile} exact />  
-                    </IonRouterOutlet>
-                    
-                    <IonTabBar slot="bottom" color='warning'>
-                        <IonTabButton tab="Posts" href="/Posts" >
-                            <IonIcon icon={home} />
-                            <IonLabel>Home</IonLabel>
-                        </IonTabButton>
+        result = (                                                           
+            <IonTabs>
+                <IonRouterOutlet>
+                    <Redirect from='/home' to='/Posts' /> 
+                    <Route path="/:tab(Posts)" component={Posts} exact />
+                    <Route path="/:tab(Profile)" component={Profile} exact />  
+                    <Route path="/:tab(Schedule)" component={Schedule} exact />  
+                    <Route path="/Supplier" component={Posts} exact />
+                    <Route path="/Distributor" component={Schedule} exact />  
+                    <Route path="/Reseller" component={Profile} exact />  
+                </IonRouterOutlet>
+                
+                <IonTabBar slot="bottom" color='warning'>
+                    <IonTabButton tab="Posts" href="/Posts" >
+                        <IonIcon icon={home} />
+                        <IonLabel>Home</IonLabel>
+                    </IonTabButton>
 
-                        <IonTabButton tab="Schedule" href='/Schedule' >
-                            <IonIcon icon={calendar} />
-                            <IonLabel>Schedule</IonLabel>
-                        </IonTabButton>
+                    <IonTabButton tab="Schedule" href='/Schedule' >
+                        <IonIcon icon={calendar} />
+                        <IonLabel>Schedule</IonLabel>
+                    </IonTabButton>
 
-                        <IonTabButton tab="Profile" href='/Profile' >
-                            <IonIcon icon={personCircle} />
-                            <IonLabel>Profile</IonLabel>
-                        </IonTabButton>                       
-                    </IonTabBar>    
-                </IonTabs>
-               
-            </IonPage>  
-            
+                    <IonTabButton tab="Profile" href='/Profile' >
+                        <IonIcon icon={personCircle} />
+                        <IonLabel>Profile</IonLabel>
+                    </IonTabButton>                       
+                </IonTabBar>    
+            </IonTabs>
         )
     }else{
         result = <Redirect to='/' />

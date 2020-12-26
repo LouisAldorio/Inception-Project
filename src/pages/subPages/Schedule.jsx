@@ -5,6 +5,7 @@ import { IonButton, IonContent,IonPage} from '@ionic/react'
 import '../../App.css'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
+import Header from '../../components/Header'
 
 function Schedule(props){
 
@@ -12,24 +13,18 @@ function Schedule(props){
 
 
     return (
-        <IonPage>
+        <React.Fragment>
+            <Header />
             <IonContent scrollEvents={true}
             onIonScrollStart={() => {}}
             onIonScroll={() => {}}
             onIonScrollEnd={() => {}}>
                 Schedule
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-
+                
             </IonContent> 
             
             
-        </IonPage>
+        </React.Fragment>
          
     )
 }

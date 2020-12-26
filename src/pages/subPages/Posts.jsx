@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonCard, IonCardContent,IonLabel, IonContent,IonImg,IonPage, IonCardHeader,IonModal,IonHeader,IonToolbar,IonTitle,IonButtons,IonButton, IonItem,IonText } from '@ionic/react'
+import { IonCard, IonCardContent,IonLabel, IonContent,IonImg,IonBackButton, IonCardHeader,IonModal,IonHeader,IonToolbar,IonTitle,IonButtons,IonButton, IonItem,IonText,IonSlide,IonSlides } from '@ionic/react'
 import '../../App.css'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
 import ImageZoom from '../../components/PhotoZoom'
+
+import Header from '../../components/Header'
 
 function Posts(props){
 
@@ -12,40 +14,47 @@ function Posts(props){
 
     const [modalState,setModalState] = useState(false)
 
+    
 
     const items = [
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat1' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat2' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat3' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat4' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat5' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat6' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat7' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat8' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat9' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat10' },
-        { src: 'http://placekitten.com/g/500/300', text: 'a picture of a cat11' },
+        {id:"1", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat1' },
+        {id:"2", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat2' },
+        {id:"3", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat3' },
+        {id:"4", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat4' },
+        {id:"5", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat5' },
+        {id:"6", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat6' },
+        {id:"7", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat7' },
+        {id:"8", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat8' },
+        {id:"9", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat9' },
+        {id:"10", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat10' },
+        {id:"11", src: ['http://placekitten.com/g/500/300','http://placekitten.com/g/500/300'], text: 'a picture of a cat11' },
     ];
 
-    const [modalData,setModalData] = useState(0)
+    const [modalData,setModalData] = useState()
 
     function ToggleModal(image) {
         setModalData(image)
         setModalState(true)
     }
 
+    function CleanData(){
+        setModalState(false)
+        setModalData()
+    }
+
     return (
-        <IonPage>           
+        <React.Fragment> 
+            <Header />          
             <IonContent scrollEvents={true}
                     onIonScrollStart={() => {}}
                     onIonScroll={() => {}}
                     onIonScrollEnd={() => {}}>               
                 
                     {items.map((image, i) => (
-                        <IonCard key={i} onClick={() => ToggleModal(image)}>
+                        <IonCard key={i} onClick={() => ToggleModal(image)} >
                             <IonCardContent>
                                 <IonCardHeader>                              
-                                    <IonImg src={image.src}/>                               
+                                    <IonImg src={image.src[0]}/>                               
                                     <IonLabel>{image.text}</IonLabel>
                                 </IonCardHeader>
                             </IonCardContent>                              
@@ -56,22 +65,29 @@ function Posts(props){
             <IonModal isOpen={modalState}>
                 <IonHeader translucent>
                     <IonToolbar color='warning'>
-                        <IonTitle>Post Detail!</IonTitle>
-                        <IonButtons slot="end">
-                            <IonButton onClick={()=> setModalState(false)}>Close</IonButton>
+                        
+                        <IonButtons slot="start">                           
+                            <IonBackButton defaultHref="/Posts" onClick={()=> CleanData()} />                           
                         </IonButtons>
+                        <IonTitle>Detail</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                
+                           
                 <IonContent >
-                    <ImageZoom src={modalData.src} /> 
+                    <IonSlides >                   
+                          {modalData && modalData.src.map((img) => (
+                              <IonSlide key={img}>
+                                  <ImageZoom src={img} /> 
+                              </IonSlide>
+                          ))}
+                    </IonSlides> 
+                    
                                 
-                    <IonText>{modalData.text}</IonText>
+                    <IonText>{modalData && modalData.text}</IonText>
                 </IonContent>
-                
-                
+
             </IonModal>
-        </IonPage>
+        </React.Fragment>
          
     )
 }

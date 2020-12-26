@@ -1,5 +1,6 @@
 import { IonContent, IonPage,IonButton } from '@ionic/react';
 import React,{useContext} from 'react'
+import Header from '../../components/Header';
 import { AuthContext } from '../../context/Auth';
 
 function Profile(props){
@@ -10,19 +11,14 @@ function Profile(props){
         logout()    
     }
     return (
-        <IonPage>
+        <React.Fragment>
+            <Header />
             <IonContent>
                 Profile
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
-                <IonButton>tes</IonButton>
+                
                 {user && (<IonButton onClick={logOut} >log out</IonButton>)}
             </IonContent>
-        </IonPage>
+        </React.Fragment>
         
     )
 }

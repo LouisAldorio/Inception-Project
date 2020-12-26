@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {Route} from 'react-router-dom'
-import { IonApp, IonContent, IonGrid} from '@ionic/react';
+import { IonApp, IonContent, IonGrid, IonPage} from '@ionic/react';
 import {setContext} from 'apollo-link-context'
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client'
 
@@ -60,27 +60,20 @@ function App() {
     <ApolloProvider client={client}>
       <AuthProvider>
 
-        <Header />
-        <IonApp>          
-          <Header />
-          <IonReactRouter id="main">
-              
-              <IonContent >
-                
-                <IonGrid>
-                    
-                  <Route exact path="/" component={LoginOrRegister}/>
-                  
-                  <Home />
-                            
-                </IonGrid>  
-              </IonContent>  
-
-            </IonReactRouter>
-          
-        </IonApp>
       
+        <IonApp>          
+          <Header />          
+          <IonReactRouter> 
+            
+            <IonPage id="main">    
 
+              <Route exact path="/" component={LoginOrRegister}/>    
+              <Home />
+
+            </IonPage>   
+
+          </IonReactRouter>         
+        </IonApp>
     </AuthProvider>
   </ApolloProvider>
   );
