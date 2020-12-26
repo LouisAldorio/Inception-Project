@@ -26,7 +26,9 @@ function Posts(props) {
     //query to API
     let items;
     const {loading,data} = useQuery(FETCH_COMMODITY_QUERY)
+    console.log(data)
     if(data){
+
         items = data.comodities.nodes
     }
 

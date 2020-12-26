@@ -1,8 +1,12 @@
 import {gql} from '@apollo/client'
 
 export const FETCH_COMMODITY_QUERY = gql`
-{
-    comodities{
+query GetCommodityList(
+    $page:  Int
+    $limit: Int
+){
+    comodities(limit: $limit,page: $page){
+        total_item
 		nodes{
             id
             name
