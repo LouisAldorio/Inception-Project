@@ -12,6 +12,7 @@ import Header from '../../components/Header'
 import SearchBar from '../../components/SearchBar'
 import '@open-wa/whatsapp-button/whatsapp-button.js';
 import CommodityCreate from '../../components/CreateCommodity'
+import {FETCH_COMMODITY_QUERY} from '../../utils/graphql'
 
 function Posts(props) {
 
@@ -22,78 +23,17 @@ function Posts(props) {
     const [searchedItem, setSearchItem] = useState('')
     const [toast, setToast] = useState(false)
 
-    const items = [
-        {
-            src: ["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN", "https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-            commodityName: "Beras Raskin",
-            minPurchase: "100 kg",
-            unitPrice: "100.000",
-            ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.",
-            user: {
-                userImg: "https://drive.google.com/uc?export=view&id=1Bg1c5HJcIB2CKT17uJ53CWZpNhkYynlV",
-                username: "Louis Aldorio",
-                email: "louisaldorio@gmail.com",
-                whatsapp_number: "082161723455",
-                friend_list: ["louisaldorio"],
-            }
-        },
-        {
-            src: ["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN", "https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-            commodityName: "Beras Merah",
-            minPurchase: "100 kg",
-            unitPrice: "100.000",
-            ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.",
-            user: {
-                userImg: "https://drive.google.com/uc?export=view&id=1Bg1c5HJcIB2CKT17uJ53CWZpNhkYynlV",
-                username: "Louis Aldorio",
-                email: "louisaldorio@gmail.com",
-                whatsapp_number: "081265869573",
-                friend_list: [],
-            }
-        },
-
-    ];
+    //query to API
+    let items;
+    const {loading,data} = useQuery(FETCH_COMMODITY_QUERY)
+    if(data){
+        items = data.comodities.nodes
+    }
 
     const [modalData, setModalData] = useState(null)
 
-    function TestWa() {
-
-        var details = {
-            'to_number': '6282161723455',
-            'message': 'selamat anda mendapat nasi goreng sapi',
-        };
-
-        var formBody = [];
-        for (var property in details) {
-            var encodedKey = encodeURIComponent(property);
-            var encodedValue = encodeURIComponent(details[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
-        //jalankan mutasi update profile user dan upload foto ke cloud
-        fetch("localhost:8080/send-message", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            },
-            body: formBody,
-        }).then(response => {
-
-            var imageData = response.json()
-            imageData.then(data => {
-                // setProfilePicture(data.ImageURL)   
-                //lakukan hit mutaion ke update profile user
-
-            })
-            // setUploadProgress(false)
-
-        }).catch((error) => {
-            console.log(error);
-        })
-    }
-
     function ToggleModal(image) {
-        TestWa()
+        // TestWa()
         setModalData(image)
         setModalState(true)
     }
@@ -118,54 +58,57 @@ function Posts(props) {
                 onIonScroll={() => { }}
                 onIonScrollEnd={() => { }}
                 className="ion-content-bottom">
-                <SearchBar selectedValue={searchedItem} changeHandler={TypeSearchWord} />
 
-                <div className="commodity-list">
-                    {items.length > 0 ? items.map((image, i) => (
-                        <IonCard className="Ubuntu" key={i} onClick={() => ToggleModal(image)} >
+                {loading ? (<IonSpinner color="warning"></IonSpinner>) : (
+                    <React.Fragment>
+                        <SearchBar selectedValue={searchedItem} changeHandler={TypeSearchWord} />  
+                        <div className="commodity-list">
+                            {items.length > 0 ? items.map((image, i) => (
+                                <IonCard className="Ubuntu" key={i} onClick={() => ToggleModal(image)} >
 
-                            <IonItem lines={"none"}>
-                                <IonAvatar slot="start">
-                                    <img src={image.user.userImg} />
-                                </IonAvatar>
-                                <h2>{image.user.username}</h2>
-                            </IonItem>
-
-                            <img src={image.src[0]} height="250px" width="500px" />
-                            <IonCardContent>
-                                <h1>{image.commodityName}</h1>
-                            </IonCardContent>
-
-                            <IonRow>
-                                <IonCol size="6">
                                     <IonItem lines={"none"}>
-                                        <IonIcon icon={pricetag} slot="start" className="pricetag"></IonIcon>
-                                        <p>Rp. {image.unitPrice}</p>
+                                        <IonAvatar slot="start">
+                                            <img src={image.user.profile_image} />
+                                        </IonAvatar>
+                                        <h2>{image.user.username}</h2>
                                     </IonItem>
-                                </IonCol>
-                                <IonCol size="6">
-                                    <IonItem lines={"none"}>
-                                        <IonIcon icon={cart} slot="start" className="min-purchase"></IonIcon>
-                                        <p>Min: {image.minPurchase}</p>
-                                    </IonItem>
-                                </IonCol>
-                            </IonRow>
-                        </IonCard>
-                    )) : <img id="photo-fullscreen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Tl87UxYtH39b-RUyxSB2SrtNkPZB_55dtw&usqp=CAU" />}
-                </div>
 
-                {items.length > 0 && (
-                    <IonInfiniteScroll threshold="100px" id="infinite-scroll">
-                        <IonInfiniteScrollContent loadingSpinner="dots"><IonSpinner color="warning" className="pagination-spinner"></IonSpinner></IonInfiniteScrollContent>
-                    </IonInfiniteScroll>
+                                    <img src={image.image[0]} height="250px" width="500px" />
+                                    <IonCardContent>
+                                        <h1>{image.name}</h1>
+                                    </IonCardContent>
+
+                                    <IonRow>
+                                        <IonCol size="6">
+                                            <IonItem lines={"none"}>
+                                                <IonIcon icon={pricetag} slot="start" className="pricetag"></IonIcon>
+                                                <p>Rp. {image.unit_price}</p>
+                                            </IonItem>
+                                        </IonCol>
+                                        <IonCol size="6">
+                                            <IonItem lines={"none"}>
+                                                <IonIcon icon={cart} slot="start" className="min-purchase"></IonIcon>
+                                                <p>Min: {image.min_purchase} {image.unit_type}</p>
+                                            </IonItem>
+                                        </IonCol>
+                                    </IonRow>
+                                </IonCard>
+                            )) : <img id="photo-fullscreen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Tl87UxYtH39b-RUyxSB2SrtNkPZB_55dtw&usqp=CAU" />}
+                        </div>
+
+                        {items.length > 0 && (
+                            <IonInfiniteScroll threshold="100px" id="infinite-scroll">
+                                <IonInfiniteScrollContent loadingSpinner="dots"><IonSpinner color="warning" className="pagination-spinner"></IonSpinner></IonInfiniteScrollContent>
+                            </IonInfiniteScroll>
+                        )}
+
+                        {user.Role === 'Supplier' && <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
+                            <IonFabButton color="warning" onClick={() => setOpenCreateForm(true)}>
+                                <IonIcon icon={add} />
+                            </IonFabButton>
+                        </IonFab>} 
+                    </React.Fragment> 
                 )}
-
-                {user.Role === 'Supplier' && <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
-                    <IonFabButton color="warning" onClick={() => setOpenCreateForm(true)}>
-                        <IonIcon icon={add} />
-                    </IonFabButton>
-                </IonFab>}
-
             </IonContent>
 
             <CommodityCreate isOpen={openCreateForm} stateHandler={setOpenCreateForm} />
@@ -183,36 +126,36 @@ function Posts(props) {
                 <IonContent scrollEvents={true}>
                     <IonCard>
                         <Carousel animation="slide" autoPlay={true} interval={4000}>
-                            {modalData && modalData.src.map((img) => (
+                            {modalData && modalData.image.map((img) => (
                                 <ImageZoom src={img} key={img} width="500px" height="300px" />
                             ))}
                         </Carousel>
                         <IonCardContent>
                             <IonCardTitle>
-                                <h1>Commodity: {modalData && modalData.commodityName}</h1>
+                                <h1>Commodity: {modalData && modalData.name}</h1>
                             </IonCardTitle>
                             <p>
-                                {modalData && modalData.ComodityDescription}
+                                {modalData && modalData.description}
                             </p>
                         </IonCardContent>
                         <IonRow>
                             <IonCol size="6">
                                 <IonItem lines={"none"}>
                                     <IonIcon icon={pricetag} slot="start" className="pricetag"></IonIcon>
-                                    <p>Rp. {modalData && modalData.unitPrice}</p>
+                                    <p>Rp. {modalData && modalData.unit_price}</p>
                                 </IonItem>
                             </IonCol>
                             <IonCol size="6">
                                 <IonItem lines={"none"}>
                                     <IonIcon icon={cart} slot="start" className="min-purchase"></IonIcon>
-                                    <p>Min: {modalData && modalData.minPurchase}</p>
+                                    <p>Min: {modalData && modalData.min_purchase} {modalData && modalData.unit_type}</p>
                                 </IonItem>
                             </IonCol>
                         </IonRow>
                         <IonCardContent>
                             <IonItem lines={"none"}>
                                 <IonAvatar slot="start">
-                                    <img src={modalData && modalData.user.userImg} />
+                                    <img src={modalData && modalData.user.profile_image} />
                                 </IonAvatar>
                                 <h1>{modalData && modalData.user.username}</h1>
                                 <IonChip slot="end" color="warning" onClick={AddOrRemoveFriend}><IonIcon icon={modalData && (modalData.user.friend_list.includes(user.Username) ? checkmarkCircle : personAdd)} color="dark"></IonIcon></IonChip>

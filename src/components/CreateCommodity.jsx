@@ -5,6 +5,8 @@ import { images } from 'ionicons/icons'
 import { useForm } from '../utils/Hooks'
 import {InputControls, InputTextArea, UnitTypeInput} from '../components/Input'
 import {lockOpen,fileTrayStacked,pricetag,removeCircle,text,bagAdd} from 'ionicons/icons'
+import {gql,useMutation} from '@apollo/client'
+import {FETCH_COMMODITY_QUERY} from '../utils/graphql'
 
 function CommodityCreate(props) {
     const [UploadProgress, setUploadProgress] = useState(false)
@@ -26,10 +28,25 @@ function CommodityCreate(props) {
     })
 
     function loginUser() {
+        createCommodity()
         clearError()
-        console.log('submitted')
-        // LoginUser()
     }
+
+    const [createCommodity,{loading}] = useMutation(CREATE_COMMODITY_MUTATION,{
+        variables: values,
+        update(proxy,result){
+            EmptyImageContainer()
+
+            //read from cache and write to cache the incoming result
+            const data = proxy.readQuery({query: FETCH_COMMODITY_QUERY})
+            proxy.writeQuery({query:FETCH_COMMODITY_QUERY,data:{comodities:{nodes: [result.data.commodity.create,...data.comodities.nodes]}}})
+
+        },
+        onError(error){
+            console.log(error)
+            setError(error.graphQLErrors)
+        }
+    })
 
     const clearError = () => {
         setError({})
@@ -84,6 +101,7 @@ function CommodityCreate(props) {
     return (
         <React.Fragment>
             <IonModal isOpen={props.isOpen}>
+                
                 <IonHeader translucent>
                     <IonToolbar color='warning'>
                         <IonButtons slot="start">
@@ -92,58 +110,102 @@ function CommodityCreate(props) {
                         <IonTitle>Post new Commodity!</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <IonContent scrollEvents={true}>
-                    <InputControls 
-                            type="text" 
-                            display={ <div><IonIcon icon={fileTrayStacked}/> Commodity Name</div>}
-                            name="name" 
-                            onChange={onChange} 
-                            value={values.name}/>
-                    <InputControls 
-                            type="number" 
-                            display={ <div><IonIcon icon={pricetag}/> Unit Price</div>}
-                            name="unit_price" 
-                            onChange={onChange} 
-                            value={values.unit_price}/>
-                    <InputControls 
-                            type="number" 
-                            display={ <div><IonIcon icon={removeCircle}/> Minimum Purchase</div>}
-                            name="min_purchase" 
-                            onChange={onChange} 
-                            value={values.min_purchase}/>
-                    <InputTextArea 
-                            display={ <div><IonIcon icon={text}/> Commodity Description</div>}
-                            name="description" 
-                            onChange={onChange} 
-                            value={values.description}
-                    />
-                    <UnitTypeInput unit_type={unit_type} onSelectValue={selectCalcUnitHandler} name="unit_type" onChange={onChange} value={values.unit_type}/> 
-
-                    <IonItemGroup className="attachment-group">                 
-                        {uploadedImages.length > 0 && uploadedImages.map((image, i) => (                        
-                                <IonAvatar className="attachment ion-avatar" key={i}>
-                                    <ImageZoom src={image} height="70px" width="70px" />
-                                </IonAvatar>                         
-                        ))}                              
-                    </IonItemGroup>
-
-                    <IonButton                    
-                        expand="block"  
-                        color="warning"                     
-                        className="create-post-button" 
-                        router-direction="forward" routerAnimation 
-                        onClick={(e) => {
-                            onSubmit(e,uploadedImages)
-                        }}><IonIcon slot="start" icon={bagAdd} />Create Post
-                    </IonButton>
-
-                    <IonFab vertical="bottom" horizontal="end" slot="fixed">
-                            <IonFabButton color="warning" disabled={uploadedImages.length === 8 ? true : false}>{!UploadProgress ? <IonIcon icon={images} className="gallery"></IonIcon> : <IonSpinner className="gallery" color="dark" />}<input type="file" onChange={fileSelecterHandler} /></IonFabButton>
-                        </IonFab>
-                </IonContent>
+                {loading ? (<IonSpinner color="warning"></IonSpinner>) : (
+                     <IonContent scrollEvents={true}>
+                        <InputControls 
+                                type="text" 
+                                display={ <div><IonIcon icon={fileTrayStacked}/> Commodity Name</div>}
+                                name="name" 
+                                onChange={onChange} 
+                                value={values.name}/>
+                        <InputControls 
+                                type="number" 
+                                display={ <div><IonIcon icon={pricetag}/> Unit Price</div>}
+                                name="unit_price" 
+                                onChange={onChange} 
+                                value={values.unit_price}/>
+                        <InputControls 
+                                type="number" 
+                                display={ <div><IonIcon icon={removeCircle}/> Minimum Purchase</div>}
+                                name="min_purchase" 
+                                onChange={onChange} 
+                                value={values.min_purchase}/>
+                        <InputTextArea 
+                                display={ <div><IonIcon icon={text}/> Commodity Description</div>}
+                                name="description" 
+                                onChange={onChange} 
+                                value={values.description}
+                        />
+                        <UnitTypeInput unit_type={unit_type} onSelectValue={selectCalcUnitHandler} name="unit_type" onChange={onChange} value={values.unit_type}/> 
+    
+                        <IonItemGroup className="attachment-group">                 
+                            {uploadedImages.length > 0 && uploadedImages.map((image, i) => (                        
+                                    <IonAvatar className="attachment ion-avatar" key={i}>
+                                        <ImageZoom src={image} height="70px" width="70px" />
+                                    </IonAvatar>                         
+                            ))}                              
+                        </IonItemGroup>
+    
+                        <IonButton                    
+                            expand="block"  
+                            color="warning"                     
+                            className="create-post-button" 
+                            router-direction="forward" routerAnimation 
+                            onClick={(e) => {
+                                onSubmit(e,uploadedImages)
+                            }}><IonIcon slot="start" icon={bagAdd} />Create Post
+                        </IonButton>
+    
+                        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+                                <IonFabButton color="warning" disabled={uploadedImages.length === 8 ? true : false}>{!UploadProgress ? <IonIcon icon={images} className="gallery"></IonIcon> : <IonSpinner className="gallery" color="dark" />}<input type="file" onChange={fileSelecterHandler} /></IonFabButton>
+                            </IonFab>
+                    </IonContent>
+                )}
+               
             </IonModal>
         </React.Fragment>
     )
 }
+
+
+const CREATE_COMMODITY_MUTATION = gql`
+    mutation createCommodity(
+        $name: String!
+        $min_purchase: String!
+        $unit_type: String!
+        $unit_price: String!
+        $description: String!
+        $images: [String]!
+    ){
+        commodity{
+            create(
+                input:{
+                    name: $name
+                    min_purchase: $min_purchase
+                    unit_type: $unit_type
+                    unit_price: $unit_price
+                    description: $description
+                    images: $images
+            }){
+                id
+                name
+                image
+                unit_price
+                unit_type
+                min_purchase
+                description
+                user{
+                    profile_image
+                    username
+                    email
+                    role
+                    whatsapp_number
+                    hashed_password
+                    friend_list
+                }
+            }
+        }
+    }
+`
 
 export default CommodityCreate;

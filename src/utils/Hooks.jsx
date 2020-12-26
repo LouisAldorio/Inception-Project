@@ -4,7 +4,6 @@ export const useForm = (callback,initialState = {}) => {
     const [values, setValues] = useState(initialState)
 
     const onChange = (event) => {
-        console.log(event);
         setValues({ ...values, [event.target.name]: event.target.value })
     }
 
@@ -14,7 +13,7 @@ export const useForm = (callback,initialState = {}) => {
         if(images){
             values.images = images
         }
-        
+        console.log(values)
         callback();
     }
 
