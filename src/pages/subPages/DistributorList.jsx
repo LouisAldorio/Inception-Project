@@ -1,23 +1,33 @@
 import { IonAvatar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import React,{useContext, useState} from 'react'
-import {IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle,IonToast} from '@ionic/react'
+import {IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle,IonToast,IonSpinner} from '@ionic/react'
 
 import '../../App.css'
 import Header from '../../components/Header';
 import ImageZoom from '../../components/PhotoZoom'
 import { personAdd,mail,call,checkmarkCircle } from 'ionicons/icons';
 import { AuthContext } from '../../context/Auth';
+import {useQuery} from '@apollo/client'
+import {FETCH_USER_BY_ROLE} from '../../utils/graphql'
 
 function DistributorList(props) {
 
     const {user} = useContext(AuthContext)
+
+    
 
     const color = ["tertiary","success","warning","secondary","danger","primary"]
 
     const [modalState,setModalState] = useState(false)
     const [toast,setToast] = useState(false)
 
-    const items = [
+    const {loading,data} = useQuery(FETCH_USER_BY_ROLE,{
+        variables: {
+            role: "Distributor"
+        }
+    })
+
+    let items = [
         {
             username: "Lusiana",
             email: "lusiana@gmail.com",
@@ -41,9 +51,13 @@ function DistributorList(props) {
             whatsapp_number: "085594947643",
             looking_for: ["biji besi","beras miskin"],
             friend_list: [],
-        },
-        
+        },       
     ];
+
+    if(data) {
+        console.log(data.users_by_role);
+        items = data.users_by_role
+    }
 
     const [modalData,setModalData] = useState(null)
 
@@ -72,25 +86,29 @@ function DistributorList(props) {
                 <IonListHeader  lines="inset"> 
                     <h1>Distributors </h1> 
                 </IonListHeader>
-                <IonList>
-                    {items.length > 0 ? items.map((item,i) => (
-                        <IonItem key={i} onClick={() => ToggleModal(item)}>
-                            <IonAvatar slot="start">
-                                <img src={item.userImg} />
-                            </IonAvatar>
-                            <IonLabel>
-                                <h2>{item.username}</h2>
-                                <p>
-                                    {item.looking_for.length > 0 && item.looking_for.map((lookedItem,i) => (
-                                        <IonChip outline key={i} color={color[i + Math.floor((Math.random() * 600) + 1) % 6]}>
-                                            <IonLabel>{lookedItem}</IonLabel>
-                                        </IonChip>
-                                    ))}
-                                </p>
-                            </IonLabel>
-                        </IonItem>
-                    )) : <img  src="https://i.pinimg.com/originals/88/36/65/8836650a57e0c941b4ccdc8a19dee887.png"/>}
-                </IonList>
+
+                {loading ? (<IonSpinner color="warning" className="spinner-home"></IonSpinner>) : (
+                    <IonList>
+                        {items.length > 0 ? items.map((item,i) => (
+                            <IonItem key={i} onClick={() => ToggleModal(item)}>
+                                <IonAvatar slot="start">
+                                    <img src={item.profile_image} />
+                                </IonAvatar>
+                                <IonLabel>
+                                    <h2>{item.username}</h2>
+                                    <p>
+                                        {item.looking_for.length > 0 && item.looking_for.map((lookedItem,i) => (
+                                            <IonChip outline key={i} color={color[i + Math.floor((Math.random() * 600) + 1) % 6]}>
+                                                <IonLabel>{lookedItem}</IonLabel>
+                                            </IonChip>
+                                        ))}
+                                    </p>
+                                </IonLabel>
+                            </IonItem>
+                        )) : <img  src="https://i.pinimg.com/originals/88/36/65/8836650a57e0c941b4ccdc8a19dee887.png"/>}
+                    </IonList>
+                )}
+                
 
             </IonContent>
             <IonModal isOpen={modalState}>
@@ -104,8 +122,9 @@ function DistributorList(props) {
                 </IonHeader>
                 <IonContent scrollEvents={true}>
                     <IonCard>
+                        
                         {modalData && (
-                            <ImageZoom src={modalData.userImg} width="500px" height="300px"/> 
+                            <ImageZoom src={modalData.profile_image} width="500px" height="300px"/> 
                         )}
                         <IonCardHeader>
                             <IonCardTitle>

@@ -121,9 +121,8 @@ input[type="file"] {
 }
 
 .create-post-button{
-    position: absolute;
-    bottom: 2%;
-    left: 2%;
+    
+    margin-left: 5%;
     width: 75%;
 }
 
@@ -133,5 +132,10 @@ input[type="file"] {
 
 .schedule-content {
     height: 50%;
+}
+
+.commodity-create-loading {
+    left: 50%;
+    bottom: 50%;
 }
 

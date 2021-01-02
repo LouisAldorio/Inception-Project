@@ -78,7 +78,7 @@ function Posts(props) {
                 }}
                 className="ion-content-bottom">
 
-                {loading ? (<IonSpinner color="warning"></IonSpinner>) : (
+                {loading ? (<IonSpinner color="warning" className="spinner-home"></IonSpinner>) : (
                     <React.Fragment>
                         <SearchBar selectedValue={searchedItem} changeHandler={TypeSearchWord} />  
                         <div className="commodity-list">
@@ -130,7 +130,7 @@ function Posts(props) {
                 )}
             </IonContent>
 
-            <CommodityCreate isOpen={openCreateForm} stateHandler={setOpenCreateForm}  items={items} setItems={setItems}/>
+            <CommodityCreate isOpen={openCreateForm} stateHandler={setOpenCreateForm}  items={items} setItems={setItems} total={data && data.comodities.total_item}/>
 
             <IonModal isOpen={modalState}>
                 <IonHeader translucent>

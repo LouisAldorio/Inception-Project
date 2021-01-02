@@ -3,7 +3,7 @@ import moment from 'moment'
 import React, { useState } from 'react'
 import '../App.css'
 
-function SearchBar(props){
+function    SearchBar(props){
 
     function onSearchChange(event){
         props.changeHandler(event.detail.value)

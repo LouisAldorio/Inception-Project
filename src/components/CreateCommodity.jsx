@@ -42,7 +42,10 @@ function CommodityCreate(props) {
             // const data = proxy.readQuery({query: FETCH_COMMODITY_QUERY})
             // proxy.writeQuery({query:FETCH_COMMODITY_QUERY,data:{comodities:{nodes: [result.data.commodity.create,...data.comodities.nodes]}}})
             let newList = [result.data.commodity.create,...props.items]
-            newList.pop()
+            if (props.items.length < props.total) {
+                newList.pop()
+            }
+            
             props.setItems(newList)
         },
         onError(error){
@@ -108,12 +111,17 @@ function CommodityCreate(props) {
                 <IonHeader translucent>
                     <IonToolbar color='warning'>
                         <IonButtons slot="start">
-                            <IonBackButton defaultHref="/Posts" onClick={() => EmptyImageContainer()} />
+                            {loading ? (
+                                <IonBackButton defaultHref="/Posts" onClick={() => EmptyImageContainer()} disabled={true}/>
+                            ) : (
+                                <IonBackButton defaultHref="/Posts" onClick={() => EmptyImageContainer()} disabled={false}/>
+                            )}
+                            
                         </IonButtons>
                         <IonTitle>Post new Commodity!</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                {loading ? (<IonSpinner color="warning"></IonSpinner>) : (
+                {loading ? (<IonSpinner color="warning" className="commodity-create-loading"></IonSpinner>) : (
                      <IonContent scrollEvents={true}>
                         <InputControls 
                                 type="text" 

@@ -29,3 +29,20 @@ query GetCommodityList(
 }
 
 `
+
+export const FETCH_USER_BY_ROLE = gql`
+    query GetUserByRole(
+        $role: String!
+    ){
+        users_by_role(role:$role){
+            profile_image
+            username
+            email
+            role
+            whatsapp_number
+            friend_list
+            hashed_password
+            looking_for
+        }
+    }
+`
