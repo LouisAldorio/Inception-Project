@@ -27,32 +27,7 @@ function DistributorList(props) {
         }
     })
 
-    let items = [
-        {
-            username: "Lusiana",
-            email: "lusiana@gmail.com",
-            userImg: "https://images.unsplash.com/photo-1503104834685-7205e8607eb9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8OXx8Z2lybHN8ZW58MHx8MHw%3D&auto=format&fit=crop&w=500&q=60",
-            whatsapp_number: "085594947643",
-            looking_for: ["biji besi","beras miskin","Soju","beras merah","susu kedelai","kentang","wortel"],
-            friend_list: ["louisaldorio"],
-        },
-        {
-            username: "Britney Charvia",
-            email: "britneyCharv@gmail.com",
-            userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWWLgIQj7fc_3tK3Fa8pd3gnVZ8ySEdCDMFQ&usqp=CAU",
-            whatsapp_number: "085594947643",
-            looking_for: ["biji besi","beras miskin"],
-            friend_list: ["louisaldorio"],
-        },
-        {
-            username: "Carine Wibawa",
-            email: "CarineWibawa@gmail.com",
-            userImg: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8Z2lybHN8ZW58MHx8MHw%3D&auto=format&fit=crop&w=500&q=60",
-            whatsapp_number: "085594947643",
-            looking_for: ["biji besi","beras miskin"],
-            friend_list: [],
-        },       
-    ];
+    let items;
 
     if(data) {
         console.log(data.users_by_role);

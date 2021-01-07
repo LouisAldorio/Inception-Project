@@ -46,3 +46,29 @@ export const FETCH_USER_BY_ROLE = gql`
         }
     }
 `
+
+export const FETCH_USER_BY_USERNAME = gql`
+    query GetUserByUsername(
+        $username: String!
+    ){
+        user_by_username(username:$username){
+            profile_image
+            username
+            email
+            role
+            whatsapp_number
+            hashed_password
+            friend_list
+            looking_for
+            products{
+            id
+            name
+            image
+            unit_price
+            unit_type
+            min_purchase
+            description
+            }
+        }
+    }
+`

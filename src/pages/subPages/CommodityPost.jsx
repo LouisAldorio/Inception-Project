@@ -83,7 +83,7 @@ function Posts(props) {
                         <SearchBar selectedValue={searchedItem} changeHandler={TypeSearchWord} />  
                         <div className="commodity-list">
                             {items.length > 0 ? items.map((image, i) => (
-                                <IonCard className="Ubuntu" key={i} onClick={() => ToggleModal(image)} >
+                                <IonCard className="Ubuntu" key={image.id} onClick={() => ToggleModal(image)} >
 
                                     <IonItem lines={"none"}>
                                         <IonAvatar slot="start">
