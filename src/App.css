@@ -92,6 +92,16 @@
 .commodity-list {
     margin-top: 80px;
     margin-bottom: 20%;
+    margin-left: 0;
+    margin-right: 0;
+}
+.grid-view-col{
+    padding: 0;
+    margin-top: 0;
+}
+
+.list-view-card{
+    font-size: 12px;
 }
 
 

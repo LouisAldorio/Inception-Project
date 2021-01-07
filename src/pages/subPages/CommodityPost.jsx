@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import { IonCard, IonCardContent, IonLabel, IonToast, IonContent, IonFabButton, IonIcon, IonBackButton, IonCardHeader, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonFab, IonText, IonSlide, IonSlides, IonInfiniteScroll, IonInfiniteScrollContent, IonSpinner, IonItem, IonAvatar, IonRow, IonCol, IonCardTitle, IonChip } from '@ionic/react'
+import { IonCard, IonCardContent, IonGrid, IonToast, IonContent, IonFabButton, IonIcon, IonBackButton, IonCardHeader, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonFab, IonText, IonSlide, IonSlides, IonInfiniteScroll, IonInfiniteScrollContent, IonSpinner, IonItem, IonAvatar, IonRow, IonCol, IonCardTitle, IonChip } from '@ionic/react'
 import '../../App.css'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
@@ -26,17 +26,19 @@ function Posts(props) {
     //query to API
     
     const [items,setItems] = useState([])
+    const [rightItems,setRightItems] = useState([])
+    console.log(items,rightItems)
     const {loading,data,fetchMore} = useQuery(FETCH_COMMODITY_QUERY,{
         onCompleted: () => {
-            setItems([...items,...data.comodities.nodes])
+            setItems([...items,...data.comodities.nodes.slice(0, data.comodities.nodes.length / 2)])
+            setRightItems([...rightItems,...data.comodities.nodes.slice(data.comodities.nodes.length / 2)])
         },
         variables: {
           page: 1,
-          limit: 3
+          limit: 10
         }
     })
     
-
     const [modalData, setModalData] = useState(null)
 
     function ToggleModal(image) {
@@ -56,7 +58,7 @@ function Posts(props) {
     function AddOrRemoveFriend() {
         setToast(true)
     }
-    console.log(items)
+    // console.log(items)
 
     return (
         <React.Fragment>
@@ -65,14 +67,16 @@ function Posts(props) {
                 onIonScrollStart={() => { }}
                 onIonScroll={() => { }}
                 onIonScrollEnd={() => { 
-                    if(data.comodities.total_item > items.length){
+                    if(data.comodities.total_item > (items.length + rightItems.length)){
                         fetchMore({
                             variables: {
-                                page: (items.length/3)+1,
-                                limit: 3
+                                page: ((items.length + rightItems.length)/10)+1,
+                                limit: 10
                               }
                         }).then(result => {
-                            setItems([...items,...result.data.comodities.nodes])                                               
+                            // setItems([...items,...result.data.comodities.nodes])     
+                            setItems([...items,...result.data.comodities.nodes.slice(0, result.data.comodities.nodes.length / 2)])
+                            setRightItems([...rightItems,...result.data.comodities.nodes.slice(result.data.comodities.nodes.length / 2)])                                          
                         })
                     }    
                 }}
@@ -82,40 +86,75 @@ function Posts(props) {
                     <React.Fragment>
                         <SearchBar selectedValue={searchedItem} changeHandler={TypeSearchWord} />  
                         <div className="commodity-list">
-                            {items.length > 0 ? items.map((image, i) => (
-                                <IonCard className="Ubuntu" key={image.id} onClick={() => ToggleModal(image)} >
-
-                                    <IonItem lines={"none"}>
-                                        <IonAvatar slot="start">
-                                            <img src={image.user.profile_image} />
-                                        </IonAvatar>
-                                        <h2>{image.user.username}</h2>
-                                    </IonItem>
-
-                                    <img src={image.image[0]} height="250px" width="500px" />
-                                    <IonCardContent>
-                                        <h1>{image.name}</h1>
-                                    </IonCardContent>
-
+                            {items.length > 0 && rightItems.length > 0 ? (
+                                 <IonGrid>
                                     <IonRow>
-                                        <IonCol size="6">
-                                            <IonItem lines={"none"}>
-                                                <IonIcon icon={pricetag} slot="start" className="pricetag"></IonIcon>
-                                                <p>Rp. {image.unit_price}</p>
-                                            </IonItem>
+                                        <IonCol size="6" className="grid-view-col">
+                                            {items.length > 0 && items.map((image, i) => (                                                                                                             
+                                                <IonCard className="Ubuntu" key={image.id} onClick={() => ToggleModal(image)} >
+                                                    <IonItem lines={"none"}>
+                                                        <IonAvatar slot="start">
+                                                            <img src={image.user.profile_image} />
+                                                        </IonAvatar>
+                                                        <h4 className="list-view-card">{image.user.username}</h4>
+                                                    </IonItem>
+    
+                                                    <img src={image.image[0]} />
+                                                    <IonCardContent>
+                                                        <h4 className="list-view-card">{image.name}</h4>
+                                                    </IonCardContent>
+    
+                                                    <IonRow>
+                                                        <IonCol size="12">
+                                                            <IonItem lines={"none"}>
+                                                                <IonIcon icon={pricetag} slot="start" className="pricetag"></IonIcon>
+                                                                <p className="list-view-card">Rp. {image.unit_price}</p>
+                                                            </IonItem>
+                                                            <IonItem lines={"none"}>
+                                                                <IonIcon icon={cart} slot="start" className="min-purchase"></IonIcon>
+                                                                <p className="list-view-card">Min: {image.min_purchase} {image.unit_type}</p>
+                                                            </IonItem>
+                                                        </IonCol>
+                                                    </IonRow>
+                                                </IonCard>
+                                            ))}
                                         </IonCol>
-                                        <IonCol size="6">
-                                            <IonItem lines={"none"}>
-                                                <IonIcon icon={cart} slot="start" className="min-purchase"></IonIcon>
-                                                <p>Min: {image.min_purchase} {image.unit_type}</p>
-                                            </IonItem>
+                                        <IonCol size="6" className="grid-view-col">
+                                            {rightItems.length > 0 && rightItems.map((image, i) => (                                                                                                             
+                                                <IonCard className="Ubuntu" key={image.id} onClick={() => ToggleModal(image)} >
+                                                    <IonItem lines={"none"}>
+                                                        <IonAvatar slot="start">
+                                                            <img src={image.user.profile_image} />
+                                                        </IonAvatar>
+                                                        <h4 className="list-view-card">{image.user.username}</h4>
+                                                    </IonItem>
+    
+                                                    <img src={image.image[0]} />
+                                                    <IonCardContent>
+                                                        <h4 className="list-view-card">{image.name}</h4>
+                                                    </IonCardContent>
+    
+                                                    <IonRow>
+                                                        <IonCol size="12">
+                                                            <IonItem lines={"none"}>
+                                                                <IonIcon icon={pricetag} slot="start" className="pricetag"></IonIcon>
+                                                                <p className="list-view-card">Rp. {image.unit_price}</p>
+                                                            </IonItem>
+                                                            <IonItem lines={"none"}>
+                                                                <IonIcon icon={cart} slot="start" className="min-purchase"></IonIcon>
+                                                                <p className="list-view-card">Min: {image.min_purchase} {image.unit_type}</p>
+                                                            </IonItem>
+                                                        </IonCol>
+                                                    </IonRow>
+                                                </IonCard>
+                                            ))}
                                         </IonCol>
                                     </IonRow>
-                                </IonCard>
-                            )) : <img id="photo-fullscreen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Tl87UxYtH39b-RUyxSB2SrtNkPZB_55dtw&usqp=CAU" />}
+                                </IonGrid>
+                            ):  <img id="photo-fullscreen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Tl87UxYtH39b-RUyxSB2SrtNkPZB_55dtw&usqp=CAU" />}                          
                         </div>
 
-                        {items.length < data.comodities.total_item && (
+                        {(items.length + rightItems.length) < data.comodities.total_item && (
                             <IonInfiniteScroll threshold="100px" id="infinite-scroll">
                                 <IonInfiniteScrollContent loadingSpinner="dots"><IonSpinner color="warning" className="pagination-spinner"></IonSpinner></IonInfiniteScrollContent>
                             </IonInfiniteScroll>
@@ -130,7 +169,7 @@ function Posts(props) {
                 )}
             </IonContent>
 
-            <CommodityCreate isOpen={openCreateForm} stateHandler={setOpenCreateForm}  items={items} setItems={setItems} total={data && data.comodities.total_item}/>
+            <CommodityCreate isOpen={openCreateForm} stateHandler={setOpenCreateForm}  items={items} rightItems={rightItems} setItems={setItems} total={data && data.comodities.total_item}/>
 
             <IonModal isOpen={modalState}>
                 <IonHeader translucent>

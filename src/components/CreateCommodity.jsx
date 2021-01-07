@@ -42,7 +42,7 @@ function CommodityCreate(props) {
             // const data = proxy.readQuery({query: FETCH_COMMODITY_QUERY})
             // proxy.writeQuery({query:FETCH_COMMODITY_QUERY,data:{comodities:{nodes: [result.data.commodity.create,...data.comodities.nodes]}}})
             let newList = [result.data.commodity.create,...props.items]
-            if (props.items.length < props.total) {
+            if ((props.items.length + props.rightItems.length) < props.total) {
                 newList.pop()
             }
             
