@@ -34,7 +34,7 @@ import { IonReactRouter } from '@ionic/react-router';
 
 //https://safe-forest-36324.herokuapp.com/graphql
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8085/graphql',
+  uri: 'https://safe-forest-36324.herokuapp.com/graphql',
 })
 
 const authLink = setContext(() => {
@@ -48,7 +48,13 @@ const authLink = setContext(() => {
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache({
+    typePolicies: {
+      User: {
+        keyFields: ["username"]
+      }
+    }
+  })
 })
 
 

@@ -43,6 +43,15 @@ export const FETCH_USER_BY_ROLE = gql`
             friend_list
             hashed_password
             looking_for
+            products {
+                id
+                name
+                image
+                unit_price
+                unit_type
+                min_purchase
+                description
+            }
         }
     }
 `

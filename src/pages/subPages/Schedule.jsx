@@ -15,6 +15,7 @@ import SchedulePost from '../../components/CreateSchedule'
 
 
 
+
 function Schedule(props){
 
     const {user} = useContext(AuthContext)
@@ -31,6 +32,8 @@ function Schedule(props){
         event: undefined,
         data: undefined,
       });
+
+    
 
     const items = [
         {

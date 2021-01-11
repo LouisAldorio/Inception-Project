@@ -1,5 +1,5 @@
-import { IonContent, IonSpinner,IonGrid,IonRow,IonCol, IonAvatar,IonIcon,IonFabButton,IonFab, IonItem,IonToast, IonText,IonButton, IonModal,IonHeader,IonToolbar,IonBackButton,IonTitle,IonButtons, IonLabel } from '@ionic/react';
-import {camera,images,lockOpen,mail,pencil,createOutline,logoWhatsapp,person,bagAdd}  from 'ionicons/icons'
+import { IonContent, IonSpinner,IonGrid,IonRow,IonCol, IonAvatar,IonIcon,IonFabButton,IonFab, IonItem,IonToast,IonChip, IonText,IonButton, IonModal,IonHeader,IonToolbar,IonBackButton,IonTitle,IonButtons, IonLabel } from '@ionic/react';
+import {camera,images,lockOpen,mail,pencil,createOutline,logoWhatsapp,person,bagAdd,searchCircle,closeCircle}  from 'ionicons/icons'
 import React,{useContext, useEffect, useState} from 'react'
 import Header from '../../components/Header';
 import ImageZoom from '../../components/PhotoZoom';
@@ -20,22 +20,26 @@ function Profile(props){
     const [selectedImage,setSelectedImage] = useState(null)
     const [editProfile,setEditProfile] = useState(false)
     const [errors, setError] = useState({})
+    const [lookingFor,setLookingFor] = useState([])
+    const [newItem, setNewItem] = useState("");
 
-    const [currentUser,setCurrentUser] = useState()
+    const color = ["tertiary","success","warning","secondary","danger","primary"]
+
     const {loading,data} = useQuery(FETCH_USER_BY_USERNAME,{
         variables: {
             username: user.Username
         },
         onCompleted: () => {
-            setProfilePicture(data.user_by_username.profile_image)          
-            setCurrentUser(data.user_by_username)
+            setProfilePicture(data.user_by_username.profile_image) 
+            setLookingFor(data.user_by_username.looking_for)         
         }
     })
 
 
     const { onChange, onSubmit, values } = useForm(updateUserProfile, {
         email:'',
-        whatsapp_number: ''
+        whatsapp_number: '',
+        looking_for: []
     })
     function updateUserProfile(){
         updateProfile()
@@ -46,12 +50,7 @@ function Profile(props){
     const [updateProfile,{loading:loadingUpdate}] = useMutation(UPDATE_USER_PROFILE,{
         variables: values,
         update(proxy,result){
-            console.log(result)
             setEditProfile(false)
-            setCurrentUser(result.data.user.update)
-
-            // const data = proxy.readQuery({query: FETCH_COMMODITY_QUERY})
-            // proxy.writeQuery({query:FETCH_COMMODITY_QUERY,data:{comodities:{nodes: [result.data.commodity.create,...data.comodities.nodes]}}})
         },
         onError(error){
             setError(error.graphQLErrors)
@@ -92,6 +91,8 @@ function Profile(props){
 
     function CleanData(){
         setEditProfile(false)
+        setProfilePicture(data.user_by_username.profile_image) 
+        setLookingFor(data.user_by_username.looking_for) 
     }
 
     return (
@@ -103,7 +104,7 @@ function Profile(props){
                 </IonItem>
 
                 {loading ? (<IonSpinner color="warning" className="spinner-home"></IonSpinner>) : 
-                    currentUser ? (
+                     (
                         <IonGrid>
                         <IonRow>
                             {profilePicture ? (
@@ -121,7 +122,7 @@ function Profile(props){
                                 <IonItem>
                                     <IonIcon icon={person} slot="start"></IonIcon>
                                     <IonLabel>
-                                        {currentUser.username}
+                                        {data.user_by_username.username}
                                     </IonLabel>
                                     
                                 </IonItem>  
@@ -132,7 +133,7 @@ function Profile(props){
                                 <IonItem>
                                     <IonIcon icon={logoWhatsapp} slot="start"></IonIcon>
                                     <IonLabel>
-                                        {currentUser.whatsapp_number}
+                                        {data.user_by_username.whatsapp_number}
                                     </IonLabel>
                                     
                                 </IonItem>  
@@ -143,14 +144,29 @@ function Profile(props){
                                 <IonItem>
                                     <IonIcon icon={mail} slot="start"></IonIcon>
                                     <IonLabel>
-                                        {currentUser.email}
-                                    </IonLabel>
-                                    
+                                        {data.user_by_username.email}
+                                    </IonLabel>                               
                                 </IonItem>  
                             </IonCol>                        
-                        </IonRow>                             
+                        </IonRow> 
+                        {user.Role === 'Distributor' && (
+                            <IonRow>
+                                <IonCol>
+                                    <IonItem lines="none">
+                                        <IonIcon icon={searchCircle} slot="start"></IonIcon>
+                                        <IonLabel>
+                                            {data.user_by_username.looking_for.map((item,i) => (
+                                                <IonChip outline key={i} color={color[i + Math.floor((Math.random() * 600) + 1) % 6]}>
+                                                    <IonLabel>{item}</IonLabel>
+                                                </IonChip>
+                                            ))}
+                                        </IonLabel>                               
+                                    </IonItem>  
+                                </IonCol>                        
+                            </IonRow> 
+                        )}                            
                     </IonGrid>
-                    ): (<IonSpinner color="warning" className="spinner-home"></IonSpinner>)                 
+                    )               
                 }
                  
                    
@@ -167,7 +183,7 @@ function Profile(props){
                 <IonHeader translucent>
                     <IonToolbar color='warning'>
                         <IonButtons slot="start">
-                            <IonBackButton defaultHref="/Posts" onClick={() => CleanData()} />
+                            <IonBackButton defaultHref="/Posts" onClick={() => CleanData()} disabled={loadingUpdate ? true : false}/>
                         </IonButtons>
                         <IonTitle>Edit Profile</IonTitle>
                     </IonToolbar>
@@ -175,7 +191,7 @@ function Profile(props){
 
                     
                 <IonContent scrollEvents={true}>
-                    {loadingUpdate ? (<IonSpinner color="warning" className="spinner-home"></IonSpinner>) : currentUser && (
+                    {loadingUpdate ? (<IonSpinner color="warning" className="spinner-home"></IonSpinner>) : (
                         <React.Fragment>
                             <IonGrid>
                                 <IonRow>
@@ -191,17 +207,56 @@ function Profile(props){
                             </IonGrid>
 
                             <InputControls type="email"
-                                    display={values.email === '' ? currentUser.email : <div><IonIcon icon={mail}/> Email</div>} 
+                                    display={values.email === '' ? data && data.user_by_username.email : <div><IonIcon icon={mail}/> Email</div>} 
                                     name="email"
                                     focus="true"
                                     onChange={onChange}
-                                    value={values.email === '' ? currentUser.email : values.email} />
+                                    value={values.email === '' ? data && data.user_by_username.email : values.email} />
                             <InputControls type="whatsapp_number"
-                                    display={values.whatsapp_number === '' ? currentUser.whatsapp_number : <div><IonIcon icon={logoWhatsapp}/> Whatsapp Number</div>} 
+                                    display={values.whatsapp_number === '' ? data && data.user_by_username.whatsapp_number : <div><IonIcon icon={logoWhatsapp}/> Whatsapp Number</div>} 
                                     name="whatsapp_number"
                                     focus="true"
                                     onChange={onChange}
-                                    value={values.whatsapp_number === '' ?  currentUser.whatsapp_number : values.email} />
+                                    value={values.whatsapp_number === '' ? data && data.user_by_username.whatsapp_number : values.email} />
+                            
+                                {lookingFor.map((item,i) => (
+                                    <IonChip outline key={i} color={color[i + Math.floor((Math.random() * 600) + 1) % 6]}>
+                                        <IonLabel>{item}</IonLabel>
+                                        <IonIcon icon={closeCircle}
+                                            onClick={(e) => {
+                                                let array = [...lookingFor]
+                                                let index = array.indexOf(item)
+                                                if (index !== -1) {
+                                                    array.splice(index, 1);
+                                                    setLookingFor(array)
+                                                  }
+                                            }}
+                                        ></IonIcon>
+                                    </IonChip>
+                                ))}
+                                
+                                {user.Role === 'Distributor' && (
+                                    <div className="form">
+                                        <input
+                                            placeholder={'What are you looking for ?'}
+                                            type="text"
+                                            value={newItem}
+                                            onChange={(e) => {
+                                                const { value } = e.target;
+                                                setNewItem(value);
+                                            }}
+                                        />
+                                        <button className="button-looking"
+                                            onClick={() => {
+                                                setLookingFor([...lookingFor, newItem]);
+                                                setNewItem("");
+                                            }}
+                                        >
+                                        <span>Add</span>
+                                        </button>
+                                    </div>
+                                )}
+                                
 
                             <IonButton                    
                                     expand="block"  
@@ -215,6 +270,7 @@ function Profile(props){
                                         if(values.whatsapp_number.trim() === ''){
                                             values.whatsapp_number = data.user_by_username.whatsapp_number
                                         }
+                                        values.looking_for = lookingFor
                                         onSubmit(e,null,profilePicture)
                                     }}><IonIcon slot="start" icon={bagAdd} />Edit Profile
                                 </IonButton>
@@ -245,12 +301,14 @@ const UPDATE_USER_PROFILE = gql`
         $email: String!
         $profile_image: String!
         $whatsapp_number: String!
+        $looking_for: [String!]!
     ){
         user{
             update(input:{
                 email: $email
                 profile_image: $profile_image
                 whatsapp_number: $whatsapp_number
+                looking_for: $looking_for
             }){
                 profile_image
                 username

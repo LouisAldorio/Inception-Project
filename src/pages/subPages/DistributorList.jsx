@@ -14,8 +14,6 @@ function DistributorList(props) {
 
     const {user} = useContext(AuthContext)
 
-    
-
     const color = ["tertiary","success","warning","secondary","danger","primary"]
 
     const [modalState,setModalState] = useState(false)

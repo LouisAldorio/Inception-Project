@@ -1,6 +1,8 @@
-import { IonAvatar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
+import { IonAvatar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonContent, IonGrid,IonSpinner, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import React,{useContext, useState} from 'react'
 import {IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle,IonToast} from '@ionic/react'
+import {useQuery} from '@apollo/client'
+import {FETCH_USER_BY_ROLE} from '../../utils/graphql'
 
 import '../../App.css'
 import Header from '../../components/Header';
@@ -19,7 +21,13 @@ function SupplierList(props) {
     const [postModalState,setPostModalState] = useState(false)
     const [toast,setToast] = useState(false)
 
-    const items = [
+    const {loading,data} = useQuery(FETCH_USER_BY_ROLE,{
+        variables: {
+            role: "Supplier"
+        }
+    })
+
+    let items = [
         {
             username: "Lusiana",
             email: "lusiana@gmail.com",
@@ -61,6 +69,10 @@ function SupplierList(props) {
         },
         
     ];
+    console.log(data)
+    if (data){
+        items = data.users_by_role
+    }
 
 
     const [modalData,setModalData] = useState(null)
@@ -91,36 +103,39 @@ function SupplierList(props) {
     return (
         <React.Fragment>
             <Header />
-            <IonContent scrollEvents={true}
-                    onIonScrollStart={() => {}}
-                    onIonScroll={() => {}}
-                    onIonScrollEnd={() => {}}
-                    className="ion-content-bottom">
-                <IonListHeader  lines="inset"> 
-                    <h1>Suppliers </h1> 
-                </IonListHeader>
-                <IonList>
-                    {items.length > 0 ? items.map((item,i) => (
-                        <IonItem key={i} onClick={() => ToggleModal(item)}>
-                            
-                            <IonLabel>
-                                <h2>{item.username}</h2>
-                                <p>
-                                    {/* {item.looking_for.length > 0 && item.looking_for.map((lookedItem,i) => (
-                                        <IonChip outline key={i} color={color[i + Math.floor((Math.random() * 600) + 1) % 6]}>
-                                            <IonLabel>{lookedItem}</IonLabel>
-                                        </IonChip>
-                                    ))} */}
-                                </p>
-                            </IonLabel>
-                            <IonAvatar slot="end">
-                                <img src={item.userImg} />
-                            </IonAvatar>
-                        </IonItem>
-                    )) : <img  src="https://i.pinimg.com/originals/88/36/65/8836650a57e0c941b4ccdc8a19dee887.png"/>}
-                </IonList>
+            {loading ? (<IonSpinner color="warning" className="spinner-home"></IonSpinner>) : (
+                <IonContent scrollEvents={true}
+                onIonScrollStart={() => {}}
+                onIonScroll={() => {}}
+                onIonScrollEnd={() => {}}
+                className="ion-content-bottom">
+                    <IonListHeader  lines="inset"> 
+                        <h1>Suppliers </h1> 
+                    </IonListHeader>
+                    <IonList>
+                        {items.length > 0 ? items.map((item,i) => (
+                            <IonItem key={i} onClick={() => ToggleModal(item)}>
+                                
+                                <IonLabel>
+                                    <h2>{item.username}</h2>
+                                    <p>
+                                        {/* {item.looking_for.length > 0 && item.looking_for.map((lookedItem,i) => (
+                                            <IonChip outline key={i} color={color[i + Math.floor((Math.random() * 600) + 1) % 6]}>
+                                                <IonLabel>{lookedItem}</IonLabel>
+                                            </IonChip>
+                                        ))} */}
+                                    </p>
+                                </IonLabel>
+                                <IonAvatar slot="end">
+                                    <img src={item.profile_image} />
+                                </IonAvatar>
+                            </IonItem>
+                        )) : <img  src="https://i.pinimg.com/originals/88/36/65/8836650a57e0c941b4ccdc8a19dee887.png"/>}
+                    </IonList>
 
-            </IonContent>
+                </IonContent>
+            )}
+            
 
             {/* modal untuk membuka detail customer */}
             <IonModal isOpen={modalState} >
@@ -129,13 +144,13 @@ function SupplierList(props) {
                         <IonButtons slot="start">                           
                             <IonBackButton defaultHref="/Posts" onClick={()=> CleanData()} />                           
                         </IonButtons>
-                        <IonTitle>Distributor's Details</IonTitle>
+                        <IonTitle>Supplier's Details</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent scrollEvents={true}>
                     <IonCard>
                         {modalData && (
-                            <ImageZoom src={modalData.userImg} width="500px" height="300px"/> 
+                            <ImageZoom src={modalData.profile_image} width="500px" height="300px"/> 
                         )}
                         <IonCardHeader>
                             <IonCardTitle>
@@ -162,9 +177,9 @@ function SupplierList(props) {
                             {modalData && modalData.products.length > 0 && modalData.products.map((product,i) => (
                                 <IonItem key={i} onClick={() => TogglePostModal(product)}>
                                     <IonAvatar slot="start">
-                                        <img src={product.src[0]} />
+                                        <img src={product.image[0]} />
                                     </IonAvatar>
-                                    <IonLabel><h2>{product.commodityName}</h2></IonLabel>
+                                    <IonLabel><h2>{product.name}</h2></IonLabel>
                                 </IonItem>
                             ))}
 
@@ -182,29 +197,29 @@ function SupplierList(props) {
                                 <IonContent scrollEvents={true}>
                                     <IonCard>
                                         <Carousel animation="slide" autoPlay={true} interval={4000}>
-                                            {postModalData && postModalData.src.map((img) => (
+                                            {postModalData && postModalData.image.map((img) => (
                                                 <ImageZoom src={img} key={img} width="500px" height="300px"/>            
                                             ))}
                                         </Carousel>                   
                                         <IonCardContent>
                                             <IonCardTitle>
-                                                <h1>Commodity: {postModalData && postModalData.commodityName}</h1>
+                                                <h1>Commodity: {postModalData && postModalData.name}</h1>
                                             </IonCardTitle>
                                             <p>
-                                                {postModalData && postModalData.ComodityDescription}
+                                                {postModalData && postModalData.description}
                                             </p>
                                         </IonCardContent> 
                                         <IonRow>
                                             <IonCol size="6">
                                                 <IonItem lines={"none"}>
                                                     <IonIcon icon={pricetag} slot="start" className="pricetag"></IonIcon>
-                                                    <p>Rp. {postModalData && postModalData.unitPrice}</p>
+                                                    <p>Rp. {postModalData && postModalData.unit_price}</p>
                                                 </IonItem>                                  
                                             </IonCol>    
                                             <IonCol size="6">
                                                 <IonItem lines={"none"}>
                                                     <IonIcon icon={cart} slot="start" className="min-purchase"></IonIcon>
-                                                    <p>Min: {postModalData && postModalData.minPurchase}</p>
+                                                    <p>Min: {postModalData && postModalData.min_purchase}</p>
                                                 </IonItem>                                  
                                             </IonCol>  
                                         </IonRow>                 
