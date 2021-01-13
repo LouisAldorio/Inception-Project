@@ -1,6 +1,6 @@
 import React, { useRef, useState,useEffect } from 'react'
 import {useQuery} from '@apollo/client'
-import { IonAvatar,IonPopover, IonContent,IonFab,IonFabButton,IonIcon,IonCardHeader, IonCard,IonCardContent,IonLabel, IonItem,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton, IonList, IonListHeader} from '@ionic/react'
+import { IonAvatar,IonPopover, IonContent,IonFab,IonFabButton,IonIcon,IonCardHeader, IonCard,IonCardContent,IonLabel, IonItem,IonSpinner,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton, IonList, IonListHeader} from '@ionic/react'
 import {add,infiniteOutline,logoWhatsapp,mail,arrowBack,chevronBack,trashBin,closeCircleOutline} from 'ionicons/icons'
 
 
@@ -12,6 +12,7 @@ import Header from '../../components/Header'
 import Clock from '../../components/Clock'
 import ImageZoom from '../../components/PhotoZoom'
 import SchedulePost from '../../components/CreateSchedule'
+import {FETCH_SCHEDULE,FETCH_USER_BY_USERNAME,FETCH_FRIEND_LIST_DISTRIBUTOR} from '../../utils/graphql'
 
 
 
@@ -23,9 +24,6 @@ function Schedule(props){
     const [modalState,setModalState] = useState(false)
     const [openCreateForm, setOpenCreateForm] = useState(false)
     const deleteButtonRef = useRef([])
-
-    // Data is empty before fetching
-    const [data, setData] = useState([]);
     
     const [showPopover, setShowPopover] = useState({
         open: false,
@@ -33,70 +31,30 @@ function Schedule(props){
         data: undefined,
       });
 
-    
+    const {loading,data} = useQuery(FETCH_SCHEDULE,{
+        onCompleted: () => {
+            console.log(data)
+            console.log(data.schedule_by_user)
+        }
+    })
 
-    const items = [
-        {
-            schedule_name: "Transport beras merah",
-            commodity_name: "Beras Raskin",
-            dealed_unit: "100 kg",
-            start_date: "2020-11-20",
-            end_date: "",
-            day: ["monday","tuesday","wednesday","friday"],
-            start_time: "08:00",
-            end_time: "10:00",
-            invloved_users: [
-                {
-                    userImg: "https://drive.google.com/uc?export=view&id=1Bg1c5HJcIB2CKT17uJ53CWZpNhkYynlV",
-                    username: "Louis Aldorio",
-                    email:"louisaldorio@gmail.com",
-                    WANumber:"082161723455",
-                },{
-                    userImg: "https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN",
-                    username: "Felix Yangsen",
-                    email:"louisaldorio@gmail.com",
-                    WANumber:"082161723455",
-                }
-            ], 
+    const {loading: supplierLoading,data: supplierData} = useQuery(FETCH_USER_BY_USERNAME,{
+        variables: {
+            username: user.Username
         },
-        {
-            schedule_name: "Transport beras Raskin",
-            commodity_name: "Beras Raskin",
-            dealed_unit: "100 kg",
-            start_date: "2020-11-20",
-            end_date: "2020-12-31",
-            day: ["monday","tuesday","wednesday","friday"],
-            start_time: "08:00",
-            end_time: "10:00",
-            invloved_users: [
-                {
-                    userImg: "https://drive.google.com/uc?export=view&id=1Bg1c5HJcIB2CKT17uJ53CWZpNhkYynlV",
-                    username: "Louis Aldorio",
-                    email:"louisaldorio@gmail.com",
-                    WANumber:"082161723455",
-                },{
-                    userImg: "https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN",
-                    username: "Susi Purnama Syahrir",
-                    email:"louisaldorio@gmail.com",
-                    WANumber:"082161723455",
-                }
-            ], 
+        onCompleted: () => {
+            console.log(supplierData)
+        }
+    })
+    const {loading: distributorLoading,data: distributorData} = useQuery(FETCH_FRIEND_LIST_DISTRIBUTOR,{
+        variables: {
+            username: user.Username
         },
-    ];
-    useEffect( () => {
-    
-        // We will fetch data and receive an array
-        // let data = fetchData();
-        // To simplify, let's suppose that the array is:
-        let data = items
-        
-        // We define the size of array after receiving the data
-        deleteButtonRef.current = new Array(data.length);
-        
-        // We set state
-        setData(data);
-    
-    }, [])
+        onCompleted: () => {
+            console.log(distributorData)
+        }
+    })
+
 
     const [modalData,setModalData] = useState(null)
 
@@ -131,67 +89,70 @@ function Schedule(props){
                 onIonScrollEnd={() => {}} className='ion-content-bottom'> 
                 <Clock />
 
-                <div className="schedule-list">
-                    {items.length > 0 ? items.map((image, i) => (
-                        <IonItemSliding key={i} ref={el => deleteButtonRef.current[i] = el}> 
-                                                                                 
-                            <IonItem slots="start" routerAnimation className="post-item"  lines={"none"} >
-                                <IonIcon icon={chevronBack} slot="end" color="medium" onClick={() => toggleDeleteButton(i)}></IonIcon>
-                                <IonCard key={i}  className="Ubuntu" onClick={() => ToggleModal(image)}>
-                                    <IonItem >
-                                        <h4>{image.schedule_name}</h4>
-                                        <IonAvatar slot="end">
-                                            <img src={image.invloved_users[0].userImg} />
-                                        </IonAvatar>
-                                        <IonAvatar slot="end">
-                                            <img src={image.invloved_users[1].userImg} />
-                                        </IonAvatar>
-                                    </IonItem>
-                                    <IonCardContent> 
-                                        <IonCardTitle>Comodity: {image.commodity_name}</IonCardTitle> 
-                                        <IonCardContent>
-                                            <h2>Days: {image.day.length > 0 && image.day.map((day,i) => 
-                                                (
-                                                    <IonChip key={i} color="warning">
-                                                        <IonLabel>{day.charAt(0).toUpperCase() + day.slice(1).substring(0,2)}</IonLabel>
-                                                    </IonChip>
-                                                )
-                                            )}</h2>
-                                            <h2>Start Date : {image.start_date}</h2>
-                                            <h2>End Date  &nbsp;: {image.end_date === '' ? <> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IonIcon icon={infiniteOutline} slot="end"></IonIcon></> : image.end_date}</h2>
-                                        </IonCardContent>
-                                                                           
-                                        <IonGrid>
-                                            <IonRow>
-                                                <IonCol size="7">
-                                                    Amount: {image.dealed_unit}
-                                                </IonCol>
-                                                <IonCol size="5">
-                                                    <IonCardSubtitle>{`${image.start_time} - ${image.end_time}`}</IonCardSubtitle>
-                                                </IonCol>
-                                            </IonRow>
-                                        </IonGrid>                               
-                                    </IonCardContent>                              
-                                </IonCard>                            
-                            </IonItem>
-                        
-                            {user && (
-                                <IonItemOptions side="end" > 
-                                    <IonItemOption  color="warning" onClick={() => toggleDeleteButton(i)}>UPDATE</IonItemOption>
-                                    <IonItemOption  color="danger" onClick={() => toggleDeleteButton(i)}>DELETE</IonItemOption>
-                                    <IonItemOption  color="medium" onClick={() => toggleDeleteButton(i)}>CANCEL</IonItemOption>
-                                </IonItemOptions>
-                            )}
+                {loading ? (<IonSpinner color="warning" className="spinner-home"></IonSpinner>) : (
+                    <div className="schedule-list">
+                        {data.schedule_by_user.length > 0 ? data.schedule_by_user.map((image, i) => (
+                            <IonItemSliding key={i} ref={el => deleteButtonRef.current[i] = el}> 
+                                                                                    
+                                <IonItem slots="start" routerAnimation className="post-item"  lines={"none"} >
+                                    <IonIcon icon={chevronBack} slot="end" color="medium" onClick={() => toggleDeleteButton(i)}></IonIcon>
+                                    <IonCard key={i}  className="Ubuntu" onClick={() => ToggleModal(image)}>
+                                        <IonItem >
+                                            <h4>{image.schedule_name}</h4>
+                                            <IonAvatar slot="end">
+                                                <img src={image.involved_users[0].profile_image} />
+                                            </IonAvatar>
+                                            <IonAvatar slot="end">
+                                                <img src={image.involved_users[1].profile_image} />
+                                            </IonAvatar>
+                                        </IonItem>
+                                        <IonCardContent> 
+                                            <IonCardTitle>Comodity: {image.commodity_name}</IonCardTitle> 
+                                            <IonCardContent>
+                                                <h2>Days: {image.day.length > 0 && image.day.map((day,i) => 
+                                                    (
+                                                        <IonChip key={i} color="warning">
+                                                            <IonLabel>{day.charAt(0).toUpperCase() + day.slice(1).substring(0,2)}</IonLabel>
+                                                        </IonChip>
+                                                    )
+                                                )}</h2>
+                                                <h2>Start Date : {image.start_date}</h2>
+                                                <h2>End Date  &nbsp;: {image.end_date === '' ? <> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IonIcon icon={infiniteOutline} slot="end"></IonIcon></> : image.end_date}</h2>
+                                            </IonCardContent>
+                                                                            
+                                            <IonGrid>
+                                                <IonRow>
+                                                    <IonCol size="7">
+                                                        Amount: {image.dealed_unit}
+                                                    </IonCol>
+                                                    <IonCol size="5">
+                                                        <IonCardSubtitle>{`${image.start_time} - ${image.end_time}`}</IonCardSubtitle>
+                                                    </IonCol>
+                                                </IonRow>
+                                            </IonGrid>                               
+                                        </IonCardContent>                              
+                                    </IonCard>                            
+                                </IonItem>
                             
-                        </IonItemSliding>
-                       
-                    )) :  <img id="photo-fullscreen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Tl87UxYtH39b-RUyxSB2SrtNkPZB_55dtw&usqp=CAU"/>    
-                  }              
-                </div> 
+                                {user && (
+                                    <IonItemOptions side="end" > 
+                                        <IonItemOption  color="warning" onClick={() => toggleDeleteButton(i)}>UPDATE</IonItemOption>
+                                        <IonItemOption  color="danger" onClick={() => toggleDeleteButton(i)}>DELETE</IonItemOption>
+                                        <IonItemOption  color="medium" onClick={() => toggleDeleteButton(i)}>CANCEL</IonItemOption>
+                                    </IonItemOptions>
+                                )}
+                                
+                            </IonItemSliding>
+                        
+                        )) :  <img id="photo-fullscreen" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Tl87UxYtH39b-RUyxSB2SrtNkPZB_55dtw&usqp=CAU"/>    
+                    }              
+                    </div> 
+                )}
+                
                 
 
-                <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed'>
-                    <IonFabButton color="warning" onClick={() => setOpenCreateForm(true)}>
+                <IonFab vertical="bottom" horizontal="end" edge id="schedule-add" slot='fixed' >
+                    <IonFabButton color="warning" onClick={() => setOpenCreateForm(true)} disabled={supplierLoading || distributorLoading}>
                         <IonIcon icon={add} />
                     </IonFabButton>
                 </IonFab>
@@ -211,7 +172,7 @@ function Schedule(props){
                         {modalData && (                         
                             <IonItem lines="full">
                                 <IonAvatar >
-                                    <img src={modalData.invloved_users[0].userImg} />
+                                    <img src={modalData.involved_users[0].profile_image} />
                                 </IonAvatar>
                                 
                                 <IonLabel>
@@ -219,7 +180,7 @@ function Schedule(props){
                                 </IonLabel>
                                 
                                 <IonAvatar >
-                                    <img src={modalData.invloved_users[1].userImg} />
+                                    <img src={modalData.involved_users[1].profile_image} />
                                 </IonAvatar>
                             </IonItem>              
                         )}
@@ -264,25 +225,25 @@ function Schedule(props){
                                     <IonListHeader>User's Profile</IonListHeader>
                                     <IonItem>
                                         <IonAvatar slot="start">
-                                            <img src={showPopover.data && showPopover.data.userImg} alt=""/>
+                                            <img src={showPopover.data && showPopover.data.profile_image} alt=""/>
                                         </IonAvatar>
                                         <IonLabel> {showPopover.data && showPopover.data.username}</IonLabel>
                                     </IonItem>
                                     <IonItem button><IonIcon icon={mail} slot="end"></IonIcon>{showPopover.data && showPopover.data.email}</IonItem>
-                                    <IonItem button href={`//api.whatsapp.com/send?phone=62${showPopover.data && showPopover.data.WANumber}&text=Hello`}><IonIcon icon={logoWhatsapp} slot="start"></IonIcon>{showPopover.data && showPopover.data.WANumber}</IonItem>
+                                    <IonItem button href={`//api.whatsapp.com/send?phone=62${showPopover.data && showPopover.data.whatsapp_number}&text=Hello`}><IonIcon icon={logoWhatsapp} slot="start"></IonIcon>{showPopover.data && showPopover.data.whatsapp_number}</IonItem>
                                 </IonList>
                             </IonPopover>
-                                <IonChip onClick={e => setShowPopover({open: true, event: e.nativeEvent,data: modalData.invloved_users[0]})}>
+                                <IonChip onClick={e => setShowPopover({open: true, event: e.nativeEvent,data: modalData.involved_users[0]})}>
                                     <IonAvatar>
-                                        <img src={modalData && modalData.invloved_users[0].userImg} alt=""/>
+                                        <img src={modalData && modalData.involved_users[0].profile_image} alt=""/>
                                     </IonAvatar>
-                                    <IonLabel>{modalData && modalData.invloved_users[0].username}</IonLabel>
+                                    <IonLabel>{modalData && modalData.involved_users[0].username}</IonLabel>
                                 </IonChip>
-                                <IonChip onClick={e => setShowPopover({open: true, event: e.nativeEvent,data:modalData.invloved_users[1]})}>
+                                <IonChip onClick={e => setShowPopover({open: true, event: e.nativeEvent,data:modalData.involved_users[1]})}>
                                     <IonAvatar>
-                                        <img src={modalData && modalData.invloved_users[1].userImg} alt=""/>                   
+                                        <img src={modalData && modalData.involved_users[1].profile_image} alt=""/>                   
                                     </IonAvatar>
-                                    <IonLabel>{modalData && modalData.invloved_users[1].username}</IonLabel>
+                                    <IonLabel>{modalData && modalData.involved_users[1].username}</IonLabel>
                                 </IonChip>                       
                             </IonCardHeader>
                         </IonCardContent>
@@ -291,7 +252,7 @@ function Schedule(props){
             </IonModal>
 
             {/* below is modal for creating schedule */}
-            <SchedulePost isOpen={openCreateForm} stateHandler={setOpenCreateForm}/>
+            <SchedulePost isOpen={openCreateForm} stateHandler={setOpenCreateForm} userData={user.Role === 'Distributor' ? distributorData : supplierData && supplierData.user_by_username}/>
         </React.Fragment>
          
     )

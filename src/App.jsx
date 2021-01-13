@@ -62,7 +62,7 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <AuthProvider>
+      <AuthProvider client={client}>
 
       
         <IonApp className="Ubuntu">          

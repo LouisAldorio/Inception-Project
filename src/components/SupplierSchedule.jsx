@@ -50,8 +50,8 @@ function SupplierScheduleView(props){
 
         for (var i = 0; i < user.products.length; i++) {          
             Options.push({
-                text: user.products[i].commodityName,
-                value: user.products[i].commodityName
+                text: user.products[i].name,
+                value: user.products[i].name
             })
         }
         return {

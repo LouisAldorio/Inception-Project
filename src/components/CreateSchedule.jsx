@@ -7,87 +7,8 @@ import SupplierScheduleView from './SupplierSchedule'
 
 function SchedulePost(props){
     const {user} = useContext(AuthContext)
-    const userSupllier = {
-        username: "Lusiana",
-        email: "lusiana@gmail.com",
-        userImg: "https://images.unsplash.com/photo-1503104834685-7205e8607eb9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8OXx8Z2lybHN8ZW58MHx8MHw%3D&auto=format&fit=crop&w=500&q=60",
-        whatsapp_number: "085594947643",
-        friend_list: ["louisaldorio","susi"],
-        products: [
-            {
-                src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                commodityName:"Beras Raskin",
-                minPurchase: "50 kg",
-                unitPrice: "100.000", 
-                ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." , 
-            },
-            {
-                src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                commodityName:"Gula Merah",
-                minPurchase: "100 kg",
-                unitPrice: "150.000", 
-                ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
-            },
-        ],
-    }
-
-    const userDistributor = {
-        friend_list: [
-            {
-                username: "Lusiana",
-                email: "lusiana@gmail.com",
-                userImg: "https://images.unsplash.com/photo-1503104834685-7205e8607eb9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8OXx8Z2lybHN8ZW58MHx8MHw%3D&auto=format&fit=crop&w=500&q=60",
-                whatsapp_number: "085594947643",
-                friend_list: ["louisaldorio"],
-                products: [
-                    {
-                        src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                        commodityName:"Beras Raskin",
-                        minPurchase: "50 kg",
-                        unitPrice: "100.000", 
-                        ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." , 
-                    },
-                    {
-                        src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                        commodityName:"Gula Merah",
-                        minPurchase: "100 kg",
-                        unitPrice: "150.000", 
-                        ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
-                    },
-                    {
-                        src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                        commodityName:"Semen tiga roda",
-                        minPurchase: "100 kg",
-                        unitPrice: "150.000", 
-                        ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
-                    },
-                ],
-            },
-            {
-                username: "Britney Charvia",
-                email: "britneyCharv@gmail.com",
-                userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWWLgIQj7fc_3tK3Fa8pd3gnVZ8ySEdCDMFQ&usqp=CAU",
-                whatsapp_number: "085594947643",
-                friend_list: ["louisaldorio"],
-                products: [
-                    {
-                        src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                        commodityName:"Keju Prancis",
-                        minPurchase: "20 kg",
-                        unitPrice: "350.000", 
-                        ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
-                    },
-                    {
-                        src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                        commodityName:"Soda Api",
-                        minPurchase: "20 kg",
-                        unitPrice: "350.000", 
-                        ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
-                    },
-                ],
-            },
-        ],
-    }
+    let userSupllier;
+    let userDistributor;
 
     function closeModal(){
         props.stateHandler(false)
@@ -98,10 +19,12 @@ function SchedulePost(props){
     let OutCome;
     console.log(user)
     if(user.Role === 'Distributor'){
+        userDistributor = props.userData
         OutCome = (
             <DistributorScheduleView data={userDistributor}/>
         )
     }else if(user.Role === 'Supplier'){
+        userSupllier = props.userData
         OutCome = (
             <SupplierScheduleView data={userSupllier} />
         )

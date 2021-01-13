@@ -3,6 +3,7 @@ import {IonButton,IonItem,IonLabel,IonPicker,IonDatetime, IonContent, IonChip, I
 import moment from 'moment'
 import {InputTextArea} from '../components/Input'
 import {home} from 'ionicons/icons'
+import {useForm} from '../utils/Hooks'
 
 
 function DistributorScheduleView(props){
@@ -29,6 +30,25 @@ function DistributorScheduleView(props){
         start: "00:00:00",
         end: "00:00:00"
     })
+
+    const [days,setDays] = useState([])
+    const [involvedUsers,setInvolvedUsers] = useState([])
+
+    const { onChange, onSubmit, values } = useForm(createSchedule, {
+        schedule_name: '',
+        commodity_name: '',
+        dealed_unit: '',
+        start_date: selectedStartDate,
+        end_date: '',
+        day:[],
+        start_time:'',
+        end_time: '',
+        involved_users_username:[],
+    })
+    console.log(values)
+    function createSchedule(){
+
+    }
     
 
     const friends = () => {
@@ -55,14 +75,14 @@ function DistributorScheduleView(props){
         if(chosenFriend){
             for (var i = 0; i < user.friend_list.length; i++){
                 if(chosenFriend.pickedFriend.value === user.friend_list[i].username){
-                    Commodity = user.friend_list[i].products
+                    Commodity = user.friend_list[i].user.products
                 }
             }          
         }
         for (var i = 0; i < Commodity.length; i++) {          
             Options.push({
-                text: Commodity[i].commodityName,
-                value: Commodity[i].commodityName
+                text: Commodity[i].name,
+                value: Commodity[i].name
             })
         }
         return {
@@ -76,7 +96,7 @@ function DistributorScheduleView(props){
             <IonItem >
                 <IonLabel color="medium">Choose Friend To Trade</IonLabel>
                 <IonButton color="warning" onClick={() => {setFriendPicker(true)}}>{!chosenFriend ? 'Pick' : (chosenFriend && chosenFriend.pickedFriend.value) }</IonButton>
-                <IonPicker
+                <IonPicker onIonChange={onChange}
                     name="friend"
                     isOpen={friendPicker}
                     columns={[friends()]}
@@ -134,7 +154,11 @@ function DistributorScheduleView(props){
                     max={formattedMaxAllowedStartDate} 
                     displayFormat="DDDD, MMMM DD, YYYY" 
                     placeholder="Select Date" value={selectedStartDate} 
-                    onIonChange={e => setSelectedStartDate(e.detail.value)}></IonDatetime>
+                    onIonChange={e => {
+                        setSelectedStartDate(e.detail.value)
+                        e.target.value = e.detail.value
+                        onChange(e)
+                    }}></IonDatetime>
             </IonItem>
 
             <IonItem>

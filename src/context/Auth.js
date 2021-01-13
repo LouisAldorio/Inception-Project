@@ -55,6 +55,7 @@ function AuthProvider(props){
     }
 
     function logout(){
+        props.client.resetStore()
         localStorage.removeItem('jwtToken')
         dispatch({
             type:'LOGOUT'

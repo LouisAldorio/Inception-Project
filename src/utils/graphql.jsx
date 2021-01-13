@@ -70,13 +70,58 @@ export const FETCH_USER_BY_USERNAME = gql`
             friend_list
             looking_for
             products{
+                id
+                name
+                image
+                unit_price
+                unit_type
+                min_purchase
+                description
+            }
+        }
+    }
+`
+
+export const FETCH_FRIEND_LIST_DISTRIBUTOR = gql`
+    query getFriendByDistributor{
+        friend_list{
+            username
+            user{
+                profile_image
+                username
+                email
+                friend_list
+                whatsapp_number
+                products{
+                    name
+                    image
+                    unit_price
+                    min_purchase
+                    description
+                }
+            }
+        }
+    }
+`
+
+export const FETCH_SCHEDULE = gql`
+    query GetSchedule {
+        schedule_by_user{
             id
-            name
-            image
-            unit_price
-            unit_type
-            min_purchase
-            description
+            schedule_name
+            commodity_name
+            dealed_unit
+            start_date
+            end_date
+            day
+            start_time
+            end_time
+            involved_users_username
+            involved_users{
+                profile_image
+                username
+                email
+                whatsapp_number
             }
         }
     }
