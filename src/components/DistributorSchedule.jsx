@@ -1,16 +1,20 @@
-import React,{useState} from 'react'
+import React,{useContext, useState} from 'react'
 import {IonButton,IonItem,IonLabel,IonPicker,IonDatetime, IonContent, IonChip, IonCard, IonIcon} from '@ionic/react'
 import moment from 'moment'
 import {InputTextArea} from '../components/Input'
 import {home} from 'ionicons/icons'
 import {useForm} from '../utils/Hooks'
 import {InputControls} from './Input'
-import {pricetag} from 'ionicons/icons'
+import {pricetag,textOutline} from 'ionicons/icons'
+import {CREATE_SCHEDULE} from '../utils/graphql'
+import { AuthContext } from '../context/Auth'
 
 
 function DistributorScheduleView(props){
 
     const user = props.data
+
+    const {user: loggedInUser} = useContext(AuthContext)
 
     const date = new Date()
     const formattedDate = moment(date).format('D MMMM YYYY')
@@ -35,19 +39,18 @@ function DistributorScheduleView(props){
 
     const [days,setDays] = useState([])
     const [involvedUsers,setInvolvedUsers] = useState([])
+    
 
     const { onChange, onSubmit, values } = useForm(createSchedule, {
         schedule_name: '',
         commodity_name: '',
         dealed_unit: '',
-        start_date: selectedStartDate,
+        start_date: '',
         end_date: '',
-        day:[],
         start_time:'',
         end_time: '',
-        involved_users_username:[],
     })
-    console.log(values)
+    
     function createSchedule(){
 
     }
@@ -93,10 +96,16 @@ function DistributorScheduleView(props){
         }
     };
 
-    console.log(chosenCommodity)  
+    console.log(values)
 
     return (
         <React.Fragment>
+            <InputControls 
+                    type="text" 
+                    display={ <div><IonIcon icon={textOutline}/> Schedule Name</div>}
+                    name="schedule_name" 
+                    onChange={onChange} 
+                    value={values.schedule_name}/>
             <IonItem >
                 <IonLabel color="medium">Choose Friend To Trade</IonLabel>
                 <IonButton color="warning" onClick={() => {setFriendPicker(true)}}>{!chosenFriend ? 'Pick' : (chosenFriend && chosenFriend.pickedFriend.value) }</IonButton>
@@ -116,6 +125,7 @@ function DistributorScheduleView(props){
                             handler: user => {
                                 setChosenFriend(user)                              
                                 setFriendPicker(false)
+                                setInvolvedUsers([...involvedUsers,loggedInUser.Username,user.pickedFriend.value])
                                 setChosenCommodity()
                             }
                         }
@@ -153,7 +163,8 @@ function DistributorScheduleView(props){
                                         ...commodity.pickedCommodity,
                                         min_purchase: item.min_purchase,
                                         unit: item.unit_type
-                                    }})                                         
+                                    }})    
+                                    values.commodity_name = commodity.pickedCommodity.value                                   
                                     setCommodityPicker(false)
                                 }
                             }
@@ -167,9 +178,9 @@ function DistributorScheduleView(props){
                 <InputControls 
                     type="number" 
                     display={ <div><IonIcon icon={pricetag}/> Min Purchase : {chosenCommodity.pickedCommodity.min_purchase}</div>}
-                    name="unit_price" 
+                    name="dealed_unit" 
                     onChange={onChange} 
-                    value={values.unit_price}/>
+                    value={values.dealed_unit}/>
                 
             )}
                 
@@ -247,6 +258,12 @@ function DistributorScheduleView(props){
                 className="ion-margin"
                 expand="block"
                 color="warning"
+                onClick={() => {
+                    values.involved_users_username = involvedUsers
+                    values.day = chosenDays
+                    values.dealed_unit += ` ${chosenCommodity.pickedCommodity.unit}`
+                    console.log(values)
+                }}
             >Create Schedule</IonButton>
         </React.Fragment>
     )

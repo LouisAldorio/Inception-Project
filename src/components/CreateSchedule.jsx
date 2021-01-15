@@ -13,8 +13,6 @@ function SchedulePost(props){
     function closeModal(){
         props.stateHandler(false)
     }
-
-    // Determine what is the user role, (conditional rendering)
     
     let OutCome;
     

@@ -127,3 +127,48 @@ export const FETCH_SCHEDULE = gql`
         }
     }
 `
+
+export const CREATE_SCHEDULE = gql`
+    mutation createSchedule(
+        $schedule_name: String!
+        $commodity_name: String!
+        $dealed_unit: String!
+        $start_date: String!
+        $end_date: String!
+        $day: [String]!
+        $start_time: String!
+        $end_date: String!
+        $involved_users_username: [String]!
+    ){
+        schedule{
+            create(input:{
+                schedule_name: $schedule_name
+                commodity_name: $commodity_name
+                dealed_unit: $dealed_unit
+                start_date: $start_date
+                end_date: $end_date
+                day: $day
+                start_time: $start_time
+                end_time: $end_time
+                involved_users_username: $involved_users_username
+            }){
+                id
+                schedule_name
+                commodity_name
+                dealed_unit
+                start_date
+                end_date
+                day
+                start_time
+                end_time
+                involved_users_username
+                involved_users{
+                    profile_image
+                    username
+                    email
+                    whatsapp_number
+                }
+            }
+        }
+    }
+`
