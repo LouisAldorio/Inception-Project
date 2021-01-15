@@ -4,6 +4,8 @@ import moment from 'moment'
 import {InputTextArea} from '../components/Input'
 import {home} from 'ionicons/icons'
 import {useForm} from '../utils/Hooks'
+import {InputControls} from './Input'
+import {pricetag} from 'ionicons/icons'
 
 
 function DistributorScheduleView(props){
@@ -82,7 +84,7 @@ function DistributorScheduleView(props){
         for (var i = 0; i < Commodity.length; i++) {          
             Options.push({
                 text: Commodity[i].name,
-                value: Commodity[i].name
+                value: Commodity[i].name,
             })
         }
         return {
@@ -90,6 +92,8 @@ function DistributorScheduleView(props){
           options: Options
         }
     };
+
+    console.log(chosenCommodity)  
 
     return (
         <React.Fragment>
@@ -136,15 +140,38 @@ function DistributorScheduleView(props){
                         {
                             text: "Confirm",
                             handler: commodity => {
-                                if(commodity){
-                                    setChosenCommodity(commodity)
-                                }                         
-                                setCommodityPicker(false)
+                                
+                                if(commodity.pickedCommodity.value){
+                                    let friend = user.friend_list.find((b) => {
+                                        return b.username === chosenFriend.pickedFriend.value                                      
+                                    })
+                                    let item = friend.user.products.find((item) => {
+                                        return item.name === commodity.pickedCommodity.value
+                                    })
+                                    
+                                    setChosenCommodity({pickedCommodity:{
+                                        ...commodity.pickedCommodity,
+                                        min_purchase: item.min_purchase,
+                                        unit: item.unit_type
+                                    }})                                         
+                                    setCommodityPicker(false)
+                                }
                             }
                         }
                     ]}
                 ></IonPicker>
             </IonItem>
+
+            {chosenCommodity && (
+                
+                <InputControls 
+                    type="number" 
+                    display={ <div><IonIcon icon={pricetag}/> Min Purchase : {chosenCommodity.pickedCommodity.min_purchase}</div>}
+                    name="unit_price" 
+                    onChange={onChange} 
+                    value={values.unit_price}/>
+                
+            )}
                 
             <IonItem >
                 <IonLabel color="medium">Start Date </IonLabel>

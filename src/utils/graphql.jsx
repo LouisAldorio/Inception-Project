@@ -98,6 +98,7 @@ export const FETCH_FRIEND_LIST_DISTRIBUTOR = gql`
                     unit_price
                     min_purchase
                     description
+                    unit_type
                 }
             }
         }

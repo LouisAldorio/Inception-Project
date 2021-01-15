@@ -17,7 +17,7 @@ function SchedulePost(props){
     // Determine what is the user role, (conditional rendering)
     
     let OutCome;
-    console.log(user)
+    
     if(user.Role === 'Distributor'){
         userDistributor = props.userData
         OutCome = (
