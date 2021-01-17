@@ -1,6 +1,7 @@
 import { IonAvatar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import React,{useContext, useState} from 'react'
 import {IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle,IonToast,IonSpinner} from '@ionic/react'
+import {useMutation} from '@apollo/client'
 
 import '../../App.css'
 import Header from '../../components/Header';
@@ -8,7 +9,8 @@ import ImageZoom from '../../components/PhotoZoom'
 import { personAdd,mail,call,checkmarkCircle } from 'ionicons/icons';
 import { AuthContext } from '../../context/Auth';
 import {useQuery} from '@apollo/client'
-import {FETCH_USER_BY_ROLE} from '../../utils/graphql'
+import {FETCH_USER_BY_ROLE,FETCH_USER_BY_USERNAME,ADD_OR_REMOVE_FRIEND} from '../../utils/graphql'
+import {useForm} from '../../utils/Hooks'
 
 function DistributorList(props) {
 
@@ -18,6 +20,7 @@ function DistributorList(props) {
 
     const [modalState,setModalState] = useState(false)
     const [toast,setToast] = useState(false)
+    const [friend,setFriend] = useState([])
 
     const {loading,data} = useQuery(FETCH_USER_BY_ROLE,{
         variables: {
@@ -25,12 +28,27 @@ function DistributorList(props) {
         }
     })
 
-    let items;
+    const {loading:loadingUser,data: dataUser} = useQuery(FETCH_USER_BY_USERNAME,{
+        variables: {
+            username: user.Username
+        },
+        onCompleted: () => {
+            setFriend(dataUser.user_by_username.friend_list)
+        }
+    })
 
-    if(data) {
-        console.log(data.users_by_role);
-        items = data.users_by_role
-    }
+    const { onChange, onSubmit, values } = useForm(AddOrRemoveFriend, {})
+
+    const [addOrRemoveFriend, { loading: friendLoading }] = useMutation(ADD_OR_REMOVE_FRIEND, {
+        update(proxy, result) {
+            setFriend(result.data.friends.add.friend_list)
+            setToast(true) 
+        },
+        onError(err) {
+            console.log(err)
+        },
+        variables: values
+    })
 
     const [modalData,setModalData] = useState(null)
 
@@ -45,7 +63,7 @@ function DistributorList(props) {
     }
 
     function AddOrRemoveFriend(){
-        setToast(true)
+        addOrRemoveFriend()
     }
 
     return (
@@ -62,7 +80,7 @@ function DistributorList(props) {
 
                 {loading ? (<IonSpinner color="warning" className="spinner-home"></IonSpinner>) : (
                     <IonList>
-                        {items.length > 0 ? items.map((item,i) => (
+                        {data.users_by_role.length > 0 ? data.users_by_role.map((item,i) => (
                             <IonItem key={i} onClick={() => ToggleModal(item)}>
                                 <IonAvatar slot="start">
                                     <img src={item.profile_image} />
@@ -103,7 +121,22 @@ function DistributorList(props) {
                             <IonCardTitle>
                                 <IonItem>
                                     {modalData && modalData.username}
-                                    <IonChip onClick={AddOrRemoveFriend} slot="end" color="warning"><IonIcon icon={modalData && (modalData.friend_list.includes(user.Username) ? checkmarkCircle : personAdd)} color="dark"></IonIcon></IonChip>
+                                    <IonChip onClick={(e) => {
+                                        
+                                        if(!friend.includes(modalData.username)){          
+                                            onSubmit(e,null,null,[...friend,modalData.username])              
+                                        }else{
+                                            onSubmit(e,null,null,friend.filter(item => item != modalData.username))
+                                        }
+
+                                    }} slot="end" color="warning">
+
+                                    {friendLoading ? (<IonSpinner color="warning"></IonSpinner>): user.Username !== (modalData &&  modalData.username) && (
+                                        <IonIcon icon={
+                                            modalData && dataUser.user_by_username && (dataUser.user_by_username.friend_list.includes(modalData.username)) ? checkmarkCircle : personAdd} 
+                                            color="dark"></IonIcon>
+                                    )}
+                                    </IonChip>
                                 </IonItem>                               
                                 <IonItem lines={"none"} >                             
                                     <IonIcon slot="start" icon={mail}></IonIcon>{modalData && modalData.email}                           

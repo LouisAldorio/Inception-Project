@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/Auth';
 import Profile from './subPages/Profile';
 import CommodityPost from './subPages/CommodityPost';
-import Schedule from './subPages/Schedule';
+import Schedule from './subPages/ScheduleList';
 import DistributorList from './subPages/DistributorList';
 import SupplierList from './subPages/SupplierList';
 

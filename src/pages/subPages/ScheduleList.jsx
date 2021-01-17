@@ -1,5 +1,5 @@
 import React, { useRef, useState,useEffect } from 'react'
-import {useQuery} from '@apollo/client'
+import {useQuery,useMutation} from '@apollo/client'
 import { IonAvatar,IonPopover, IonContent,IonFab,IonFabButton,IonIcon,IonCardHeader, IonCard,IonCardContent,IonLabel, IonItem,IonSpinner,IonItemSliding,IonItemOption,IonItemOptions, IonCardSubtitle, IonGrid, IonRow, IonCol, IonCardTitle, IonChip, IonModal,IonHeader,IonToolbar,IonButtons,IonTitle,IonBackButton, IonList, IonListHeader} from '@ionic/react'
 import {add,infiniteOutline,logoWhatsapp,mail,arrowBack,chevronBack,trashBin,closeCircleOutline} from 'ionicons/icons'
 
@@ -10,9 +10,9 @@ import { useContext } from 'react'
 import { AuthContext } from '../../context/Auth'
 import Header from '../../components/Header'
 import Clock from '../../components/Clock'
-import ImageZoom from '../../components/PhotoZoom'
 import SchedulePost from '../../components/CreateSchedule'
 import {FETCH_SCHEDULE,FETCH_USER_BY_USERNAME,FETCH_FRIEND_LIST_DISTRIBUTOR} from '../../utils/graphql'
+import DeleteSchedule from '../../components/DeleteSchedule'
 
 
 
@@ -33,7 +33,6 @@ function Schedule(props){
 
     const {loading,data} = useQuery(FETCH_SCHEDULE,{
         onCompleted: () => {
-            console.log(data)
             console.log(data.schedule_by_user)
         }
     })
@@ -42,17 +41,11 @@ function Schedule(props){
         variables: {
             username: user.Username
         },
-        onCompleted: () => {
-            console.log(supplierData)
-        }
     })
     const {loading: distributorLoading,data: distributorData} = useQuery(FETCH_FRIEND_LIST_DISTRIBUTOR,{
         variables: {
             username: user.Username
         },
-        onCompleted: () => {
-            console.log(distributorData)
-        }
     })
 
 
@@ -68,8 +61,8 @@ function Schedule(props){
         setModalData(null)
     }
 
-    //delete button
-    function toggleDeleteButton(i){
+    //toggle option button
+    function ToggleOption(i){
         deleteButtonRef.current[i].getSlidingRatio().then(number => {
             
             if(number > 0){
@@ -79,6 +72,22 @@ function Schedule(props){
             }         
         })  
     }
+
+    //mutations delete 
+    // const [DeleteSchedule,{loading: DeleteLoading}] = useMutation(DELETE_SCHEDULE,{
+    //     variables: {
+            
+    //     },
+    //     update(proxy,result){
+
+    //         const data = proxy.readQuery({query: FETCH_SCHEDULE})
+    //         proxy.writeQuery({query:FETCH_SCHEDULE,data:{schedule_by_user: [result.data.schedule.create,...data.schedule_by_user]}})
+    //         props.stateModelHandler(false)
+    //     },
+    //     onError(error){
+    //         console.log(error)
+    //     }
+    // })
 
     return (
         <React.Fragment> 
@@ -95,7 +104,7 @@ function Schedule(props){
                             <IonItemSliding key={i} ref={el => deleteButtonRef.current[i] = el}> 
                                                                                     
                                 <IonItem slots="start" routerAnimation className="post-item"  lines={"none"} >
-                                    <IonIcon icon={chevronBack} slot="end" color="medium" onClick={() => toggleDeleteButton(i)}></IonIcon>
+                                    <IonIcon icon={chevronBack} slot="end" color="medium" onClick={() => ToggleOption(i)}></IonIcon>
                                     <IonCard key={i}  className="Ubuntu" onClick={() => ToggleModal(image)}>
                                         <IonItem >
                                             <h4>{image.schedule_name}</h4>
@@ -136,9 +145,12 @@ function Schedule(props){
                             
                                 {user && (
                                     <IonItemOptions side="end" > 
-                                        <IonItemOption  color="warning" onClick={() => toggleDeleteButton(i)}>UPDATE</IonItemOption>
-                                        <IonItemOption  color="danger" onClick={() => toggleDeleteButton(i)}>DELETE</IonItemOption>
-                                        <IonItemOption  color="medium" onClick={() => toggleDeleteButton(i)}>CANCEL</IonItemOption>
+                                        <IonItemOption  color="warning" onClick={() => ToggleOption(i)}>UPDATE</IonItemOption>
+                                        {/* <IonItemOption  color="danger" onClick={() => {
+                                            ToggleOption(i)
+                                        }}>DELETE</IonItemOption> */}
+                                        <DeleteSchedule ToggleOption={ToggleOption} i={i} id={image.id}/>
+                                        <IonItemOption  color="medium" onClick={() => ToggleOption(i)}>CANCEL</IonItemOption>
                                     </IonItemOptions>
                                 )}
                                 

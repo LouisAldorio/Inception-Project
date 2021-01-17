@@ -2,7 +2,7 @@ import { IonAvatar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChi
 import React,{useContext, useState} from 'react'
 import {IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle,IonToast} from '@ionic/react'
 import {useQuery} from '@apollo/client'
-import {FETCH_USER_BY_ROLE,FETCH_USER_BY_USERNAME} from '../../utils/graphql'
+import {FETCH_USER_BY_ROLE,FETCH_USER_BY_USERNAME,ADD_OR_REMOVE_FRIEND} from '../../utils/graphql'
 import {gql,useMutation} from '@apollo/client'
 
 import '../../App.css'
@@ -244,17 +244,17 @@ function SupplierList(props) {
 }
 
 
-const ADD_OR_REMOVE_FRIEND = gql`
-    mutation addFriend(
-        $friends: [String]!
-    ) {
-        friends{
-            add(friends:$friends){
-                username
-                friend_list
-            }
-        }
-    }
-`
+// const ADD_OR_REMOVE_FRIEND = gql`
+//     mutation addFriend(
+//         $friends: [String]!
+//     ) {
+//         friends{
+//             add(friends:$friends){
+//                 username
+//                 friend_list
+//             }
+//         }
+//     }
+// `
 
 export default SupplierList;

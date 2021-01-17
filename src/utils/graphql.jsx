@@ -137,7 +137,7 @@ export const CREATE_SCHEDULE = gql`
         $end_date: String!
         $day: [String]!
         $start_time: String!
-        $end_date: String!
+        $end_time: String!
         $involved_users_username: [String]!
     ){
         schedule{
@@ -169,6 +169,29 @@ export const CREATE_SCHEDULE = gql`
                     whatsapp_number
                 }
             }
+        }
+    }
+`
+
+export const ADD_OR_REMOVE_FRIEND = gql`
+    mutation addFriend(
+        $friends: [String]!
+    ) {
+        friends{
+            add(friends:$friends){
+                username
+                friend_list
+            }
+        }
+    }
+`
+
+export const DELETE_SCHEDULE = gql`
+    mutation deleteSchedule(
+        $id: String!
+    ) {
+        schedule{
+            delete(id: $id)
         }
     }
 `

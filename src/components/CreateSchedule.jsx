@@ -1,32 +1,16 @@
 import { IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle, IonContent, IonPicker,IonButton } from '@ionic/react'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../context/Auth'
-import DistributorScheduleView from './DistributorSchedule'
-import SupplierScheduleView from './SupplierSchedule'
+import ScheduleView from './Schedule'
 
 
 function SchedulePost(props){
     const {user} = useContext(AuthContext)
-    let userSupllier;
-    let userDistributor;
 
     function closeModal(){
         props.stateHandler(false)
     }
     
-    let OutCome;
-    
-    if(user.Role === 'Distributor'){
-        userDistributor = props.userData
-        OutCome = (
-            <DistributorScheduleView data={userDistributor}/>
-        )
-    }else if(user.Role === 'Supplier'){
-        userSupllier = props.userData
-        OutCome = (
-            <SupplierScheduleView data={userSupllier} />
-        )
-    }
 
     return (
         <React.Fragment>
@@ -41,7 +25,7 @@ function SchedulePost(props){
                 </IonHeader>
 
                 <IonContent>
-                    {OutCome}
+                    <ScheduleView data={props.userData} stateModelHandler={props.stateHandler}/>
                 </IonContent>
             </IonModal>
         </React.Fragment>
