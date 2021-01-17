@@ -7,7 +7,7 @@ export const useForm = (callback,initialState = {}) => {
         setValues({ ...values, [event.target.name]: event.target.value })
     }
 
-    const onSubmit = (event,images,profile_image) => {
+    const onSubmit = (event,images,profile_image,friends) => {
         event.preventDefault();
 
         if(images){
@@ -15,6 +15,9 @@ export const useForm = (callback,initialState = {}) => {
         }
         if(profile_image){
             values.profile_image = profile_image
+        }
+        if(friends){
+            values.friends = friends
         }
         console.log(values)
         callback();

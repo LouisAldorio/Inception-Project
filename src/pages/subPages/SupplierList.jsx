@@ -2,7 +2,8 @@ import { IonAvatar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChi
 import React,{useContext, useState} from 'react'
 import {IonModal,IonHeader,IonToolbar,IonButtons,IonBackButton,IonTitle,IonToast} from '@ionic/react'
 import {useQuery} from '@apollo/client'
-import {FETCH_USER_BY_ROLE} from '../../utils/graphql'
+import {FETCH_USER_BY_ROLE,FETCH_USER_BY_USERNAME} from '../../utils/graphql'
+import {gql,useMutation} from '@apollo/client'
 
 import '../../App.css'
 import Header from '../../components/Header';
@@ -10,6 +11,7 @@ import ImageZoom from '../../components/PhotoZoom'
 import { personAdd,mail,call,checkmarkCircle,pricetag,cart } from 'ionicons/icons';
 import { AuthContext } from '../../context/Auth';
 import Carousel from 'react-material-ui-carousel'
+import {useForm} from '../../utils/Hooks'
 
 function SupplierList(props) {
 
@@ -20,6 +22,16 @@ function SupplierList(props) {
     const [modalState,setModalState] = useState(false)
     const [postModalState,setPostModalState] = useState(false)
     const [toast,setToast] = useState(false)
+    const [friend,setFriend] = useState([])
+
+    const {loading:loadingUser,data: dataUser} = useQuery(FETCH_USER_BY_USERNAME,{
+        variables: {
+            username: user.Username
+        },
+        onCompleted: () => {
+            setFriend(dataUser.user_by_username.friend_list)
+        }
+    })
 
     const {loading,data} = useQuery(FETCH_USER_BY_ROLE,{
         variables: {
@@ -27,52 +39,19 @@ function SupplierList(props) {
         }
     })
 
-    let items = [
-        {
-            username: "Lusiana",
-            email: "lusiana@gmail.com",
-            userImg: "https://images.unsplash.com/photo-1503104834685-7205e8607eb9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8OXx8Z2lybHN8ZW58MHx8MHw%3D&auto=format&fit=crop&w=500&q=60",
-            whatsapp_number: "085594947643",
-            friend_list: ["louisaldorio"],
-            products: [
-                {
-                    src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                    commodityName:"Beras Raskin",
-                    minPurchase: "50 kg",
-                    unitPrice: "100.000", 
-                    ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." , 
-                },
-                {
-                    src:["https://drive.google.com/uc?export=view&id=1Nd6n86C8jZRsII8wJ2CATVxrFtxBgLTN","https://drive.google.com/uc?export=view&id=1KB3r9uHLQ9m6VS8r177Dyac1e44I6p6K"],
-                    commodityName:"Gula Merah",
-                    minPurchase: "100 kg",
-                    unitPrice: "150.000", 
-                    ComodityDescription: "The most popular industrial group ever, and largely responsible for bringing the music to a mass audience." ,
-                },
-            ],
+
+    const { onChange, onSubmit, values } = useForm(AddOrRemoveFriend, {})
+
+    const [addOrRemoveFriend, { loading: friendLoading }] = useMutation(ADD_OR_REMOVE_FRIEND, {
+        update(proxy, result) {
+            setFriend(result.data.friends.add.friend_list)
+            setToast(true) 
         },
-        {
-            username: "Britney Charvia",
-            email: "britneyCharv@gmail.com",
-            userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWWLgIQj7fc_3tK3Fa8pd3gnVZ8ySEdCDMFQ&usqp=CAU",
-            whatsapp_number: "085594947643",
-            friend_list: ["louisaldorio"],
-            products: [],
+        onError(err) {
+            console.log(err)
         },
-        {
-            username: "Carine Wibawa",
-            email: "CarineWibawa@gmail.com",
-            userImg: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8Z2lybHN8ZW58MHx8MHw%3D&auto=format&fit=crop&w=500&q=60",
-            whatsapp_number: "085594947643",           
-            friend_list: [],
-            products: [],
-        },
-        
-    ];
-    console.log(data)
-    if (data){
-        items = data.users_by_role
-    }
+        variables: values
+    })
 
 
     const [modalData,setModalData] = useState(null)
@@ -96,9 +75,13 @@ function SupplierList(props) {
         setModalData(null)
     }
 
-    function AddOrRemoveFriend(){
-        setToast(true)
+    
+
+    function AddOrRemoveFriend(){       
+            
+        addOrRemoveFriend()
     }
+    
 
     return (
         <React.Fragment>
@@ -113,7 +96,7 @@ function SupplierList(props) {
                         <h1>Suppliers </h1> 
                     </IonListHeader>
                     <IonList>
-                        {items.length > 0 ? items.map((item,i) => (
+                        {data.users_by_role.length > 0 ? data.users_by_role.map((item,i) => (
                             <IonItem key={i} onClick={() => ToggleModal(item)}>
                                 
                                 <IonLabel>
@@ -156,7 +139,23 @@ function SupplierList(props) {
                             <IonCardTitle>
                                 <IonItem>
                                     {modalData && modalData.username}
-                                    <IonChip onClick={AddOrRemoveFriend} slot="end" color="warning"><IonIcon icon={modalData && (modalData.friend_list.includes(user.Username) ? checkmarkCircle : personAdd)} color="dark"></IonIcon></IonChip>
+                                    <IonChip onClick={(e) => {
+                                        
+                                        if(!friend.includes(modalData.username)){          
+                                            onSubmit(e,null,null,[...friend,modalData.username])              
+                                        }else{
+                                            onSubmit(e,null,null,friend.filter(item => item != modalData.username))
+                                        }
+
+                                    }} slot="end" color="warning">
+
+                                    {friendLoading ? (<IonSpinner color="warning"></IonSpinner>): user.Username !== (modalData &&  modalData.username) && (
+                                        <IonIcon icon={
+                                            modalData && dataUser.user_by_username && (dataUser.user_by_username.friend_list.includes(modalData.username)) ? checkmarkCircle : personAdd} 
+                                            color="dark"></IonIcon>
+                                    )}
+
+                                    </IonChip>
                                 </IonItem>                               
                                 <IonItem lines={"none"} >                             
                                     <IonIcon slot="start" icon={mail}></IonIcon>{modalData && modalData.email}                           
@@ -236,12 +235,26 @@ function SupplierList(props) {
             <IonToast
                 isOpen={toast}
                 onDidDismiss={() => setToast(false)}
-                message={modalData && (modalData.friend_list.includes(user.Username) ? "User Remove from Friend List" : "User Added to Friend List")}
+                message={modalData && (dataUser.user_by_username.friend_list.includes(modalData.username) ? "User Remove from Friend List" : "User Added to Friend List")}
                 position="top"
                 duration={800}
             />
         </React.Fragment>
     )
 }
+
+
+const ADD_OR_REMOVE_FRIEND = gql`
+    mutation addFriend(
+        $friends: [String]!
+    ) {
+        friends{
+            add(friends:$friends){
+                username
+                friend_list
+            }
+        }
+    }
+`
 
 export default SupplierList;
